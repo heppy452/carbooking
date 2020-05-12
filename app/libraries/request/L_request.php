@@ -35,20 +35,59 @@ class L_request {
     	}
     }
 
-    function action($param)
+    function approve($param)
     {
         switch ($param) {
             case '0':
                 return '<span class="badge badge-secondary">Request</span>';
                 break;
             case '1':
-                return '<span class="badge badge-info">Approved</span>';
+                return '<span class="badge badge-success">Approved</span>';
                 break;
             case '2':
-                return '<span class="badge badge-danger">Dennied</span>';
+                return '<span class="badge badge-danger">Denied</span>';
+                break;
+            default:
+                return 'Uknown';
+                break;
+        }
+    }
+
+    function status($param)
+    {
+        switch ($param) {
+            case '0':
+                return '<span class="badge badge-secondary">Request</span>';
+                break;
+            case '1':
+                return '<span class="badge badge-info">On Progress</span>';
+                break;
+            case '2':
+                return '<span class="badge badge-danger">Denied</span>';
                 break;
             case '3':
                 return '<span class="badge badge-success">Finish</span>';
+                break;
+            default:
+                return 'Uknown';
+                break;
+        }
+    }
+
+    function jenis_mobil($param)
+    {
+        switch ($param) {
+            case '1':
+                return 'Avanza';
+                break;
+            case '2':
+                return 'Xenia';
+                break;
+            case '3':
+                return 'Hilux';
+                break;
+            case '4':
+                return 'Panther';
                 break;
             default:
                 return 'Uknown';

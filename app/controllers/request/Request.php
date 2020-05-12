@@ -23,6 +23,7 @@ class Request extends CI_Controller {
             'lib/datatables/datatables.min.js',
             'lib/datepicker/datepicker.min.js',
             'lib/datatables/dataTables.bootstrap.min.js',
+            'lib/mask/jquery.mask.min.js',
             'src/js/request/request.js'
         );
         $data['panel'] = '<i class="fa fa-laptop"></i> &nbsp;<b>Data Permintaan</b>';
@@ -32,7 +33,10 @@ class Request extends CI_Controller {
     function table()
     {
         $id_user = $this->session->userdata('sess_id');
-        $get_all = $this->m_request->data_request($id_user);
+        $level_user = $this->session->userdata('sess_level');
+        $perusahaan = $this->m_request->id_perusahaan($id_user);
+        $departement= $this->m_request->id_departement($id_user);
+        $get_all = $this->m_request->data_request($id_user,$level_user,$perusahaan,$departement);
         // Datatables Variables
         $draw = intval($this->input->get("draw"));
         $start = intval($this->input->get("start"));
@@ -41,16 +45,24 @@ class Request extends CI_Controller {
         $data = array();
         $i = 1;
         foreach($get_all->result() as $id) {
+            if ($level_user==5){
+                $action='<a href="" title="Finish"><i id="finish_btn" data-id="'.$id->id_request.'" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; <a href="" title="Detail"><i id="detail_btn" data-id="'.$id->id_request.'" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; <a href="" title="Edit"><i id="edit_btn" data-id="'.$id->id_request.'" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; <a href="" title="Delete"><i id="delete_btn" data-id="'.$id->id_request.'" class="fa fa-trash" style="font-size:15px; color:red;"></i></a>';
+            } else if ($level_user==4){
+                $action='<a href="" title="Approved"><i id="apr_spv" data-id="'.$id->id_request.'" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; <a href="" title="Denied"><i id="dined_spv" data-id="'.$id->id_request.'" class="fa fa-times" style="font-size:15px; color:red;"></i></a> &nbsp; <a href="" title="Detail"><i id="detail_btn" data-id="'.$id->id_request.'" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
+            } else if ($level_user==2){
+                $action='<a href="" title="Approved"><i id="apr_ga" data-id="'.$id->id_request.'" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; <a href="" title="Denied"><i id="dined_ga" data-id="'.$id->id_request.'" class="fa fa-times" style="font-size:15px; color:red;"></i></a> &nbsp; <a href="" title="Detail"><i id="detail_btn" data-id="'.$id->id_request.'" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
+            }
+            
             $data[] = array(
                 "DT_RowId" => $id->id_request,
                 "0" => $id->nomor_request,
                 "1" => $id->tgl_jadwal.' '.$id->jam_jemput,
                 "2" => $this->l_request->jenis_kebutuhan($id->jenis_kebutuhan),
-                "3" => $this->l_request->jenis_lokasi($id->jenis_lokasi),
-                "4" => $this->m_request->lokasi($id->lokasi_awal),
-                "5" => $this->m_request->lokasi($id->lokasi_tujuan),
-                "6" => $this->l_request->action($id->apr_spv),
-                "7" => $this->l_request->action($id->apr_ga)
+                "3" => $this->m_request->lokasi($id->lokasi_awal),
+                "4" => $this->m_request->lokasi($id->lokasi_tujuan),
+                "5" => $this->l_request->approve($id->apr_spv),
+                "6" => $this->l_request->approve($id->apr_ga),
+                "7" => $action
             );
          }
 
@@ -111,6 +123,35 @@ class Request extends CI_Controller {
                 );
             $this->db->insert('data_request', $data);
             $notif['notif'] = 'Data berhasil disimpan !';
+            $notif['status'] = 2;
+            echo json_encode($notif);
+        }
+    }
+
+    function finish()
+    {
+        $data['id'] = $this->input->get('id_request');
+        $this->load->view($this->dir_v.'finish', $data);
+    }
+
+    function save_finish()
+    {
+        $data_id    = $this->input->post('id_request');
+        $this->form_validation->set_rules('jam_berangkat', 'Jam Berangkat', 'trim|required');
+        $this->form_validation->set_rules('jam_tiba', 'Jam Tiba', 'trim|required');
+        if ($this->form_validation->run() == FALSE){
+            $notif['notif'] = validation_errors();
+            $notif['status'] = 1;
+            echo json_encode($notif);
+        } else {
+            $data = array(
+                'jam_berangkat'     => $this->input->post('jam_berangkat'),
+                'jam_tiba'          => $this->input->post('jam_tiba'),
+                'status_request'    => 3
+            );
+            $this->db->where('id_request', $data_id);
+            $this->db->update('data_request', $data);
+            $notif['notif'] = 'Finish';
             $notif['status'] = 2;
             echo json_encode($notif);
         }
@@ -193,5 +234,121 @@ class Request extends CI_Controller {
             }
         }
         return $year.str_pad($no_request,6,"0",STR_PAD_LEFT);
+    }
+
+    function apr_spv(){
+        $data_id    = $this->input->post('id_request');
+        $today = date("Y-m-d");
+        $data = array(
+            'apr_spv'       => 1,
+            'apr_spv_tgl'   => $today,
+            'apr_spv_ket'   => '',
+            'status_request'=> 1,
+            'apr_ga'        => 0,
+            'apr_ga_tgl'    => 0000-00-00,
+            'apr_ga_ket'    => ''
+        );
+        $this->db->where('id_request', $data_id);
+        $this->db->update('data_request', $data);
+        $notif['notif'] = 'Approved';
+        $notif['status'] = 2;
+        echo json_encode($notif);
+    }
+
+    function dined_spv()
+    {
+        $data['id'] = $this->input->get('id_request');
+        $this->load->view($this->dir_v.'denied', $data);
+    }
+
+    function save_dined_spv()
+    {
+        $data_id    = $this->input->post('id_request');
+        $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required');
+        if ($this->form_validation->run() == FALSE){
+            $notif['notif'] = validation_errors();
+            $notif['status'] = 1;
+            echo json_encode($notif);
+        } else {
+            $today = date("Y-m-d");
+            $data = array(
+                'apr_spv'       => 2,
+                'apr_spv_tgl'   => $today,
+                'apr_spv_ket'   => $this->input->post('keterangan'),
+                'status_request'=> 2,
+                'apr_ga'        => 2,
+                'apr_ga_tgl'    => $today,
+                'apr_ga_ket'    => 'Tidak disetujui oleh Head Departement'
+            );
+            $this->db->where('id_request', $data_id);
+            $this->db->update('data_request', $data);
+            $notif['notif'] = 'Denied';
+            $notif['status'] = 2;
+            echo json_encode($notif);
+        }
+
+    }
+
+    function apr_ga()
+    {
+        $data['id'] = $this->input->get('id_request');
+        $this->load->view($this->dir_v.'apr_ga', $data);
+    }
+
+    function save_apr_ga()
+    {
+        $data_id    = $this->input->post('id_request');
+        $this->form_validation->set_rules('id_driver', 'Nama Sopir', 'trim|required');
+        $this->form_validation->set_rules('id_kendaraan', 'Plat Kendaraan', 'trim|required');
+        if ($this->form_validation->run() == FALSE){
+            $notif['notif'] = validation_errors();
+            $notif['status'] = 1;
+            echo json_encode($notif);
+        } else {
+            $today = date("Y-m-d");
+            $data  = array(
+                'apr_ga'       => 1,
+                'apr_ga_tgl'   => $today,
+                'apr_ga_ket'   => '',
+                'status_request'=> 1,
+                'id_driver'    => $this->input->post('id_driver'),
+                'id_kendaraan' => $this->input->post('id_kendaraan')
+            );
+            $this->db->where('id_request', $data_id);
+            $this->db->update('data_request', $data);
+            $notif['notif'] = 'Approved';
+            $notif['status'] = 2;
+            echo json_encode($notif);
+        }
+    }
+
+     function dined_ga()
+    {
+        $data['id'] = $this->input->get('id_request');
+        $this->load->view($this->dir_v.'denied_ga', $data);
+    }
+
+    function save_denied_ga()
+    {
+        $data_id    = $this->input->post('id_request');
+        $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required');
+        if ($this->form_validation->run() == FALSE){
+            $notif['notif'] = validation_errors();
+            $notif['status'] = 1;
+            echo json_encode($notif);
+        } else {
+            $today = date("Y-m-d");
+            $data = array(
+                'status_request'=> 2,
+                'apr_ga'        => 2,
+                'apr_ga_tgl'    => $today,
+                'apr_ga_ket'    => $this->input->post('keterangan')
+            );
+            $this->db->where('id_request', $data_id);
+            $this->db->update('data_request', $data);
+            $notif['notif'] = 'Denied';
+            $notif['status'] = 2;
+            echo json_encode($notif);
+        }
     }
 }

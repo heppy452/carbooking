@@ -6,18 +6,23 @@
                     <?php if(!empty($panel)){echo $panel;}?>
                 </div>
                 <div class="card-body">
+                    <?php
+                        $level_user = $this->session->userdata('sess_level');
+                        if ($level_user==5){
+                    ?>
                     <button id="add_btn" class="btn btn-default"><i class="fa fa-user-plus"></i> Tambah Data</button><hr>
+                    <?php } ?>
                     <table class="table table-bordered table-hover" id="tabel_custom">
                         <thead>
                             <tr>
-                                <th>Nomor Pemesanan</th>
-                                <th>Tanggal & Jam Penjemputan</th>
+                                <th>Nomor Tiket</th>
+                                <th>Waktu Penjemputan</th>
                                 <th>Jenis Kebutuhan</th>
-                                <th>Jenis Lokasi</th>
                                 <th>Lokasi Awal</th>
                                 <th>Lokasi Tujuan</th>
                                 <th>Approval Atasan</th>
                                 <th>Approval GA</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
