@@ -10,5 +10,6 @@
     	<option value="2">Xenia</option>
     	<option value="3">Hilux</option>
     	<option value="4">Panther</option>
+        <option value="5">Innova</option>
     </select>
 </div>

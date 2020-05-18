@@ -9,10 +9,7 @@ class L_request {
     			return 'Operasioanl Kantor';
     			break;
     		case '2':
-    			return 'Perjalanan Dinas';
-    			break;
-    		case '3':
-    			return 'Pribadi';
+    			return 'Kebutuhan Pribadi';
     			break;
     		default:
     			return 'Uknown';
@@ -88,6 +85,9 @@ class L_request {
                 break;
             case '4':
                 return 'Panther';
+                break;
+            case '5':
+                return 'Innova';
                 break;
             default:
                 return 'Uknown';

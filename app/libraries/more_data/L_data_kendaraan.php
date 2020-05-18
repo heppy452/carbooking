@@ -17,6 +17,9 @@ class L_data_kendaraan {
     		case '4':
     			return 'Panther';
     			break;
+            case '5':
+                return 'Innova';
+                break;
     		default:
     			return 'Uknown';
     			break;

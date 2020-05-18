@@ -91,7 +91,6 @@ $(document).ready(function(){
             url:url_ctrl+'act_add',
             cache:false,
             data: {
-                jenis_kebutuhan     : $("#jenis_kebutuhan option:selected").val(),
                 jenis_lokasi        : $("#jenis_lokasi option:selected").val(),
                 tgl_jadwal          : $("#tgl_jadwal").val(),
                 jam_penjemputan     : $("#jam_penjemputan").val(),
@@ -153,7 +152,6 @@ $(document).ready(function(){
             url:url_ctrl+'act_edit',
             cache:false,
             data: {
-                jenis_kebutuhan     : $("#jenis_kebutuhan option:selected").val(),
                 jenis_lokasi        : $("#jenis_lokasi option:selected").val(),
                 tgl_jadwal          : $("#tgl_jadwal").val(),
                 jam_penjemputan     : $("#jam_penjemputan").val(),

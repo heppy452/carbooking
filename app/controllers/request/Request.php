@@ -57,11 +57,11 @@ class Request extends CI_Controller {
                 "DT_RowId" => $id->id_request,
                 "0" => $id->nomor_request,
                 "1" => $id->tgl_jadwal.' '.$id->jam_jemput,
-                "2" => $this->l_request->jenis_kebutuhan($id->jenis_kebutuhan),
-                "3" => $this->m_request->lokasi($id->lokasi_awal),
-                "4" => $this->m_request->lokasi($id->lokasi_tujuan),
-                "5" => $this->l_request->approve($id->apr_spv),
-                "6" => $this->l_request->approve($id->apr_ga),
+                "2" => $this->m_request->lokasi($id->lokasi_awal),
+                "3" => $this->m_request->lokasi($id->lokasi_tujuan),
+                "4" => $this->l_request->approve($id->apr_spv),
+                "5" => $this->l_request->approve($id->apr_ga),
+                "6" => $this->l_request->status($id->status_request),
                 "7" => $action
             );
          }
@@ -104,7 +104,7 @@ class Request extends CI_Controller {
             $no_request     = $this->generateCode();
             $data = array(
                     'nomor_request'     => $no_request,
-                    'jenis_kebutuhan'   => $this->input->post('jenis_kebutuhan'),
+                    'jenis_kebutuhan'   => 1,
                     'jenis_lokasi'      => $this->input->post('jenis_lokasi'),
                     'tgl_jadwal'        => $this->input->post('tgl_jadwal'),
                     'jam_jemput'        => $this->input->post('jam_penjemputan'),
@@ -182,7 +182,6 @@ class Request extends CI_Controller {
         }else{
             $data_id = $this->input->post('id_request');
             $data = array(
-                    'jenis_kebutuhan'   => $this->input->post('jenis_kebutuhan'),
                     'jenis_lokasi'      => $this->input->post('jenis_lokasi'),
                     'tgl_jadwal'        => $this->input->post('tgl_jadwal'),
                     'jam_jemput'        => $this->input->post('jam_penjemputan'),

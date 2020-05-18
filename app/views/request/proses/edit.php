@@ -1,8 +1,29 @@
 <div class="form-group">
+    <label class="control-label">Jenis Kebutuhan </label>
+    <select class="form-control" id="jenis_kebutuhan">
+        <option value="1" <?php if($id->jenis_kebutuhan == 1){echo ' selected="selected"';}?>>Operasional Kantor</option>
+        <option value="2" <?php if($id->jenis_kebutuhan == 2){echo ' selected="selected"';}?>>Kebutuhan Pribadi</option>
+    </select>
+</div>
+<div class="form-group">
     <label class="control-label">Jenis Lokasi </label>
     <select class="form-control" id="jenis_lokasi">
         <option value="1" <?php if($id->jenis_lokasi == 1){echo ' selected="selected"';}?>>Internal</option>
         <option value="2" <?php if($id->jenis_lokasi == 2){echo ' selected="selected"';}?>>External</option>
+    </select>
+</div>
+<div class="form-group">
+    <label class="control-label">Perusahaan </label>
+    <select class="form-control" id="id_perusahaan">
+        <option value="">--- Pilih ---</option>
+        <?php $this->m_proses->select_perusahaan($data=$id->id_perusahaan); ?>
+    </select>
+</div>
+<div class="form-group">
+    <label class="control-label">Departement </label>
+    <select class="form-control" id="id_departement">
+        <option value="">--- Pilih ---</option>
+        <?php $this->m_proses->select_departement($data=$id->id_departement); ?>
     </select>
 </div>
 <div class="form-group">
@@ -33,14 +54,14 @@
     <label class="control-label">Lokasi Awal</label>
     <select class="form-control" id="lokasi_awal">
         <option value="">--- Pilih ---</option>
-        <?php $this->m_request->select_lokasi($data=$id->lokasi_awal); ?>
+        <?php $this->m_proses->select_lokasi($data=$id->lokasi_awal); ?>
     </select>
 </div>
 <div class="form-group">
     <label class="control-label">Lokasi Tujuan</label>
     <select class="form-control" id="lokasi_tujuan">
         <option value="">--- Pilih ---</option>
-        <?php $this->m_request->select_lokasi($data=$id->lokasi_tujuan); ?>
+        <?php $this->m_proses->select_lokasi($data=$id->lokasi_tujuan); ?>
     </select>
 </div>
 <div class="form-group">

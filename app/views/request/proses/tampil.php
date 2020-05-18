@@ -12,12 +12,12 @@
                     <tr>
                         <td class="tdstyle">Jenis Kebutuhan</td>
                         <td>:</td>
-                        <td><?=$this->l_request->jenis_kebutuhan($id->jenis_kebutuhan)?></td>
+                        <td><?=$this->l_proses->jenis_kebutuhan($id->jenis_kebutuhan)?></td>
                     </tr>
                     <tr>
                         <td class="tdstyle">Jenis Lokasi</td>
                         <td>:</td>
-                        <td><?=$this->l_request->jenis_lokasi($id->jenis_lokasi)?></td>
+                        <td><?=$this->l_proses->jenis_lokasi($id->jenis_lokasi)?></td>
                     </tr>
                     <tr>
                         <td class="tdstyle">Tanggal Penjemputan</td>
@@ -52,7 +52,7 @@
                     <tr>
                         <td class="tdstyle">Lokasi Awal</td>
                         <td>:</td>
-                        <td><?=$this->m_request->lokasi($id->lokasi_awal)?></td>
+                        <td><?=$this->m_proses->lokasi($id->lokasi_awal)?></td>
                     </tr>
                     <?php if ($id->jam_berangkat!='00:00:00'){ ?>
                     <tr>
@@ -70,7 +70,7 @@
                     <tr>
                         <td class="tdstyle">Lokasi Tujuan</td>
                         <td>:</td>
-                        <td><?=$this->m_request->lokasi($id->lokasi_tujuan)?></td>
+                        <td><?=$this->m_proses->lokasi($id->lokasi_tujuan)?></td>
                     </tr>
                     <tr>
                         <td class="tdstyle" style="vertical-align: top;">Keterangan</td>
@@ -80,7 +80,7 @@
                      <tr>
                         <td class="tdstyle">Status</td>
                         <td><center>:</center></td>
-                        <td><?=$this->l_request->status($id->status_request)?></td>
+                        <td><?=$this->l_proses->status($id->status_request)?></td>
                     </tr>
                 </table>
             </div>
@@ -97,27 +97,28 @@
                 ?>
                 <table class="table">
                     <tr>
-                        <td><?php $type=$this->m_request->jenis_mobil($id->id_kendaraan); echo $this->l_request->jenis_mobil($type);?> &nbsp; <b><?=$this->m_request->plat($id->id_kendaraan)?></b></td>
+                        <td><?php $type=$this->m_proses->jenis_mobil($id->id_kendaraan); echo $this->l_proses->jenis_mobil($type);?> &nbsp; <b><?=$this->m_proses->plat($id->id_kendaraan)?></b></td>
                     </tr>
                     <tr>
-                        <td><?php $nik=$this->m_request->nik_driver($id->id_driver); echo $this->m_request->nama_driver($nik);?></td>
+                        <td><?php $nik=$this->m_proses->nik_driver($id->id_driver); echo $this->m_proses->nama_driver($nik);?></td>
                     </tr>
                     <tr>
-                        <td><?=$this->m_request->no_hp($id->id_driver)?></td>
+                        <td><?=$this->m_proses->no_hp($id->id_driver)?></td>
                     </tr>
                 </table>
             <?php } ?>
             </div>
         </div><br>
+        <?php if ($id->jenis_kebutuhan==1){ ?>
         <div class="card">
             <div class="card-header"><i class="fa fa-check"></i> <strong>Approval Head Departement </strong></div>
             <div class="card-body">
                 <table class="table">
                     <tr>
-                        <td><?=$this->l_request->approve($id->apr_spv)?></td>
+                        <td><?=$this->l_proses->approve($id->apr_spv)?></td>
                     </tr>
                     <tr>
-                        <td><?php if ($id->apr_spv_tgl==0000-00-00){ echo '';} else { echo $id->apr_spv_tgl; }?></td>
+                        <td><?=$id->apr_spv_tgl?></td>
                     </tr>
                     <tr>
                         <td><?=$id->apr_spv_ket?></td>
@@ -125,12 +126,13 @@
                 </table>
             </div>
         </div><br>
+        <?php } ?>
         <div class="card">
             <div class="card-header"><i class="fa fa-check"></i> <strong>Approval Administrator GA </strong></div>
             <div class="card-body">
                 <table class="table">
                     <tr>
-                        <td><?=$this->l_request->approve($id->apr_ga)?></td>
+                        <td><?=$this->l_proses->approve($id->apr_ga)?></td>
                     </tr>
                     <tr>
                         <td><?php if ($id->apr_ga_tgl==0000-00-00){ echo '';} else { echo $id->apr_ga_tgl; }?></td>

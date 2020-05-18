@@ -10,6 +10,7 @@
     	<option value="2" <?php if ($id->type_kendaraan==2) { echo 'selected'; } ?>>Xenia</option>
     	<option value="3" <?php if ($id->type_kendaraan==3) { echo 'selected'; } ?>>Hilux</option>
     	<option value="4" <?php if ($id->type_kendaraan==4) { echo 'selected'; } ?>>Panther</option>
+        <option value="5" <?php if ($id->type_kendaraan==5) { echo 'selected'; } ?>>Innova</option>
     </select>
 </div>
 <input type="hidden" id="id_kendaraan" value="<?=$id->id_kendaraan;?>">

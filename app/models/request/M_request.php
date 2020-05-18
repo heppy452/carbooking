@@ -13,11 +13,12 @@
         if ($level==5){
             $this->db->where('id_user', $id);
         } else if ($level==4){
-            $this->db->where('id_perusahaan', $perusahaan);
+            $this->db->where('jenis_kebutuhan', 1);
+            $this->db->where('id_departement', $departement);
             $this->db->where('id_departement', $departement);
         } else if ($level==2) {
             $this->db->where('apr_spv', 1);
-            // $this->db->where('apr_ga', 0);
+            $this->db->where('apr_ga', 0);
         }
         
         $get_all = $this->db->get();
