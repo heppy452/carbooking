@@ -25,6 +25,16 @@
                         <td><?=$id->tgl_jadwal?></td>
                     </tr>
                     <tr>
+                        <td class="tdstyle">Perusahaan</td>
+                        <td>:</td>
+                        <td><?=$this->m_proses->nama_perusahaan($id->id_departement)?></td>
+                    </tr>
+                    <tr>
+                        <td class="tdstyle">Departement</td>
+                        <td>:</td>
+                        <td><?=$this->m_proses->nama_divisi($id->id_departement)?></td>
+                    </tr>
+                    <tr>
                         <td class="tdstyle">Jam Penjemputan</td>
                         <td>:</td>
                         <td><?=$id->jam_jemput?></td>

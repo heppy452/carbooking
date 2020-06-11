@@ -200,4 +200,36 @@
         return $data->type_kendaraan;
     }
 
+    function nama_divisi($data)
+    {
+        $db_hris = $this->load->database('db_hris', TRUE);
+        $db_hris->select('divisi_idn');
+        $db_hris->from('opt_divisi');
+        $db_hris->where('id_divisi', $data);
+        $get_data = $db_hris->get();
+        $data = $get_data->row();
+        if (isset($data->divisi_idn)){
+            return $data->divisi_idn;
+        } else {
+            return 'Uknown';
+        }
+        
+    }
+
+    function nama_perusahaan($data)
+    {
+        $db_hris = $this->load->database('db_hris', TRUE);
+        $db_hris->select('alias_perusahaan');
+        $db_hris->from('opt_perusahaan');
+        $db_hris->where('id_perusahaan', $data);
+        $get_data = $db_hris->get();
+        $data = $get_data->row();
+        if (isset($data->alias_perusahaan)){
+            return $data->alias_perusahaan;
+        } else {
+            return 'Uknown';
+        }
+        
+    }
+
 }

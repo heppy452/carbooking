@@ -25,7 +25,31 @@ class Print_jadwal extends CI_Controller {
             'lib/datatables/dataTables.bootstrap.min.js',
             'src/js/request/print_jadwal.js'
         );
-        $data['panel'] = '<i class="fa fa-laptop"></i> &nbsp;<b>Print Jadwal</b>';
+        $data['panel'] = '<i class="fa fa-print"></i> &nbsp;<b>Print Jadwal</b>';
         $this->l_skin->main($this->dir_v.'view', $data);
+    }
+
+    //Form search
+    function search()
+    {
+        $id_driver  = $this->input->post('id_driver');
+        $tgl_jadwal = $this->input->post('tgl_jadwal');
+        $data['id'] = $this->m_print_jadwal->data_print($id_driver,$tgl_jadwal);
+        $data['driver']=$id_driver;
+        $data['tgl'] = $tgl_jadwal;
+        $this->load->view($this->dir_v.'search',$data);
+    }
+
+    function print($id_driver,$tgl_jadwal)
+    {
+        $data['id'] = $this->m_print_jadwal->data_print($id_driver,$tgl_jadwal);
+        $data['driver']=$id_driver;
+        $data['tgl'] = $tgl_jadwal;
+        $this->load->view($this->dir_v.'print',$data);
+    }
+
+    function tampil()
+    {
+        $this->load->view($this->dir_v.'tampil');
     }
 }
