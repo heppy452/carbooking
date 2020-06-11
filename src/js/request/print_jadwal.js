@@ -13,6 +13,10 @@ $(document).ready(function(){
     // Search Button
     $(document).on('click','#btn_cari',function(e){
         e.preventDefault();
+
+        var id_driver    = $("#id_driver  option:selected").val();
+        if(id_driver == "") { swal("Perhatian","Pilih Sopir ","warning"); return false; }
+
        $.ajax({
             method:"POST",
             url:url_ctrl+'search',
