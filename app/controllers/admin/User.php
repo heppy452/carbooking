@@ -72,7 +72,7 @@ class User extends CI_Controller {
 	function edit()
 	{
 		$data_id = $this->input->get('id_user');
-		$result_id = $this->db->query('SELECT id_user,fullname,username,level,status FROM conf_users WHERE id_user='.$data_id.' LIMIT 1');
+		$result_id = $this->db->query('SELECT id_user,fullname,username,email,level,status FROM conf_users WHERE id_user='.$data_id.' LIMIT 1');
 		$data['id'] = $result_id->row();
 		$this->load->view($this->dir_v.'edit', $data);
 	}
@@ -92,6 +92,7 @@ class User extends CI_Controller {
 		$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[4]|is_unique[conf_users.username]');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[5]|matches[passconf]');
 		$this->form_validation->set_rules('passconf', 'Confirm Password', 'trim|required');
+		$this->form_validation->set_rules('email', 'Email', 'trim|required');
 		if ($this->form_validation->run() == FALSE){
 			$notif['notif'] = validation_errors();
 			$notif['status'] = 1;
@@ -103,6 +104,7 @@ class User extends CI_Controller {
 			$data = array(
 					'fullname' => $this->input->post('fullname'),
 					'username' => $this->input->post('username'),
+					'email' => $this->input->post('email'),
 					'password' => $encrypt,
 					'salt' => $salt,
 					'level' => $this->input->post('level'),
@@ -123,6 +125,7 @@ class User extends CI_Controller {
 		$username_old = $this->input->post('username_old');
 		if($username === $username_old){
 			$this->form_validation->set_rules('fullname', 'Fullname', 'trim|required|min_length[4]');
+			$this->form_validation->set_rules('email', 'Email', 'trim|required');
 			if ($this->form_validation->run() == FALSE){
 				$notif['notif'] = validation_errors();
 				$notif['status'] = 1;
@@ -130,6 +133,7 @@ class User extends CI_Controller {
 			}else{
 				$data = array(
 					'fullname' => $this->input->post('fullname'),
+					'email' => $this->input->post('email'),
 					'level' => $this->input->post('level'),
 					'status' => $this->input->post('status')
 				);
@@ -141,6 +145,7 @@ class User extends CI_Controller {
 			}
 		}else{
 			$this->form_validation->set_rules('fullname', 'Fullname', 'trim|required|min_length[4]');
+			$this->form_validation->set_rules('email', 'Email', 'trim|required');
 			$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[4]|is_unique[conf_users.username]');
 			if ($this->form_validation->run() == FALSE){
 				$notif['notif'] = validation_errors();
@@ -150,6 +155,7 @@ class User extends CI_Controller {
 				$data = array(
 					'fullname' => $this->input->post('fullname'),
 					'username' => $this->input->post('username'),
+					'email' => $this->input->post('email'),
 					'level' => $this->input->post('level'),
 					'status' => $this->input->post('status')
 				);

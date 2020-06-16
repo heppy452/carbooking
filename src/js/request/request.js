@@ -182,47 +182,49 @@ $(document).ready(function(){
         });
     });
 
-    // Delete Button
-    $(document).on('click','#delete_btn',function(e){
-        e.preventDefault();
+
+    $(document).on('click', '#delete_btn', function (e) {
+		e.preventDefault();
         var id = $(this).attr('data-id');
-        var rowData = table.row('tr.actived').data();
-        var nomor_request = rowData['0'];
-        swal({
+        var nomor_request = $(this).attr('data-nomor');
+
+		swal({
             title: 'Anda yakin ?',
-            text: 'User data '+nomor_request+' akan dihapus ?',
+            text: 'Nomor tiket '+nomor_request+' akan dihapus ?',
             type: 'question',
             showCancelButton: true,
             confirmButtonText: 'Ya, hapus !',
             cancelButtonText: 'Tidak, batalkan !'
-        }).then((result) => {
-            if (result.value) {
-                $.ajax({
-                    method:"POST",
-                    url:url_ctrl+'act_del',
-                    data: {
-                        id_request:id,
-                        nomor_request:nomor_request
-                    }
-                })
-                .done(function(result) {
-                    var obj = jQuery.parseJSON(result);
-                    if(obj.status == 1){
-                        notifNo(obj.notif);
-                    }
-                    if(obj.status == 2){
-                        $("div#MyModal").modal('hide');
-                        notifYesAuto(obj.notif);
-                        table.row('tr.actived').remove().draw(false);
-                    }
-                })
-                .fail(function(res){
-                    alert('Error Response !');
-                    console.log("responseText", res.responseText);
-                });
-            }
-        })
-    });
+		}).then((result) => {
+			if (result.value) {
+				$.ajax({
+						method: "POST",
+                        url:url_ctrl+'act_del',
+						data: {
+                            id_request : id,
+                            nomor_request : nomor_request
+						}
+					})
+					.done(function (result) {
+						var obj = jQuery.parseJSON(result);
+
+						if (obj.status == 2) {
+							$("div#MyModal").modal('hide');
+							notifYesAuto(obj.notif);
+							table.ajax.reload();
+						}
+						if (obj.status == 1) {
+							notifNo(obj.notif);
+						}
+					})
+					.fail(function (res) {
+						alert('Error Response !');
+						console.log("responseText", res.responseText);
+					});
+			}
+		})
+	});
+    
 
     // Tampil Button
     $(document).on('click','#detail_btn',function(e){

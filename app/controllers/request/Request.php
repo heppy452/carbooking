@@ -37,6 +37,7 @@ class Request extends CI_Controller {
         $perusahaan = $this->m_request->id_perusahaan($id_user);
         $departement= $this->m_request->id_departement($id_user);
         $get_all = $this->m_request->data_request($id_user,$level_user,$perusahaan,$departement);
+
         // Datatables Variables
         $draw = intval($this->input->get("draw"));
         $start = intval($this->input->get("start"));
@@ -46,7 +47,10 @@ class Request extends CI_Controller {
         $i = 1;
         foreach($get_all->result() as $id) {
             if ($level_user==5){
-                $action='<a href="" title="Finish"><i id="finish_btn" data-id="'.$id->id_request.'" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; <a href="" title="Detail"><i id="detail_btn" data-id="'.$id->id_request.'" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; <a href="" title="Edit"><i id="edit_btn" data-id="'.$id->id_request.'" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; <a href="" title="Delete"><i id="delete_btn" data-id="'.$id->id_request.'" class="fa fa-trash" style="font-size:15px; color:red;"></i></a>';
+                $action='<a href="" title="Finish"><i id="finish_btn" data-id="'.$id->id_request.'" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
+                        <a href="" title="Detail"><i id="detail_btn" data-id="'.$id->id_request.'" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
+                        <a href="" title="Edit"><i id="edit_btn" data-id="'.$id->id_request.'" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
+                        <a href="" title="Delete"><i id="delete_btn" data-id="'.$id->id_request.'" data-nomor="'.$id->nomor_request.'" class="fa fa-trash" style="font-size:15px; color:red;"></i></a>';
             } else if ($level_user==4){
                 $action='<a href="" title="Approved"><i id="apr_spv" data-id="'.$id->id_request.'" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; <a href="" title="Denied"><i id="dined_spv" data-id="'.$id->id_request.'" class="fa fa-times" style="font-size:15px; color:red;"></i></a> &nbsp; <a href="" title="Detail"><i id="detail_btn" data-id="'.$id->id_request.'" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
             } else if ($level_user==2){
@@ -92,6 +96,7 @@ class Request extends CI_Controller {
         $this->form_validation->set_rules('lokasi_awal', 'Lokasi Awal', 'trim|required');
         $this->form_validation->set_rules('lokasi_tujuan', 'Lokasi Tujuan', 'trim|required');
         $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required');
+
         if ($this->form_validation->run() == FALSE){
             $notif['notif'] = validation_errors();
             $notif['status'] = 1;
@@ -122,10 +127,46 @@ class Request extends CI_Controller {
                     
                 );
             $this->db->insert('data_request', $data);
+
+            $this->email_permintaan($data);
+
             $notif['notif'] = 'Data berhasil disimpan !';
             $notif['status'] = 2;
             echo json_encode($notif);
         }
+    }
+
+    // kirim email ke atasan untuk keperluan peminjaman mobil ke GA
+    function email_permintaan($data)
+    {
+        $id_user = $this->session->userdata('sess_id');
+        $perusahaan = $this->m_request->id_perusahaan($id_user);
+        $departement= $this->m_request->id_departement($id_user);
+
+        $email_spv  = $this->m_request->email($perusahaan, $departement);
+        $from_email = "carpool@apps.imip.co.id"; 
+
+        $config = Array(
+           'protocol'  => 'smtp',
+           'smtp_host' => 'ssl://mail.apps.imip.co.id', 
+           'smtp_user' => 'carpool@apps.imip.co.id',
+           'smtp_pass' => '84FML4GH3iB=',
+           'smtp_port' => 465,
+           'mailtype'  => 'html', 
+           'charset'   => 'iso-8859-1'
+       );
+
+           $this->load->library('email', $config);
+           $this->email->set_newline("\r\n");   
+
+           $this->email->from($from_email, 'E-Carpool'); 
+           $this->email->to($email_spv);
+           $this->email->subject('Permintaan Approval Pemesanan Mobil ke GA IMIP'); 
+
+           $message = $this->load->view($this->dir_v.'email_permintaan', $data, TRUE);
+
+           $this->email->message($message); 
+           $this->email->send();
     }
 
     function finish()
@@ -206,7 +247,7 @@ class Request extends CI_Controller {
         $id = $this->input->post('id_request');
         $this->db->where('id_request', $id);
         $this->db->delete('data_request');
-        $notif['notif'] = 'Data '.$this->input->post('nomor_request').' berhasil di hapus !';
+        $notif['notif'] = 'Data '.$this->input->post('nomor_request').'berhasil di hapus !';
         $notif['status'] = 2;
         echo json_encode($notif);
     }
@@ -249,9 +290,45 @@ class Request extends CI_Controller {
         );
         $this->db->where('id_request', $data_id);
         $this->db->update('data_request', $data);
+
+        //email approve spv ke admin GA
+        $this->email_to_ga($data_id);
+
         $notif['notif'] = 'Approved';
         $notif['status'] = 2;
         echo json_encode($notif);
+    }
+
+    //email ke GA
+    function email_to_ga($data_id)
+    {
+        $result_id  = $this->db->query('SELECT * FROM data_request WHERE id_request='.$data_id.' LIMIT 1');
+        $data['id'] = $result_id->row();
+
+        $email_ga  = $this->m_request->email_ga();
+        $from_email = "carpool@apps.imip.co.id"; 
+
+        $config = Array(
+           'protocol'  => 'smtp',
+           'smtp_host' => 'ssl://mail.apps.imip.co.id', 
+           'smtp_user' => 'carpool@apps.imip.co.id',
+           'smtp_pass' => '84FML4GH3iB=',
+           'smtp_port' => 465,
+           'mailtype'  => 'html', 
+           'charset'   => 'iso-8859-1'
+       );
+
+           $this->load->library('email', $config);
+           $this->email->set_newline("\r\n");   
+
+           $this->email->from($from_email, 'E-Carpool'); 
+           $this->email->to($email_ga);
+           $this->email->subject('Pemesanan Mobil E-Carpool IMIP'); 
+
+           $message = $this->load->view($this->dir_v.'email_app_spv', $data, TRUE);
+
+           $this->email->message($message); 
+           $this->email->send();
     }
 
     function dined_spv()
@@ -315,10 +392,50 @@ class Request extends CI_Controller {
             );
             $this->db->where('id_request', $data_id);
             $this->db->update('data_request', $data);
+
+            $this->email_apr_ga($data_id);
+
             $notif['notif'] = 'Approved';
             $notif['status'] = 2;
             echo json_encode($notif);
         }
+    }
+
+    //email GA ke Admin
+    function email_apr_ga($data_id)
+    {
+        $result_id  = $this->db->query('SELECT * FROM data_request WHERE id_request='.$data_id.' LIMIT 1');
+        $data['id'] = $result_id->row();
+        $datauser = $result_id->row();
+
+        
+        $perusahaan = $this->m_request->id_perusahaan($datauser->id_user);
+        $departement= $this->m_request->id_departement($datauser->id_user);
+
+        $email_admin  = $this->m_request->email_admin($perusahaan, $departement);
+        $from_email = "carpool@apps.imip.co.id"; 
+
+        $config = Array(
+           'protocol'  => 'smtp',
+           'smtp_host' => 'ssl://mail.apps.imip.co.id', 
+           'smtp_user' => 'carpool@apps.imip.co.id',
+           'smtp_pass' => '84FML4GH3iB=',
+           'smtp_port' => 465,
+           'mailtype'  => 'html', 
+           'charset'   => 'iso-8859-1'
+       );
+
+           $this->load->library('email', $config);
+           $this->email->set_newline("\r\n");   
+
+           $this->email->from($from_email, 'E-Carpool'); 
+           $this->email->to($email_admin);
+           $this->email->subject('Approve GA untuk Pemesanan Mobil E-Carpool IMIP'); 
+
+           $message = $this->load->view($this->dir_v.'email_app_ga', $data, TRUE);
+
+           $this->email->message($message); 
+           $this->email->send();
     }
 
      function dined_ga()

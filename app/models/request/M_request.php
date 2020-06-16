@@ -24,6 +24,53 @@
         $get_all = $this->db->get();
         return $get_all;
     }
+    
+
+    function email($perusahaan, $departement)
+    {
+            $this->db->select('email');
+            $this->db->from('conf_users');
+            $this->db->where('id_perusahaan', $perusahaan);
+            $this->db->where('id_departemen', $departement);
+            $this->db->where('level', 4);
+            $get_all = $this->db->get();
+            $data = $get_all->row();
+            if (isset($data->email)){
+                return $data->email;
+            } else {
+                return 0;
+            }
+    }
+
+    function email_ga()
+    {
+            $this->db->select('email');
+            $this->db->from('conf_users');
+            $this->db->where('level', 2);
+            $get_all = $this->db->get();
+            $data = $get_all->row();
+            if (isset($data->email)){
+                return $data->email;
+            } else {
+                return 0;
+            }
+    }
+
+    function email_admin($perusahaan, $departement)
+    {
+            $this->db->select('email');
+            $this->db->from('conf_users');
+            $this->db->where('id_perusahaan', $perusahaan);
+            $this->db->where('id_departemen', $departement);
+            $this->db->where('level', 5);
+            $get_all = $this->db->get();
+            $data = $get_all->row();
+            if (isset($data->email)){
+                return $data->email;
+            } else {
+                return 0;
+            }
+    }
 
     function select_lokasi($data)
     {

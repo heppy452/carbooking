@@ -73,6 +73,7 @@ $(document).ready(function(){
 	            id_perusahaan:$("select#id_perusahaan").val(),
 	            id_departement:$("select#id_departement").val(),
 	            level:$("select#level").val(),
+	            email:$("input#email").val(),
 	            status:$("select#status").val()
 			}
 		})
@@ -130,7 +131,8 @@ $(document).ready(function(){
 	            username_old:$("input#username_old").val(),
 	            id_perusahaan:$("select#id_perusahaan").val(),
 	            id_departement:$("select#id_departement").val(),
-	            level:$("select#level").val(),
+				level:$("select#level").val(),
+				email:$("input#email").val(),
 	            status:$("select#status").val()
 			}
 		})

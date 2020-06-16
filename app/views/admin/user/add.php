@@ -7,6 +7,10 @@
     <input class="form-control" type="text" id="username">
 </div>
 <div class="form-group">
+    <label class="control-label">Email </label>
+    <input class="form-control" type="text" id="email">
+</div>
+<div class="form-group">
     <label class="control-label">Password </label>
     <input class="form-control" type="password" id="password">
 </div>

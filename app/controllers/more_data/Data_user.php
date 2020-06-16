@@ -83,6 +83,7 @@ class Data_user extends CI_Controller {
         $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[4]|is_unique[conf_users.username]');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[5]|matches[passconf]');
         $this->form_validation->set_rules('passconf', 'Confirm Password', 'trim|required');
+        $this->form_validation->set_rules('email', 'Email', 'trim|required');
         if ($this->form_validation->run() == FALSE){
             $notif['notif'] = validation_errors();
             $notif['status'] = 1;
@@ -94,6 +95,7 @@ class Data_user extends CI_Controller {
             $data = array(
                     'fullname' => $this->input->post('fullname'),
                     'username' => $this->input->post('username'),
+                    'email'    => $this->input->post('email'),
                     'password' => $encrypt,
                     'id_perusahaan' => $this->input->post('id_perusahaan'),
                     'id_departemen' => $this->input->post('id_departement'),
@@ -125,6 +127,7 @@ class Data_user extends CI_Controller {
             $this->form_validation->set_rules('fullname', 'Fullname', 'trim|required|min_length[4]');
             $this->form_validation->set_rules('id_perusahaan', 'Perusahaan', 'trim|required');
             $this->form_validation->set_rules('id_departement', 'Departement', 'trim|required');
+            $this->form_validation->set_rules('email', 'Email', 'trim|required');
             if ($this->form_validation->run() == FALSE){
                 $notif['notif'] = validation_errors();
                 $notif['status'] = 1;
@@ -134,6 +137,7 @@ class Data_user extends CI_Controller {
                     'fullname' => $this->input->post('fullname'),
                     'id_perusahaan' => $this->input->post('id_perusahaan'),
                     'id_departemen' => $this->input->post('id_departement'),
+                    'email' => $this->input->post('email'),
                     'level' => $this->input->post('level'),
                     'status' => $this->input->post('status')
                 );
@@ -147,6 +151,7 @@ class Data_user extends CI_Controller {
             $this->form_validation->set_rules('fullname', 'Fullname', 'trim|required|min_length[4]');
             $this->form_validation->set_rules('id_perusahaan', 'Perusahaan', 'trim|required');
             $this->form_validation->set_rules('id_departement', 'Departement', 'trim|required');
+            $this->form_validation->set_rules('email', 'Email', 'trim|required');
             $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[4]|is_unique[conf_users.username]');
             if ($this->form_validation->run() == FALSE){
                 $notif['notif'] = validation_errors();
@@ -157,6 +162,7 @@ class Data_user extends CI_Controller {
                     'fullname' => $this->input->post('fullname'),
                     'id_perusahaan' => $this->input->post('id_perusahaan'),
                     'id_departemen' => $this->input->post('id_departement'),
+                    'email' => $this->input->post('email'),
                     'username' => $this->input->post('username'),
                     'level' => $this->input->post('level'),
                     'status' => $this->input->post('status')

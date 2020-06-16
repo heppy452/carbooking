@@ -62,6 +62,7 @@ $(document).ready(function(){
 		var lastnum = table.data().count() + 1;
 		var fullname = $("input#fullname").val();
 		var username = $("input#username").val();
+		var email 	 = $("input#email").val();
 		var level = $("#level option:selected").text();
 		var status = $("#status option:selected").text();
 
@@ -72,6 +73,7 @@ $(document).ready(function(){
 			data: {
 				fullname:fullname,
 	            username:username,
+	            email:email,
 	            password:$("input#password").val(),
 	            passconf:$("input#passconf").val(),
 	            level:$("select#level").val(),
@@ -129,6 +131,7 @@ $(document).ready(function(){
 		e.preventDefault();
 		var fullname = $("input#fullname").val();
 		var username = $("input#username").val();
+		var email = $("input#email").val();
 		var level = $("#level option:selected").text();
 		var status = $("#status option:selected").text();
 
@@ -139,6 +142,7 @@ $(document).ready(function(){
 				id_user:$("input#id_user").val(),
 				fullname:fullname,
 	            username:username,
+	            email:email,
 	            username_old:$("input#username_old").val(),
 	            level:$("select#level").val(),
 	            status:$("select#status").val()

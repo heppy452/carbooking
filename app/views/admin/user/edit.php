@@ -7,6 +7,10 @@
     <input class="form-control" type="text" id="username" value="<?=$id->username;?>">
 </div>
 <div class="form-group">
+    <label class="control-label">Email </label>
+    <input class="form-control" type="text" id="email" value="<?=$id->email;?>">
+</div>
+<div class="form-group">
     <label class="control-label">Level </label>
     <select class="form-control" id="level">
         <?php $this->m_admin->select_level($id->level); ?>
