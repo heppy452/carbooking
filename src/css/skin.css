@@ -248,3 +248,7 @@ i.fa.button-modal-ceklis {
 div.card.login-box{
     max-width: 360px;
 }
+
+input[type=time]::-webkit-datetime-edit-ampm-field {
+    display: none;
+  }

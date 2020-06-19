@@ -23,6 +23,8 @@ $(document).ready(function(){
             $("div#MyModalFooter").html('<button type="submit" class="btn btn-default center-block" id="save_finish">Simpan</button>');
             $("div#MyModal").modal('show');
             setDatePicker();
+            $('.time').mask('00:00');
+
         })
         .fail(function(res){
             alert('Error Response !');
@@ -72,9 +74,10 @@ $(document).ready(function(){
             $('#MyModalTitle').html('<b>Tambah Data</b>');
             $('div.modal-dialog').addClass('modal-md');
             $("div#MyModalContent").html(view);
-            $("div#MyModalFooter").html('<button type="submit" class="btn btn-default center-block" id="save_add_btn"><i class="fa fa-spinner fa-spin" style="display:none" id="show_spinner"></i> Simpan</button>');
+            $("div#MyModalFooter").html('<button type="submit" class="btn btn-default center-block" id="save_add_btn"><i class="fa fa-spinner fa-spin" style="display:none" id="show_spinner"></i>Simpan</button>');
             $("div#MyModal").modal('show');
             setDatePicker();
+            $('.time').mask('00:00');
         })
         .fail(function(res){
             alert('Error Response !');
@@ -303,7 +306,7 @@ $(document).ready(function(){
     $(document).on('click','#apr_spv',function(e){
         e.preventDefault();
         swal({
-			title: 'Approve pemesanan mobil dari admin ?',
+			title: 'Approve pemesanan mobil ?',
 			type: 'question',
 			showCancelButton: true,
 			confirmButtonText: 'Ya',
@@ -313,7 +316,7 @@ $(document).ready(function(){
 				let timerInterval
 				Swal.fire({
 				title: 'LOADING...',
-				html: 'Mohon halaman jangan di close, sistem sedang mengirim email ke admin GA.',
+				html: 'Mohon halaman jangan di close, sistem sedang mengirim email ke admin departemen.',
 				timer: 8000,
 				timerProgressBar: true,
 				onBeforeOpen: () => {
@@ -373,7 +376,7 @@ $(document).ready(function(){
             $('#MyModalTitle').html('<b>Approved</b>');
             $('div.modal-dialog').addClass('modal-sm');
             $("div#MyModalContent").html(view);
-            $("div#MyModalFooter").html('<button type="submit" class="btn btn-default center-block" id="save_apr_ga"><i class="fa fa-spinner fa-spin" style="display:none" id="show_spinner_ga"></i> Simpan</button>');
+            $("div#MyModalFooter").html('<button type="submit" class="btn btn-default center-block" id="save_apr_ga"><i class="fa fa-spinner fa-spin" style="display:none" id="show_spinner_ga"></i>Simpan</button>');
             $("div#MyModal").modal('show');
         })
         .fail(function(res){

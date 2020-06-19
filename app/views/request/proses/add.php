@@ -28,7 +28,7 @@
 </div>
 <div class="form-group">
     <label class="control-label">Tanggal Jadwal </label>
-    <input class="form-control date" placeholder="Select Date" type="text" id="tgl_jadwal">
+    <input class="form-control time" placeholder="Select Date" type="text" id="tgl_jadwal">
 </div>
 <div class="form-group">
     <label class="control-label">Jam Penjemputan </label>

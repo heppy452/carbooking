@@ -95,6 +95,7 @@ $(document).ready(function(){
             $("div#MyModalFooter").html('<button type="submit" class="btn btn-default center-block" id="save_add_btn">Simpan</button>');
             $("div#MyModal").modal('show');
             setDatePicker();
+            $('.time').mask('00:00');
         })
         .fail(function(res){
             alert('Error Response !');
