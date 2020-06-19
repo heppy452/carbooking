@@ -72,7 +72,7 @@ $(document).ready(function(){
             $('#MyModalTitle').html('<b>Tambah Data</b>');
             $('div.modal-dialog').addClass('modal-md');
             $("div#MyModalContent").html(view);
-            $("div#MyModalFooter").html('<button type="submit" class="btn btn-default center-block" id="save_add_btn">Simpan</button>');
+            $("div#MyModalFooter").html('<button type="submit" class="btn btn-default center-block" id="save_add_btn"><i class="fa fa-spinner fa-spin" style="display:none" id="show_spinner"></i> Simpan</button>');
             $("div#MyModal").modal('show');
             setDatePicker();
         })
@@ -85,7 +85,7 @@ $(document).ready(function(){
     //Save Add Button
     $(document).on('click','#save_add_btn',function(e){
         e.preventDefault();
-
+        $('#show_spinner').show();
         $.ajax({
             method:"POST",
             url:url_ctrl+'act_add',
@@ -107,6 +107,7 @@ $(document).ready(function(){
             var obj = jQuery.parseJSON(result);
             if(obj.status == 1){
                 notifNo(obj.notif);
+                $('#show_spinner').hide();
             }
             if(obj.status == 2){
                 $("div#MyModal").modal('hide');
@@ -301,26 +302,62 @@ $(document).ready(function(){
     // Approval spv
     $(document).on('click','#apr_spv',function(e){
         e.preventDefault();
-        $.ajax({
-            method:"POST",
-            url:url_ctrl+'apr_spv',
-            cache:false,
-            data:{id_request:$(this).attr('data-id')}
-        })
-        .done(function(view) {
-            var obj = jQuery.parseJSON(view);
-            if(obj.status == 1){
-                notifNo(obj.notif);
+        swal({
+			title: 'Approve pemesanan mobil dari admin ?',
+			type: 'question',
+			showCancelButton: true,
+			confirmButtonText: 'Ya',
+			cancelButtonText: 'Tidak'
+		}).then((result) => {
+			if (result.value) {
+				let timerInterval
+				Swal.fire({
+				title: 'LOADING...',
+				html: 'Mohon halaman jangan di close, sistem sedang mengirim email ke admin GA.',
+				timer: 8000,
+				timerProgressBar: true,
+				onBeforeOpen: () => {
+					Swal.showLoading()
+					timerInterval = setInterval(() => {
+					const content = Swal.getContent()
+					if (content) {
+						const b = content.querySelector('b')
+						if (b) {
+						b.textContent = Swal.getTimerLeft()
+						}
+					}
+					}, 100)
+				},
+				onClose: () => {
+					clearInterval(timerInterval)
+				}
+				}).then((result) => {
+				if (result.dismiss === Swal.DismissReason.timer) {
+					console.log('I was closed by the timer')
+				}
+				})
+                $.ajax({
+                    method:"POST",
+                    url:url_ctrl+'apr_spv',
+                    cache:false,
+                    data:{id_request:$(this).attr('data-id')}
+                })
+                .done(function(view) {
+                    var obj = jQuery.parseJSON(view);
+                    if(obj.status == 1){
+                        notifNo(obj.notif);
+                    }
+                    if(obj.status == 2){
+                        notifYesAuto(obj.notif);
+                        table.ajax.reload();            
+                    }
+                })
+                .fail(function(res){
+                    alert('Error Response !');
+                    console.log("responseText", res.responseText);
+                });
             }
-            if(obj.status == 2){
-                notifYesAuto(obj.notif);
-                table.ajax.reload();            
-            }
         })
-        .fail(function(res){
-            alert('Error Response !');
-            console.log("responseText", res.responseText);
-        });
     });
 
     // Approved GA
@@ -336,7 +373,7 @@ $(document).ready(function(){
             $('#MyModalTitle').html('<b>Approved</b>');
             $('div.modal-dialog').addClass('modal-sm');
             $("div#MyModalContent").html(view);
-            $("div#MyModalFooter").html('<button type="submit" class="btn btn-default center-block" id="save_apr_ga">Simpan</button>');
+            $("div#MyModalFooter").html('<button type="submit" class="btn btn-default center-block" id="save_apr_ga"><i class="fa fa-spinner fa-spin" style="display:none" id="show_spinner_ga"></i> Simpan</button>');
             $("div#MyModal").modal('show');
         })
         .fail(function(res){
@@ -349,6 +386,7 @@ $(document).ready(function(){
     // act apr ga
     $(document).on('click','#save_apr_ga',function(e){
         e.preventDefault();
+        $('#show_spinner_ga').show();
         $.ajax({
             method:"POST",
             url:url_ctrl+'save_apr_ga',
@@ -363,6 +401,7 @@ $(document).ready(function(){
             var obj = jQuery.parseJSON(view);
             if(obj.status == 1){
                 notifNo(obj.notif);
+                $('#show_spinner_ga').hide();
             }
             if(obj.status == 2){
                 $("div#MyModal").modal('hide');
