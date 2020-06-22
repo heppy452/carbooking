@@ -11,7 +11,7 @@
 </div>
 <div class="form-group">
     <label class="control-label">Jam Penjemputan </label>
-    <input class="form-control" type="time" id="jam_penjemputan" value="<?=$id->jam_jemput?>">
+    <input class="form-control time" type="text" id="jam_penjemputan" value="<?=$id->jam_jemput?>">
 </div>
 <div class="form-group">
     <label class="control-label">Nama Pemesan </label>

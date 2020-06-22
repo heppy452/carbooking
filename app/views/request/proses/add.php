@@ -32,7 +32,7 @@
 </div>
 <div class="form-group">
     <label class="control-label">Jam Penjemputan </label>
-    <input class="form-control" type="time" value="08:30" id="jam_penjemputan">
+    <input class="form-control time" type="text" value="08:30" id="jam_penjemputan">
 </div>
 <div class="form-group">
     <label class="control-label">Nama Pemesan </label>

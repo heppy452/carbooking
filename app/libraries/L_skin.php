@@ -21,8 +21,8 @@ class L_skin {
 			'footer' 		=> 'PT Indonesia Morowali Industrial Park - Copyright @2019 Allright Reserved',
 			'meta_desc' 	=> 'IMIP Application',
 			'meta_key' 		=> 'PT Indonesia Morowali Industrial Park',
-			'head_title' 	=> 'PT Indonesia Morowali Industrial Park',
-			'head_subtitle' => 'A Human Resources Information System (HRIS) is a software or online solution that is used for data entry, data tracking and the data information requirements of an organizations human resources (HR) management, payroll and bookkeeping operations'
+			'head_title' 	=> 'Carpool IMIP Aplication',
+			'head_subtitle' => 'Carpool IMIP Aplication merupakan aplikasi untuk mengelola penggunaan kendaraan yang ada dikawasan PT IMIP. Sehingga penggunaan kendaraan lebih efisien ( waktu, kendaraan) dan terkontrol. '
 		);
     	return $data[$key];
     }
