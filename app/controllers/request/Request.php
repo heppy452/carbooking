@@ -47,10 +47,17 @@ class Request extends CI_Controller {
         $i = 1;
         foreach($get_all->result() as $id) {
             if ($level_user==5){
-                $action='<a href="" title="Finish"><i id="finish_btn" data-id="'.$id->id_request.'" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
-                        <a href="" title="Detail"><i id="detail_btn" data-id="'.$id->id_request.'" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
+                if($id->status_request==0){
+                    $action='<a href="" title="Detail"><i id="detail_btn" data-id="'.$id->id_request.'" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
                         <a href="" title="Edit"><i id="edit_btn" data-id="'.$id->id_request.'" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
                         <a href="" title="Delete"><i id="delete_btn" data-id="'.$id->id_request.'" data-nomor="'.$id->nomor_request.'" class="fa fa-trash" style="font-size:15px; color:red;"></i></a>';
+                } else if($id->status_request==1){
+                    $action='<a href="" title="Detail"><i id="detail_btn" data-id="'.$id->id_request.'" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; <a href="" title="Finish"><i id="finish_btn" data-id="'.$id->id_request.'" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
+                        <a href="" title="Cancel"><i id="cancel_btn" data-id="'.$id->id_request.'" data-nomor="'.$id->nomor_request.'" class="fa fa-times" style="font-size:15px; color:red;"></i></a>';
+                } else {
+                    $action='<a href="" title="Detail"><i id="detail_btn" data-id="'.$id->id_request.'" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
+                }
+                
             } else if ($level_user==4){
                 $action='<a href="" title="Approved"><i id="apr_spv" data-id="'.$id->id_request.'" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; <a href="" title="Denied"><i id="dined_spv" data-id="'.$id->id_request.'" class="fa fa-times" style="font-size:15px; color:red;"></i></a> &nbsp; <a href="" title="Detail"><i id="detail_btn" data-id="'.$id->id_request.'" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
             } else if ($level_user==2){
@@ -193,6 +200,33 @@ class Request extends CI_Controller {
             $this->db->where('id_request', $data_id);
             $this->db->update('data_request', $data);
             $notif['notif'] = 'Finish';
+            $notif['status'] = 2;
+            echo json_encode($notif);
+        }
+    }
+
+    function cancel()
+    {
+        $data['id'] = $this->input->get('id_request');
+        $this->load->view($this->dir_v.'cancel', $data);
+    }
+
+    function save_cancel()
+    {
+        $data_id    = $this->input->post('id_request');
+        $this->form_validation->set_rules('ket_cancel', 'Keterangan', 'trim|required');
+        if ($this->form_validation->run() == FALSE){
+            $notif['notif'] = validation_errors();
+            $notif['status'] = 1;
+            echo json_encode($notif);
+        } else {
+            $data = array(
+                'ket_cancel'     => $this->input->post('ket_cancel'),
+                'status_request'    => 4
+            );
+            $this->db->where('id_request', $data_id);
+            $this->db->update('data_request', $data);
+            $notif['notif'] = 'Cancel';
             $notif['status'] = 2;
             echo json_encode($notif);
         }

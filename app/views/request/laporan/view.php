@@ -7,31 +7,28 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <label class="control-label">Kendaraan </label>
-                                <select class="form-control" id="id_kendaraan">
-                                    <option value="">--- PILIH ---</option>
-                                    <?php $this->m_laporan->select_kendaraan($id->id_kendaraan); ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-4">
                             <div class="form-group">
                                 <label class="control-label">Tanggal Awal </label>
                                 <input class="form-control date" value="<?php echo date('Y-m-d'); ?>" type="text" id="start_date">
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-4">
                             <div class="form-group">
                                 <label class="control-label">Tanggal Akhir </label>
                                 <input class="form-control date" value="<?php echo date('Y-m-d'); ?>" type="text" id="end_date">
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-2">
                             <div class="form-group">
                                 <label class="control-label">&nbsp;</label>
-                                <button type="submit" class="form-control btn btn-default center-block" id="btn_cari">Search</button>
+                                <button type="submit" class="form-control btn btn-default center-block" id="btn_cari"> <i class="fa fa-search"></i>&nbsp; Search</button>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label class="control-label">&nbsp;</label>
+                                <button type="submit" class="form-control btn btn-default center-block" id="btn_download"> <i class="fa fa-download"></i>&nbsp; Download</button>
                             </div>
                         </div>
                     </div>

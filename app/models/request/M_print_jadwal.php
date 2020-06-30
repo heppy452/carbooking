@@ -33,6 +33,7 @@
     {
         $this->db->select('*');
         $this->db->from('data_request');
+        $this->db->where('status_request', 1);
         $this->db->where('id_driver', $id_driver);
         $this->db->where('tgl_jadwal', $tgl_jadwal);
         $get_data = $this->db->get();
@@ -95,5 +96,15 @@
         } else {
             return 'Uknown';
         }
+    }
+    
+    function plat($param)
+    {
+        $this->db->select('nomor_plat');
+        $this->db->from('data_kendaraan');
+        $this->db->where('id_kendaraan', $param);
+        $get_all = $this->db->get();
+        $data = $get_all->row();
+        return $data->nomor_plat;
     }
 }

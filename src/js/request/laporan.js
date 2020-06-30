@@ -15,18 +15,14 @@ $(document).ready(function(){
 	});
 
 	function search() {
-		var id_kendaraan   	= $('#id_kendaraan option:selected').val(); 
 		var start_date 		= $('#start_date').val();
 		var end_date 		= $('#end_date').val();
-
-		if(id_kendaraan == "") { swal("Perhatian","Pilih Kendaraan ","warning"); return false; }
 
 		$.ajax({
 			method:"POST",
 			cache:false,
 			url:url_ctrl+'data',
 			data: { 
-					id_kendaraan:id_kendaraan, 
 					start_date:start_date,
 					end_date :end_date
 				  }
@@ -39,4 +35,13 @@ $(document).ready(function(){
 			console.log("responseText", res.responseText);
 		});
 	} 
+
+	$(document).on('click','#btn_download',function(i){
+			i.preventDefault(); 
+			var dari     = $('#start_date').val();
+			var sampai   = $('#end_date').val();
+	
+			window.open(url_ctrl+"download/"+dari+"/"+sampai,'_blank');
+			
+		});
 });

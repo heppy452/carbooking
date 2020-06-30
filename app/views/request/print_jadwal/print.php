@@ -47,7 +47,7 @@
                     <td style="font-weight: bold;">Handphone</td>
                     <td style="font-weight: bold;">Lokasi Awal</td>
                     <td style="font-weight: bold;">Lokasi Tujuan</td>
-                    <td style="font-weight: bold;">Keterangan</td>
+                    <td style="font-weight: bold;">Plat Kendaraan</td>
                 </tr>
                 <?php foreach ($id->result() as $key) { ?>
                 <tr>
@@ -61,7 +61,7 @@
                     <td><?=$key->no_hp?></td>
                     <td><?=$this->m_print_jadwal->lokasi($key->lokasi_awal)?></td>
                     <td><?=$this->m_print_jadwal->lokasi($key->lokasi_tujuan)?></td>
-                    <td style="vertical-align: top;"><?=$key->keterangan?></td>
+                    <td><?=$this->m_print_jadwal->plat($key->id_kendaraan)?></td>
                 </tr>
                 <?php } ?>
             </table>

@@ -60,10 +60,13 @@ class L_request {
                 return '<span class="badge badge-info">On Progress</span>';
                 break;
             case '2':
-                return '<span class="badge badge-danger">Denied</span>';
+                return '<span class="badge badge-warning">Denied</span>';
                 break;
             case '3':
                 return '<span class="badge badge-success">Finish</span>';
+                break;
+            case '4':
+                return '<span class="badge badge-danger">Cancel</span>';
                 break;
             default:
                 return 'Uknown';

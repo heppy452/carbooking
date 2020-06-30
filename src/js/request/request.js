@@ -62,6 +62,58 @@ $(document).ready(function(){
         });
     });
 
+    // Finish cancel
+    $(document).on('click','#cancel_btn',function(e){
+        e.preventDefault();
+        $.ajax({
+            method:"GET",
+            url:url_ctrl+'cancel',
+            cache:false,
+            data:{id_request:$(this).attr('data-id')}
+        })
+        .done(function(view) {
+            $('#MyModalTitle').html('<b>Cancel</b>');
+            $('div.modal-dialog').addClass('modal-sm');
+            $("div#MyModalContent").html(view);
+            $("div#MyModalFooter").html('<button type="submit" class="btn btn-default center-block" id="save_cancel">Simpan</button>');
+            $("div#MyModal").modal('show');
+
+        })
+        .fail(function(res){
+            alert('Error Response !');
+            console.log("responseText", res.responseText);
+        });
+    });
+
+    // act finish
+    $(document).on('click','#save_cancel',function(e){
+        e.preventDefault();
+        $.ajax({
+            method:"POST",
+            url:url_ctrl+'save_cancel',
+            cache:false,
+            data:{
+                id_request      : $("#id_request").val(),
+                ket_cancel      : $("#ket_cancel").val()
+            }
+        })
+        .done(function(view) {
+            var obj = jQuery.parseJSON(view);
+            if(obj.status == 1){
+                notifNo(obj.notif);
+            }
+            if(obj.status == 2){
+                $("div#MyModal").modal('hide');
+                notifYesAuto(obj.notif);
+                table.ajax.reload();            
+            }
+        })
+        .fail(function(res){
+            alert('Error Response !');
+            console.log("responseText", res.responseText);
+        });
+    });
+
     // Add Button
     $(document).on('click','#add_btn',function(e){
         e.preventDefault();

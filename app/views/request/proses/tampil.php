@@ -92,6 +92,13 @@
                         <td><center>:</center></td>
                         <td><?=$this->l_proses->status($id->status_request)?></td>
                     </tr>
+                    <?php if ($id->status_request==4) { ?>
+                    <tr>
+                        <td class="tdstyle" style="vertical-align: top;">Keterangan</td>
+                        <td style="vertical-align: top;">:</td>
+                        <td style="vertical-align: top;"><?=$id->ket_cancel?></td>
+                    </tr>
+                    <?php } ?>
                 </table>
             </div>
         </div>
