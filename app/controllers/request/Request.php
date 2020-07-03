@@ -100,7 +100,7 @@ class Request extends CI_Controller {
         $this->form_validation->set_rules('nama_pemesan', 'Nama Pemesan', 'trim|required');
         $this->form_validation->set_rules('nomor_hp', 'Nomor Handphone', 'trim|required');
         $this->form_validation->set_rules('lokasi_penjemputan', 'Lokasi Penjemputan', 'trim|required');
-        $this->form_validation->set_rules('lokasi_awal', 'Lokasi Awal', 'trim|required');
+        $this->form_validation->set_rules('lokasi_awal', 'Lokasi Keberangkatan', 'trim|required');
         $this->form_validation->set_rules('lokasi_tujuan', 'Lokasi Tujuan', 'trim|required');
         $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required');
 
@@ -247,7 +247,7 @@ class Request extends CI_Controller {
         $this->form_validation->set_rules('nama_pemesan', 'Nama Pemesan', 'trim|required');
         $this->form_validation->set_rules('nomor_hp', 'Nomor Handphone', 'trim|required');
         $this->form_validation->set_rules('lokasi_penjemputan', 'Lokasi Penjemputan', 'trim|required');
-        $this->form_validation->set_rules('lokasi_awal', 'Lokasi Awal', 'trim|required');
+        $this->form_validation->set_rules('lokasi_awal', 'Lokasi Keberangkatan', 'trim|required');
         $this->form_validation->set_rules('lokasi_tujuan', 'Lokasi Tujuan', 'trim|required');
         $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required');
         if ($this->form_validation->run() == FALSE){

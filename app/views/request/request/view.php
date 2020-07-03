@@ -17,7 +17,7 @@
                             <tr>
                                 <th>Nomor Tiket</th>
                                 <th>Waktu Penjemputan</th>
-                                <th>Lokasi Awal</th>
+                                <th>Lokasi Keberangkatan</th>
                                 <th>Lokasi Tujuan</th>
                                 <th>Approval Atasan</th>
                                 <th>Approval GA</th>

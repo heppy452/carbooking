@@ -8,7 +8,7 @@
                     <th>Perusahaan</th>
                     <th>Departement</th>
                     <th>Jenis Kebutuhan</th>
-                    <th>Lokasi Awal</th>
+                    <th>Lokasi Keberangkatan</th>
                     <th>Lokasi Tujuan</th>
                     <th>Keterangan</th>
                 </tr>

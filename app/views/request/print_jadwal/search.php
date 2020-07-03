@@ -17,7 +17,7 @@
                         <th>Nomor Tiket</th>
                         <th>Jam Penjemputan</th>
                         <th>Departement</th>
-                        <th>Lokasi Awal</th>
+                        <th>Lokasi Keberangkatan</th>
                         <th>Lokasi Tujuan</th>
                         <th>Penumpang</th>
                     </tr>

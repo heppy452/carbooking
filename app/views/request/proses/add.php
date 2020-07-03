@@ -28,7 +28,7 @@
 </div>
 <div class="form-group">
     <label class="control-label">Tanggal Jadwal </label>
-    <input class="form-control time" placeholder="Select Date" type="text" id="tgl_jadwal">
+    <input class="form-control date" placeholder="Select Date" type="text" id="tgl_jadwal">
 </div>
 <div class="form-group">
     <label class="control-label">Jam Penjemputan </label>
@@ -51,7 +51,7 @@
     <input class="form-control" type="text" id="lokasi_penjemputan">
 </div>
 <div class="form-group">
-    <label class="control-label">Lokasi Awal</label>
+    <label class="control-label">Lokasi Keberangkatan</label>
     <select class="form-control" id="lokasi_awal">
         <option value="">--- Pilih ---</option>
         <?php $this->m_proses->select_lokasi($data=NULL); ?>

@@ -68,7 +68,7 @@
                 <td><?=$id->lokasi_jemput?></td>
             </tr>
             <tr>
-                <td class="tdstyle">Lokasi Awal</td>
+                <td class="tdstyle">Lokasi Keberangkatan</td>
                 <td>:</td>
                 <td><?=$this->m_request->lokasi($id->lokasi_awal)?></td>
             </tr>

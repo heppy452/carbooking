@@ -51,7 +51,7 @@
     <input class="form-control" type="text" id="lokasi_penjemputan" value="<?=$id->lokasi_jemput?>">
 </div>
 <div class="form-group">
-    <label class="control-label">Lokasi Awal</label>
+    <label class="control-label">Lokasi Keberangkatan</label>
     <select class="form-control" id="lokasi_awal">
         <option value="">--- Pilih ---</option>
         <?php $this->m_proses->select_lokasi($data=$id->lokasi_awal); ?>

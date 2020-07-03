@@ -59,7 +59,7 @@ class Laporan extends CI_Controller {
                 'Perusahaan', 
                 'Departement', 
                 'Jenis Kebutuhan', 
-                'Lokasi Awal', 
+                'Lokasi Keberangkatan', 
                 'Lokasi Tujuan', 
                 'Keterangan'
             );

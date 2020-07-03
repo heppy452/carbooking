@@ -45,7 +45,7 @@
                     <td style="font-weight: bold;">Nama Pemesan</td>
                     <td style="font-weight: bold;">Penumpang</td>
                     <td style="font-weight: bold;">Handphone</td>
-                    <td style="font-weight: bold;">Lokasi Awal</td>
+                    <td style="font-weight: bold;">Lokasi Keberangkatan</td>
                     <td style="font-weight: bold;">Lokasi Tujuan</td>
                     <td style="font-weight: bold;">Plat Kendaraan</td>
                 </tr>
@@ -65,6 +65,9 @@
                 </tr>
                 <?php } ?>
             </table>
+            <script type="text/javascript">
+                window.print();
+            </script>
         </div>
     </body>
 </html>
