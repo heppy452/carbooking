@@ -19,7 +19,7 @@
                 <tr>
                     <td><?=$key->nomor_request?></td>
                     <td><?=$this->m_laporan->plat($key->id_kendaraan)?></td>
-                    <td><?=$this->m_laporan->nama_perusahaan($key->id_departement)?></td>
+                    <td><?=$this->m_laporan->nama_perusahaan($key->id_perusahaan)?></td>
                     <td><?=$this->m_laporan->nama_divisi($key->id_departement)?></td>
                     <td><?=$this->l_laporan->jenis_kebutuhan($key->jenis_kebutuhan)?></td>
                     <td><?=$this->m_laporan->lokasi($key->lokasi_awal)?></td>

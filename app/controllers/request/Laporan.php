@@ -75,7 +75,7 @@ class Laporan extends CI_Controller {
                 $no,
                 $key->nomor_request,
                 $this->m_laporan->plat($key->id_kendaraan), 
-                $this->m_laporan->nama_perusahaan($key->id_departement), 
+                $this->m_laporan->nama_perusahaan($key->id_perusahaan), 
                 $this->m_laporan->nama_divisi($key->id_departement), 
                 $this->l_laporan->jenis_kebutuhan($key->jenis_kebutuhan), 
                 $this->m_laporan->lokasi($key->lokasi_awal),

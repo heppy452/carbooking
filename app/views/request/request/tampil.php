@@ -27,7 +27,7 @@
                     <tr>
                         <td class="tdstyle">Perusahaan</td>
                         <td>:</td>
-                        <td><?=$this->m_request->nama_perusahaan($id->id_departement)?></td>
+                        <td><?=$this->m_request->nama_perusahaan($id->id_perusahaan)?></td>
                     </tr>
                     <tr>
                         <td class="tdstyle">Departement</td>

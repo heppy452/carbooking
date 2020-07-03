@@ -52,7 +52,7 @@
                 <?php foreach ($id->result() as $key) { ?>
                 <tr>
                     <td><?=$key->nomor_request?></td>
-                    <td><?=$this->m_print_jadwal->nama_perusahaan($key->id_departement)?></td>
+                    <td><?=$this->m_print_jadwal->nama_perusahaan($key->id_perusahaan)?></td>
                     <td><?=$this->m_print_jadwal->nama_divisi($key->id_departement)?></td>
                     <td><?=$key->jam_jemput?></td>
                     <td><?=$key->lokasi_jemput?></td>
