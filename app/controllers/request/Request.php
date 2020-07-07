@@ -154,13 +154,14 @@ class Request extends CI_Controller {
         $from_email = "carpool@apps.imip.co.id"; 
 
         $config = Array(
-           'protocol'  => 'smtp',
-           'smtp_host' => 'ssl://mail.apps.imip.co.id', 
-           'smtp_user' => 'carpool@apps.imip.co.id',
-           'smtp_pass' => '84FML4GH3iB=',
-           'smtp_port' => 465,
-           'mailtype'  => 'html', 
-           'charset'   => 'iso-8859-1'
+            'protocol'      => 'smtp',
+            'smtp_host'     => 'ssl://mail.apps.imip.co.id', 
+            'smtp_user'     => 'carpool@apps.imip.co.id',
+            'smtp_pass'     => '84FML4GH3iB=',
+            'smtp_port'     => 465,
+            'mailtype'      => 'html', 
+            'smtp_timeout'  => 20, 
+            'charset'       => 'iso-8859-1'
        );
 
            $this->load->library('email', $config);
@@ -343,13 +344,14 @@ class Request extends CI_Controller {
         $from_email = "carpool@apps.imip.co.id"; 
 
         $config = Array(
-           'protocol'  => 'smtp',
-           'smtp_host' => 'ssl://mail.apps.imip.co.id', 
-           'smtp_user' => 'carpool@apps.imip.co.id',
-           'smtp_pass' => '84FML4GH3iB=',
-           'smtp_port' => 465,
-           'mailtype'  => 'html', 
-           'charset'   => 'iso-8859-1'
+           'protocol'      => 'smtp',
+           'smtp_host'     => 'ssl://mail.apps.imip.co.id', 
+           'smtp_user'     => 'carpool@apps.imip.co.id',
+           'smtp_pass'     => '84FML4GH3iB=',
+           'smtp_port'     => 465,
+           'mailtype'      => 'html', 
+           'smtp_timeout'  => 20, 
+           'charset'       => 'iso-8859-1'
        );
 
            $this->load->library('email', $config);
@@ -450,13 +452,14 @@ class Request extends CI_Controller {
         $from_email = "carpool@apps.imip.co.id"; 
 
         $config = Array(
-           'protocol'  => 'smtp',
-           'smtp_host' => 'ssl://mail.apps.imip.co.id', 
-           'smtp_user' => 'carpool@apps.imip.co.id',
-           'smtp_pass' => '84FML4GH3iB=',
-           'smtp_port' => 465,
-           'mailtype'  => 'html', 
-           'charset'   => 'iso-8859-1'
+           'protocol'      => 'smtp',
+           'smtp_host'     => 'ssl://mail.apps.imip.co.id', 
+           'smtp_user'     => 'carpool@apps.imip.co.id',
+           'smtp_pass'     => '84FML4GH3iB=',
+           'smtp_port'     => 465,
+           'mailtype'      => 'html', 
+           'smtp_timeout'  => 20, 
+           'charset'       => 'iso-8859-1'
        );
 
            $this->load->library('email', $config);
