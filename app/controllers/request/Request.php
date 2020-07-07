@@ -162,7 +162,8 @@ class Request extends CI_Controller {
             'smtp_timeout'  => 20, 
             'smtp_crypto'   => 'security',
             'mailtype'      => 'html', 
-            'charset'       => 'iso-8859-1'
+            'charset'       => 'iso-8859-1',
+            'wordwrap'      => TRUE
        );
 
            $this->load->library('email', $config);
@@ -353,7 +354,8 @@ class Request extends CI_Controller {
             'smtp_timeout'  => 20, 
             'smtp_crypto'   => 'security',
             'mailtype'      => 'html', 
-            'charset'       => 'iso-8859-1'
+            'charset'       => 'iso-8859-1',
+            'wordwrap'      => TRUE
        );
 
            $this->load->library('email', $config);
@@ -462,7 +464,8 @@ class Request extends CI_Controller {
             'smtp_timeout'  => 20, 
             'smtp_crypto'   => 'security',
             'mailtype'      => 'html', 
-            'charset'       => 'iso-8859-1'
+            'charset'       => 'iso-8859-1',
+            'wordwrap'      => TRUE
        );
 
            $this->load->library('email', $config);
