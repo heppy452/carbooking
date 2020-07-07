@@ -159,11 +159,11 @@ class Request extends CI_Controller {
             'smtp_user'     => 'carpool@apps.imip.co.id',
             'smtp_pass'     => '84FML4GH3iB=',
             'smtp_port'     => 465,
-            'smtp_timeout'  => 20, 
+            'smtp_timeout'  => 60, 
             'smtp_crypto'   => 'security',
             'mailtype'      => 'html', 
             'charset'       => 'iso-8859-1',
-            'wordwrap'      => TRUE
+            
        );
 
            $this->load->library('email', $config);
@@ -351,11 +351,11 @@ class Request extends CI_Controller {
             'smtp_user'     => 'carpool@apps.imip.co.id',
             'smtp_pass'     => '84FML4GH3iB=',
             'smtp_port'     => 465,
-            'smtp_timeout'  => 20, 
+            'smtp_timeout'  => 60, 
             'smtp_crypto'   => 'security',
             'mailtype'      => 'html', 
             'charset'       => 'iso-8859-1',
-            'wordwrap'      => TRUE
+            
        );
 
            $this->load->library('email', $config);
@@ -461,11 +461,11 @@ class Request extends CI_Controller {
             'smtp_user'     => 'carpool@apps.imip.co.id',
             'smtp_pass'     => '84FML4GH3iB=',
             'smtp_port'     => 465,
-            'smtp_timeout'  => 20, 
+            'smtp_timeout'  => 60, 
             'smtp_crypto'   => 'security',
             'mailtype'      => 'html', 
             'charset'       => 'iso-8859-1',
-            'wordwrap'      => TRUE
+            
        );
 
            $this->load->library('email', $config);
