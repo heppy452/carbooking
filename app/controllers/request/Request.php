@@ -160,7 +160,7 @@ class Request extends CI_Controller {
             'smtp_pass'     => '84FML4GH3iB=',
             'smtp_port'     => 465,
             'smtp_timeout'  => 20, 
-            'smtp_crypto'   => 'security',
+            'smtp_crypto'   => 'ssl',
             'mailtype'      => 'html', 
             'charset'       => 'iso-8859-1'
             
@@ -352,7 +352,7 @@ class Request extends CI_Controller {
             'smtp_pass'     => '84FML4GH3iB=',
             'smtp_port'     => 465,
             'smtp_timeout'  => 20, 
-            'smtp_crypto'   => 'security',
+            'smtp_crypto'   => 'ssl',
             'mailtype'      => 'html', 
             'charset'       => 'iso-8859-1'
             
@@ -462,7 +462,7 @@ class Request extends CI_Controller {
             'smtp_pass'     => '84FML4GH3iB=',
             'smtp_port'     => 465,
             'smtp_timeout'  => 20, 
-            'smtp_crypto'   => 'security',
+            'smtp_crypto'   => 'ssl',
             'mailtype'      => 'html', 
             'charset'       => 'iso-8859-1'
        );
