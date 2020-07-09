@@ -13,6 +13,23 @@
     <label class="control-label">Jam Penjemputan </label>
     <input class="form-control time" type="text" value="08:30" id="jam_penjemputan">
 </div>
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group">
+            <label class="control-label">Lama Pemakaian Kendaraan </label>
+            <input class="form-control" type="text" id="durasi">
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group">
+            <label class="control-label">&nbsp; </label>
+             <select class="form-control" id="satuan">
+                <option value="Menit">Menit</option>
+                <option value="Jam">Jam</option>
+            </select>
+        </div>
+    </div>
+</div>
 <div class="form-group">
     <label class="control-label">Nama Pemesan </label>
     <input class="form-control" type="text" id="nama_pemesan">

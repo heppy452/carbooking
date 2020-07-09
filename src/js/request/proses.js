@@ -124,6 +124,8 @@ $(document).ready(function(){
                 lokasi_penjemputan  : $("#lokasi_penjemputan").val(),
                 lokasi_awal         : $("#lokasi_awal  option:selected").val(),
                 lokasi_tujuan       : $("#lokasi_tujuan  option:selected").val(),
+                durasi              : $("#durasi").val(),
+                satuan              : $("#satuan option:selected").val(),
                 keterangan          : $("#keterangan").val()
             }
         })
@@ -190,6 +192,8 @@ $(document).ready(function(){
                 lokasi_awal         : $("#lokasi_awal  option:selected").val(),
                 lokasi_tujuan       : $("#lokasi_tujuan  option:selected").val(),
                 keterangan          : $("#keterangan").val(),
+                durasi              : $("#durasi").val(),
+                satuan              : $("#satuan option:selected").val(),
                 id_request          : $("#id_request").val()
             }
         })

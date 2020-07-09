@@ -97,6 +97,7 @@ class Request extends CI_Controller {
     {
         $this->form_validation->set_rules('tgl_jadwal', 'Tanggal Jadwal', 'trim|required');
         $this->form_validation->set_rules('jam_penjemputan', 'Jam Penjemputan', 'trim|required');
+        $this->form_validation->set_rules('durasi', 'Lama Pemakaian Kendaraan', 'trim|required');
         $this->form_validation->set_rules('nama_pemesan', 'Nama Pemesan', 'trim|required');
         $this->form_validation->set_rules('nomor_hp', 'Nomor Handphone', 'trim|required');
         $this->form_validation->set_rules('lokasi_penjemputan', 'Lokasi Penjemputan', 'trim|required');
@@ -120,6 +121,8 @@ class Request extends CI_Controller {
                     'jenis_lokasi'      => $this->input->post('jenis_lokasi'),
                     'tgl_jadwal'        => $this->input->post('tgl_jadwal'),
                     'jam_jemput'        => $this->input->post('jam_penjemputan'),
+                    'durasi'            => $this->input->post('durasi'),
+                    'satuan'            => $this->input->post('satuan'),
                     'lokasi_jemput'     => $this->input->post('lokasi_penjemputan'),
                     'jml_penumpang'     => $this->input->post('jml_penumpang'),
                     'nama_pemesan'      => $this->input->post('nama_pemesan'),
@@ -245,6 +248,7 @@ class Request extends CI_Controller {
     {
         $this->form_validation->set_rules('tgl_jadwal', 'Tanggal Jadwal', 'trim|required');
         $this->form_validation->set_rules('jam_penjemputan', 'Jam Penjemputan', 'trim|required');
+        $this->form_validation->set_rules('durasi', 'Lama Pemakaian Kendaraan', 'trim|required');
         $this->form_validation->set_rules('nama_pemesan', 'Nama Pemesan', 'trim|required');
         $this->form_validation->set_rules('nomor_hp', 'Nomor Handphone', 'trim|required');
         $this->form_validation->set_rules('lokasi_penjemputan', 'Lokasi Penjemputan', 'trim|required');
@@ -261,6 +265,8 @@ class Request extends CI_Controller {
                     'jenis_lokasi'      => $this->input->post('jenis_lokasi'),
                     'tgl_jadwal'        => $this->input->post('tgl_jadwal'),
                     'jam_jemput'        => $this->input->post('jam_penjemputan'),
+                    'durasi'            => $this->input->post('durasi'),
+                    'satuan'            => $this->input->post('satuan'),
                     'lokasi_jemput'     => $this->input->post('lokasi_penjemputan'),
                     'jml_penumpang'     => $this->input->post('jml_penumpang'),
                     'nama_pemesan'      => $this->input->post('nama_pemesan'),

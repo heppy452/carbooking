@@ -25,6 +25,11 @@
                         <td><?=$id->tgl_jadwal?></td>
                     </tr>
                     <tr>
+                        <td class="tdstyle">Lama Pemakaian Kendaraan</td>
+                        <td>:</td>
+                        <td><?=$id->durasi?> <?=$id->satuan?></td>
+                    </tr>
+                    <tr>
                         <td class="tdstyle">Perusahaan</td>
                         <td>:</td>
                         <td><?=$this->m_request->nama_perusahaan($id->id_perusahaan)?></td>

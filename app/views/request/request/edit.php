@@ -13,6 +13,23 @@
     <label class="control-label">Jam Penjemputan </label>
     <input class="form-control time" type="text" id="jam_penjemputan" value="<?=$id->jam_jemput?>">
 </div>
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group">
+            <label class="control-label">Lama Pemakaian Kendaraan </label>
+            <input class="form-control" type="text" value="<?=$id->durasi?>" id="durasi">
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group">
+            <label class="control-label">&nbsp; </label>
+             <select class="form-control" id="satuan">
+                <option value="Menit" <?php if($id->satuan == 'Menit'){echo ' selected="selected"';}?>>Menit</option>
+                <option value="Jam" <?php if($id->satuan == 'Jam'){echo ' selected="selected"';}?>>Jam</option>
+            </select>
+        </div>
+    </div>
+</div>
 <div class="form-group">
     <label class="control-label">Nama Pemesan </label>
     <input class="form-control" type="text" id="nama_pemesan" value="<?=$id->nama_pemesan?>">
