@@ -107,4 +107,14 @@
         $data = $get_all->row();
         return $data->nomor_plat;
     }
+
+    function no_internal($param)
+    {
+        $this->db->select('no_internal');
+        $this->db->from('data_kendaraan');
+        $this->db->where('id_kendaraan', $param);
+        $get_all = $this->db->get();
+        $data = $get_all->row();
+        return $data->no_internal;
+    }
 }

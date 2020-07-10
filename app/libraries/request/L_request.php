@@ -92,6 +92,12 @@ class L_request {
             case '5':
                 return 'Innova';
                 break;
+            case '6':
+                return 'Hino';
+                break;
+            case '7':
+                return 'Izusu';
+                break;
             default:
                 return 'Uknown';
                 break;

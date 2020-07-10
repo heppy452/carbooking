@@ -61,7 +61,7 @@
                     <td><?=$key->no_hp?></td>
                     <td><?=$this->m_print_jadwal->lokasi($key->lokasi_awal)?></td>
                     <td><?=$this->m_print_jadwal->lokasi($key->lokasi_tujuan)?></td>
-                    <td><?=$this->m_print_jadwal->plat($key->id_kendaraan)?></td>
+                    <td><?=$this->m_print_jadwal->plat($key->id_kendaraan).'('.$this->m_print_jadwal->no_internal($key->id_kendaraan).')'?></td>
                 </tr>
                 <?php } ?>
             </table>

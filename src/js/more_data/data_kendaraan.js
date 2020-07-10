@@ -66,6 +66,7 @@ $(document).ready(function(){
 			cache:false,
 			data: {
 				nomor		: $("#nomor").val(),
+				no_internal	: $("#no_internal").val(),
 				type		: $("#type").val()
 			}
 		})
@@ -120,6 +121,7 @@ $(document).ready(function(){
 			cache:false,
 			data: {
 				nomor			: $("#nomor").val(),
+				no_internal		: $("#no_internal").val(),
 				type			: $("#type").val(),
 				id_kendaraan 	: $("#id_kendaraan").val(),
 				nomor_lama 		: $("#nomor_lama").val()

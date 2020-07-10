@@ -11,6 +11,7 @@
                         <thead>
                             <tr>
                                 <th>Nomor Plat Kendaraan</th>
+                                <th>Nomor Interal</th>
                                 <th>Type Kendaraan</th>
                             </tr>
                         </thead>

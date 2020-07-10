@@ -45,7 +45,8 @@ class Data_kendaraan extends CI_Controller {
             $data[] = array(
                 "DT_RowId" => $id->id_kendaraan,
                 "0" => $id->nomor_plat,
-                "1" => $this->l_data_kendaraan->type_kendaraan($id->type_kendaraan)
+                "1" => $id->no_internal,
+                "2" => $this->l_data_kendaraan->type_kendaraan($id->type_kendaraan)
             );
          }
 
@@ -68,6 +69,7 @@ class Data_kendaraan extends CI_Controller {
     function act_add()
     {
         $this->form_validation->set_rules('nomor', 'Nomor Plat Kendaraan', 'trim|required|is_unique[data_kendaraan.nomor_plat]');
+        $this->form_validation->set_rules('no_internal', 'Nomor Internal', 'trim|required');
         $this->form_validation->set_rules('type', 'Type Kendaraan', 'trim|required');
         if ($this->form_validation->run() == FALSE){
             $notif['notif'] = validation_errors();
@@ -76,6 +78,7 @@ class Data_kendaraan extends CI_Controller {
         } else {
             $data = array(
                     'nomor_plat'   => $this->input->post('nomor'),
+                    'no_internal'    => $this->input->post('no_internal'),
                     'type_kendaraan'    => $this->input->post('type')
                 );
             $this->db->insert('data_kendaraan', $data);
@@ -101,6 +104,7 @@ class Data_kendaraan extends CI_Controller {
         $nomor        = $this->input->post('nomor');
         $nomor_lama   = $this->input->post('nomor_lama');
         if ($nomor==$nomor_lama){
+            $this->form_validation->set_rules('no_internal', 'Nomor Internal', 'trim|required');
             $this->form_validation->set_rules('type', 'Type Kendaraan', 'trim|required');
             if ($this->form_validation->run() == FALSE){
                 $notif['notif'] = validation_errors();
@@ -108,7 +112,8 @@ class Data_kendaraan extends CI_Controller {
                 echo json_encode($notif);
             } else {
                 $data = array(
-                        'type_kendaraan'    => $this->input->post('type')
+                        'type_kendaraan'    => $this->input->post('type'),
+                        'no_internal'    => $this->input->post('no_internal')
                     );
                 $this->db->where('id_kendaraan', $data_id);
                 $this->db->update('data_kendaraan', $data);
@@ -118,6 +123,7 @@ class Data_kendaraan extends CI_Controller {
             }
         } else {
            $this->form_validation->set_rules('nomor', 'Nomor Plat Kendaraan', 'trim|required|is_unique[data_kendaraan.nomor_plat]');
+           $this->form_validation->set_rules('no_internal', 'Nomor Internal', 'trim|required');
             $this->form_validation->set_rules('type', 'Type Kendaraan', 'trim|required');
             if ($this->form_validation->run() == FALSE){
                 $notif['notif'] = validation_errors();
@@ -126,6 +132,7 @@ class Data_kendaraan extends CI_Controller {
             } else {
                 $data = array(
                     'nomor_plat'   => $this->input->post('nomor'),
+                    'no_internal'    => $this->input->post('no_internal'),
                     'type_kendaraan'    => $this->input->post('type')
                 );
                  $this->db->where('id_kendaraan', $data_id);

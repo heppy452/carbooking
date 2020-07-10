@@ -119,7 +119,7 @@
                 ?>
                 <table class="table">
                     <tr>
-                        <td><?php $type=$this->m_request->jenis_mobil($id->id_kendaraan); echo $this->l_request->jenis_mobil($type);?> &nbsp; <b><?=$this->m_request->plat($id->id_kendaraan)?></b></td>
+                        <td><b><?=$this->m_request->plat($id->id_kendaraan).' ('.$this->m_request->no_internal($id->id_kendaraan).')'?></b></td>
                     </tr>
                     <tr>
                         <td><?php $nik=$this->m_request->nik_driver($id->id_driver); echo $this->m_request->nama_driver($nik);?></td>
