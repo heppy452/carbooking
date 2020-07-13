@@ -380,7 +380,7 @@ $config['encryption_key'] = 'FCD9649AF3D993FE';
 |
 */
 $config['sess_driver'] = 'files';
-$config['sess_cookie_name'] = 'imip_core4';
+$config['sess_cookie_name'] = 'carpool';
 $config['sess_expiration'] = 3600;
 $config['sess_save_path'] = NULL;
 $config['sess_match_ip'] = FALSE;
