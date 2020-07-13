@@ -109,7 +109,7 @@ class Request extends CI_Controller {
         $this->form_validation->set_rules('lokasi_penjemputan', 'Lokasi Penjemputan', 'trim|required');
         $this->form_validation->set_rules('lokasi_awal', 'Lokasi Keberangkatan', 'trim|required');
         $this->form_validation->set_rules('lokasi_tujuan', 'Lokasi Tujuan', 'trim|required');
-        $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required');
+        $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required|min_length[20]');
 
         if ($this->form_validation->run() == FALSE){
             $notif['notif'] = validation_errors();
@@ -224,7 +224,7 @@ class Request extends CI_Controller {
     function save_cancel()
     {
         $data_id    = $this->input->post('id_request');
-        $this->form_validation->set_rules('ket_cancel', 'Keterangan', 'trim|required');
+        $this->form_validation->set_rules('ket_cancel', 'Keterangan', 'trim|required|min_length[20]');
         if ($this->form_validation->run() == FALSE){
             $notif['notif'] = validation_errors();
             $notif['status'] = 1;
@@ -260,7 +260,7 @@ class Request extends CI_Controller {
         $this->form_validation->set_rules('lokasi_penjemputan', 'Lokasi Penjemputan', 'trim|required');
         $this->form_validation->set_rules('lokasi_awal', 'Lokasi Keberangkatan', 'trim|required');
         $this->form_validation->set_rules('lokasi_tujuan', 'Lokasi Tujuan', 'trim|required');
-        $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required');
+        $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required|min_length[20]');
         if ($this->form_validation->run() == FALSE){
             $notif['notif'] = validation_errors();
             $notif['status'] = 1;
@@ -388,7 +388,7 @@ class Request extends CI_Controller {
     function save_dined_spv()
     {
         $data_id    = $this->input->post('id_request');
-        $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required');
+        $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required|min_length[20]');
         if ($this->form_validation->run() == FALSE){
             $notif['notif'] = validation_errors();
             $notif['status'] = 1;
@@ -496,7 +496,7 @@ class Request extends CI_Controller {
     function save_denied_ga()
     {
         $data_id    = $this->input->post('id_request');
-        $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required');
+        $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required|min_length[20]');
         if ($this->form_validation->run() == FALSE){
             $notif['notif'] = validation_errors();
             $notif['status'] = 1;
