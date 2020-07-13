@@ -138,7 +138,7 @@ class Request extends CI_Controller {
                 );
             $this->db->insert('data_request', $data);
 
-            $this->email_permintaan($data);
+            // $this->email_permintaan($data);
 
             $notif['notif'] = 'Data berhasil disimpan !';
             $notif['status'] = 2;
@@ -333,7 +333,7 @@ class Request extends CI_Controller {
         $this->db->update('data_request', $data);
 
         //email approve spv ke admin GA
-        $this->email_to_ga($data_id);
+        // $this->email_to_ga($data_id);
 
         $notif['notif'] = 'Approved';
         $notif['status'] = 2;
@@ -435,7 +435,7 @@ class Request extends CI_Controller {
             $this->db->where('id_request', $data_id);
             $this->db->update('data_request', $data);
 
-            $this->email_apr_ga($data_id);
+            // $this->email_apr_ga($data_id);
 
             $notif['notif'] = 'Approved';
             $notif['status'] = 2;
