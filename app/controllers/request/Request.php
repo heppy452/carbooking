@@ -94,61 +94,209 @@ class Request extends CI_Controller {
     }
 
     //Form Add
-    function add()
+    function add($param)
     {
-        $this->load->view($this->dir_v.'add');
+        $data['kategori'] = $param;
+        $this->load->view($this->dir_v.'add', $data);
+    }
+
+    function data_karyawan()
+    {
+        $nik = $this->input->get('id');
+        $data= $this->m_request->data_karyawan($nik);
+        echo json_encode($data);
+    }
+
+    function data_lokasi()
+    {
+        $data= $this->m_request->select_lokasi($data=NULL);
+        echo json_encode($data);
     }
 
     function act_add()
     {
-        $this->form_validation->set_rules('tgl_jadwal', 'Tanggal Jadwal', 'trim|required');
-        $this->form_validation->set_rules('jam_penjemputan', 'Jam Penjemputan', 'trim|required');
-        $this->form_validation->set_rules('durasi', 'Lama Pemakaian Kendaraan', 'trim|required');
-        $this->form_validation->set_rules('nama_pemesan', 'Nama Pemesan', 'trim|required');
-        $this->form_validation->set_rules('nomor_hp', 'Nomor Handphone', 'trim|required');
-        $this->form_validation->set_rules('lokasi_penjemputan', 'Lokasi Penjemputan', 'trim|required');
-        $this->form_validation->set_rules('lokasi_awal', 'Lokasi Keberangkatan', 'trim|required');
-        $this->form_validation->set_rules('lokasi_tujuan', 'Lokasi Tujuan', 'trim|required');
-        $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required|min_length[20]');
-
-        if ($this->form_validation->run() == FALSE){
-            $notif['notif'] = validation_errors();
-            $notif['status'] = 1;
-            echo json_encode($notif);
-        }else{
-            $today = date("Y-m-d H:i:s",time()+60*60*7);
-            $id_user  = $this->session->userdata('sess_id');
-            $id_perusahaan  = $this->m_request->id_perusahaan($id_user);
-            $id_departement = $this->m_request->id_departement($id_user);
-            $no_request     = $this->generateCode();
-            $data = array(
+        $today = date("Y-m-d H:i:s",time()+60*60*7);
+        $id_user  = $this->session->userdata('sess_id');
+        $id_perusahaan  = $this->m_request->id_perusahaan($id_user);
+        $id_departement = $this->m_request->id_departement($id_user);
+        $jenis_pemesan  = $this->input->post('jenis_pemesan');
+        $kategori       = $this->input->post('kategori');
+        $jns_booking    = $this->input->post('jns_booking');
+        $jns_layanan    = $this->input->post('jns_layanan');
+        $pulang         = $this->input->post('pulang');
+        $tanggal        = $this->input->post('tgl_jadwal_mlt');
+       
+        // untuk kategori nondriver
+        if ($kategori==3){
+            //untuk booking by jam
+            if ($jns_booking==1){
+                
+                $no_request     = $this->generateCode();
+                
+                $data = array(
+                    'kategori'          => $kategori,
+                    'jns_booking'       => $jns_booking,
                     'nomor_request'     => $no_request,
-                    'jenis_kebutuhan'   => 1,
+                    'jenis_kebutuhan'   => $this->input->post('jenis_kebutuhan'),
                     'jenis_lokasi'      => $this->input->post('jenis_lokasi'),
-                    'tgl_jadwal'        => $this->input->post('tgl_jadwal'),
-                    'jam_jemput'        => $this->input->post('jam_penjemputan'),
-                    'durasi'            => $this->input->post('durasi'),
-                    'satuan'            => $this->input->post('satuan'),
-                    'lokasi_jemput'     => $this->input->post('lokasi_penjemputan'),
-                    'jml_penumpang'     => $this->input->post('jml_penumpang'),
-                    'nama_pemesan'      => $this->input->post('nama_pemesan'),
+                    'nik_karyawan'      => $this->input->post('nik_input'),
+                    'nama_lengkap'      => $this->input->post('nm_lengkap'),
                     'no_hp'             => $this->input->post('nomor_hp'),
-                    'lokasi_awal'       => $this->input->post('lokasi_awal'),
-                    'lokasi_tujuan'     => $this->input->post('lokasi_tujuan'),
-                    'keterangan'        => $this->input->post('keterangan'),
+                    'jml_penumpang'     => $this->input->post('jml_penumpang'),
+                    'dari_tanggal'      => $this->input->post('tgl_jadwal_bkg'),
+                    'dari_jam'        => $this->input->post('dari_pukul_bkg'),
+                    'sampai_jam'        => $this->input->post('sampai_pukul_bkg'),
+                    'keterangan'        => $this->input->post('keterangan_jam'),
                     'id_perusahaan'     => $id_perusahaan,
                     'id_departement'    => $id_departement,
                     'id_user'           => $id_user,
                     'tgl_jam_input'     => $today
-                    
                 );
+                $this->db->insert('data_request', $data);
+                $notif['notif'] = 'Data berhasil disimpan !';
+                $notif['status'] = 2;
+                echo json_encode($notif);
+            
+            //untuk booking by tanggal
+            } else if ($jns_booking==2) {
+                
+                $no_request     = $this->generateCode();
+                
+                $data = array(
+                    'kategori'          => $kategori,
+                    'jns_booking'       => $jns_booking,
+                    'nomor_request'     => $no_request,
+                    'jenis_kebutuhan'   => $this->input->post('jenis_kebutuhan'),
+                    'jenis_lokasi'      => $this->input->post('jenis_lokasi'),
+                    'nik_karyawan'      => $this->input->post('nik_input'),
+                    'nama_lengkap'      => $this->input->post('nm_lengkap'),
+                    'no_hp'             => $this->input->post('nomor_hp'),
+                    'jml_penumpang'     => $this->input->post('jml_penumpang'),
+                    'dari_tanggal'      => $this->input->post('dari_tgl_bkg'),
+                    'sampai_tanggal'      => $this->input->post('sampai_tgl_bkg'),
+                    'keterangan'        => $this->input->post('keterangan_tanggal'),
+                    'id_perusahaan'     => $id_perusahaan,
+                    'id_departement'    => $id_departement,
+                    'id_user'           => $id_user,
+                    'tgl_jam_input'     => $today
+                );
+                $this->db->insert('data_request', $data);
+                $notif['notif'] = 'Data berhasil disimpan !';
+                $notif['status'] = 2;
+                echo json_encode($notif);
+                
+            }
+            //untuk kategori tidak rutin
+        } else if ($kategori==1){
+            // untuk sekali jalan & multi tujuan
+            $no_request     = $this->generateCode();
+            $data = array(
+                'kategori'          => $kategori,
+                'jns_layanan'       => $jns_layanan,
+                'nomor_request'     => $no_request,
+                'jenis_kebutuhan'   => $this->input->post('jenis_kebutuhan'),
+                'jenis_lokasi'      => $this->input->post('jenis_lokasi'),
+                'nik_karyawan'      => $this->input->post('nik_input'),
+                'nama_lengkap'      => $this->input->post('nm_lengkap'),
+                'no_hp'             => $this->input->post('nomor_hp'),
+                'jml_penumpang'     => $this->input->post('jml_penumpang'),
+                'dari_tanggal'      => $this->input->post('tgl_jadwal'),
+                'dari_jam'          => $this->input->post('dari_pukul'),
+                'sampai_jam'        => $this->input->post('sampai_pukul'),
+                'lokasi_jemput'     => $this->input->post('lokasi_penjemputan'),
+                'lokasi_awal'       => $this->input->post('lokasi_awal'),
+                'lokasi_tujuan'     => $this->input->post('lokasi_tujuan'),
+                'keterangan'        => $this->input->post('keterangan'),
+                'id_perusahaan'     => $id_perusahaan,
+                'id_departement'    => $id_departement,
+                'id_user'           => $id_user,
+                'tgl_jam_input'     => $today
+            );
             $this->db->insert('data_request', $data);
+            
+            //kondisi pulang pergi
+            if ($pulang==1){
+                
+                    $last_notiket   = $this->m_request->last_tiket();
+                    $no_request2    = $this->generateCode();
+                    $data = array(
+                        'kategori'          => $kategori,
+                        'jns_layanan'       => $jns_layanan,
+                        'nomor_request'     => $no_request2,
+                        'alt_nomor_request' => $last_notiket,
+                        'jenis_kebutuhan'   => $this->input->post('jenis_kebutuhan'),
+                        'jenis_lokasi'      => $this->input->post('jenis_lokasi'),
+                        'nik_karyawan'      => $this->input->post('nik_input'),
+                        'nama_lengkap'      => $this->input->post('nm_lengkap'),
+                        'no_hp'             => $this->input->post('nomor_hp'),
+                        'jml_penumpang'     => $this->input->post('jml_penumpang'),
+                        'dari_tanggal'      => $this->input->post('tgl_jadwal_plg'),
+                        'dari_jam'          => $this->input->post('dari_pukul_plg'),
+                        'sampai_jam'        => $this->input->post('sampai_pukul_plg'),
+                        'lokasi_jemput'     => $this->input->post('lokasi_penjemputan_plg'),
+                        'lokasi_awal'       => $this->input->post('lokasi_tujuan'),
+                        'lokasi_tujuan'     => $this->input->post('lokasi_awal'),
+                        'keterangan'        => $this->input->post('keterangan'),
+                        'id_perusahaan'     => $id_perusahaan,
+                        'id_departement'    => $id_departement,
+                        'id_user'           => $id_user,
+                        'tgl_jam_input'     => $today
+                    );
+                    $this->db->insert('data_request', $data);
+                    $notif['notif'] = 'Data berhasil disimpan !';
+                    $notif['status'] = 2;
+                    echo json_encode($notif);
+                //tambah tujuan
+            } else if (isset($tanggal)) {
+                $tgl_jadwal     = $this->input->post('tgl_jadwal_mlt');
+                if (isset($tgl_jadwal)){
+                    $count      = count($tgl_jadwal);
+                } else{
+                    $count      = 0;
+                }
+                
+                $dari_pukul     = $this->input->post('dari_pukul_mlt');
+                $sampai_pukul   = $this->input->post('sampai_pukul_mlt');
+                $lokasi_penjemputan   = $this->input->post('lokasi_penjemputan_mlt');
+                $lokasi_awal    = $this->input->post('lokasi_awal_mlt');
+                $lokasi_tujuan  = $this->input->post('lokasi_tujuan_mlt');
+                $keterangan     = $this->input->post('keterangan_mlt');
 
-            // $this->email_permintaan($data);
-
-            $notif['notif'] = 'Data berhasil disimpan !';
-            $notif['status'] = 2;
-            echo json_encode($notif);
+                for($i = 0; $i < $count; $i++){
+                    
+                    $no_request3    = $this->generateCode();
+                    $data[$i] = array(
+                        'kategori'          => $kategori,
+                        'jns_layanan'       => $jns_layanan,
+                        'nomor_request'     => $no_request3,
+                        'jenis_kebutuhan'   => $this->input->post('jenis_kebutuhan'),
+                        'jenis_lokasi'      => $this->input->post('jenis_lokasi'),
+                        'nik_karyawan'      => $this->input->post('nik_input'),
+                        'nama_lengkap'      => $this->input->post('nm_lengkap'),
+                        'no_hp'             => $this->input->post('nomor_hp'),
+                        'jml_penumpang'     => $this->input->post('jml_penumpang'),
+                        'dari_tanggal'      => $tgl_jadwal[$i],
+                        'dari_jam'          => $dari_pukul[$i],
+                        'sampai_jam'        => $sampai_pukul[$i],
+                        'lokasi_jemput'     => $lokasi_penjemputan[$i],
+                        'lokasi_awal'       => $lokasi_awal[$i],
+                        'lokasi_tujuan'     => $lokasi_tujuan[$i],
+                        'keterangan'        => $keterangan[$i],
+                        'id_perusahaan'     => $id_perusahaan,
+                        'id_departement'    => $id_departement,
+                        'id_user'           => $id_user,
+                        'tgl_jam_input'     => $today
+                    );
+                    $this->db->insert('data_request', $data[$i]);
+                }
+                $notif['notif'] = 'Data berhasil disimpan !';
+                $notif['status'] = 2;
+                echo json_encode($notif);
+            } else {
+                $notif['notif'] = 'Data berhasil disimpan !';
+                $notif['status'] = 2;
+                echo json_encode($notif);
+            }
         }
     }
 

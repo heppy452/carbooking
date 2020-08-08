@@ -207,6 +207,19 @@
         return $dt->nama_lengkap;
     }
 
+    function data_karyawan($param)
+    {
+        $db_hris = $this->load->database('db_hris', TRUE);
+        $db_hris -> select('nama_lengkap,no_hp1,emp_master.id_perusahaan,emp_master.id_divisi,alias_perusahaan,divisi_idn');
+        $db_hris -> from('emp_master');
+        $db_hris ->join('opt_perusahaan', 'opt_perusahaan.id_perusahaan=emp_master.id_perusahaan', 'LEFT');
+        $db_hris ->join('opt_divisi', 'opt_divisi.id_divisi=emp_master.id_divisi', 'LEFT');
+        $db_hris -> where('nik', $param);
+        $emp = $db_hris->get();
+        $dt = $emp->row();
+        return $dt;
+    }
+
     function no_hp($param)
     {
         $this->db->select('drv_hp');
@@ -287,6 +300,12 @@
             return 'Uknown';
         }
         
+    }
+
+    function last_tiket(){
+        $query = $this->db->query("SELECT nomor_request FROM data_request ORDER BY id_request DESC LIMIT 1");
+        $data = $query->row();
+        return $data->nomor_request;
     }
 
 }
