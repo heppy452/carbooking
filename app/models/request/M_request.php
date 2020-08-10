@@ -1,90 +1,92 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-    class M_request extends CI_Model {
+class M_request extends CI_Model
+{
 
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    function data_request($id,$level,$perusahaan,$departement)
+    function data_request($id, $level, $perusahaan, $departement)
     {
-    	$this->db->select('*');
+        $this->db->select('*');
         $this->db->from('data_request');
-        if ($level==5){
+        if ($level == 5) {
             $this->db->where('id_user', $id);
-        } else if ($level==4){
+        } else if ($level == 4) {
             $this->db->where('jenis_kebutuhan', 1);
             $this->db->where('id_departement', $departement);
             $this->db->where('id_departement', $departement);
-        } else if ($level==2) {
+        } else if ($level == 2) {
             $this->db->where('apr_spv', 1);
             $this->db->where('apr_ga', 0);
         }
-        
+
         $get_all = $this->db->get();
         return $get_all;
     }
-    
+
 
     function email($perusahaan, $departement)
     {
-            $this->db->select('email');
-            $this->db->from('conf_users');
-            $this->db->where('id_perusahaan', $perusahaan);
-            $this->db->where('id_departemen', $departement);
-            $this->db->where('level', 4);
-            $get_all = $this->db->get();
-            $data = $get_all->row();
-            if (isset($data->email)){
-                return $data->email;
-            } else {
-                return 0;
-            }
+        $this->db->select('email');
+        $this->db->from('conf_users');
+        $this->db->where('id_perusahaan', $perusahaan);
+        $this->db->where('id_departemen', $departement);
+        $this->db->where('level', 4);
+        $get_all = $this->db->get();
+        $data = $get_all->row();
+        if (isset($data->email)) {
+            return $data->email;
+        } else {
+            return 0;
+        }
     }
 
     function email_ga()
     {
-            $this->db->select('email');
-            $this->db->from('conf_users');
-            $this->db->where('level', 2);
-            $get_all = $this->db->get();
-            $data = $get_all->row();
-            if (isset($data->email)){
-                return $data->email;
-            } else {
-                return 0;
-            }
+        $this->db->select('email');
+        $this->db->from('conf_users');
+        $this->db->where('level', 2);
+        $get_all = $this->db->get();
+        $data = $get_all->row();
+        if (isset($data->email)) {
+            return $data->email;
+        } else {
+            return 0;
+        }
     }
 
     function email_admin($perusahaan, $departement)
     {
-            $this->db->select('email');
-            $this->db->from('conf_users');
-            $this->db->where('id_perusahaan', $perusahaan);
-            $this->db->where('id_departemen', $departement);
-            $this->db->where('level', 5);
-            $get_all = $this->db->get();
-            $data = $get_all->row();
-            if (isset($data->email)){
-                return $data->email;
-            } else {
-                return 0;
-            }
+        $this->db->select('email');
+        $this->db->from('conf_users');
+        $this->db->where('id_perusahaan', $perusahaan);
+        $this->db->where('id_departemen', $departement);
+        $this->db->where('level', 5);
+        $get_all = $this->db->get();
+        $data = $get_all->row();
+        if (isset($data->email)) {
+            return $data->email;
+        } else {
+            return 0;
+        }
     }
 
     function select_lokasi($data)
     {
         $query = $this->db->query('SELECT * FROM data_lokasi ORDER BY nama_lokasi ASC');
-        if(empty($data)){
-            foreach($query->result() as $id) {
-                echo '<option value="'.$id->id_lokasi.'">'.$id->nama_lokasi.'</option>';
+        if (empty($data)) {
+            foreach ($query->result() as $id) {
+                echo '<option value="' . $id->id_lokasi . '">' . $id->nama_lokasi . '</option>';
             }
-        }else{
-            foreach($query->result() as $id) {
-                if(strstr($data, $id->id_lokasi) != FALSE){
-                    echo '<option value="'.$id->id_lokasi.'" selected="selected">'.$id->nama_lokasi.'</option>';
-                }else{
-                    echo '<option value="'.$id->id_lokasi.'">'.$id->nama_lokasi.'</option>';
+        } else {
+            foreach ($query->result() as $id) {
+                if (strstr($data, $id->id_lokasi) != FALSE) {
+                    echo '<option value="' . $id->id_lokasi . '" selected="selected">' . $id->nama_lokasi . '</option>';
+                } else {
+                    echo '<option value="' . $id->id_lokasi . '">' . $id->nama_lokasi . '</option>';
                 }
             }
         }
@@ -93,16 +95,16 @@
     function select_driver($data)
     {
         $query = $this->db->query('SELECT * FROM data_driver ORDER BY drv_nik ASC');
-        if(empty($data)){
-            foreach($query->result() as $id) {
-                echo '<option value="'.$id->id_driver.'">'.$this->nama_driver($id->drv_nik).'</option>';
+        if (empty($data)) {
+            foreach ($query->result() as $id) {
+                echo '<option value="' . $id->id_driver . '">' . $this->nama_driver($id->drv_nik) . '</option>';
             }
-        }else{
-            foreach($query->result() as $id) {
-                if(strstr($data, $id->id_driver) != FALSE){
-                    echo '<option value="'.$id->id_driver.'" selected="selected">'.$this->nama_driver($id->drv_nik).'</option>';
-                }else{
-                    echo '<option value="'.$id->id_driver.'">'.$this->nama_driver($id->drv_nik).'</option>';
+        } else {
+            foreach ($query->result() as $id) {
+                if (strstr($data, $id->id_driver) != FALSE) {
+                    echo '<option value="' . $id->id_driver . '" selected="selected">' . $this->nama_driver($id->drv_nik) . '</option>';
+                } else {
+                    echo '<option value="' . $id->id_driver . '">' . $this->nama_driver($id->drv_nik) . '</option>';
                 }
             }
         }
@@ -111,16 +113,16 @@
     function select_kendaraan($data)
     {
         $query = $this->db->query('SELECT * FROM data_kendaraan ORDER BY nomor_plat ASC');
-        if(empty($data)){
-            foreach($query->result() as $id) {
-                echo '<option value="'.$id->id_kendaraan.'">'.$id->nomor_plat.' ( '.$id->no_internal.' )</option>';
+        if (empty($data)) {
+            foreach ($query->result() as $id) {
+                echo '<option value="' . $id->id_kendaraan . '">' . $id->nomor_plat . ' ( ' . $id->no_internal . ' )</option>';
             }
-        }else{
-            foreach($query->result() as $id) {
-                if(strstr($data, $id->id_kendaraan) != FALSE){
-                    echo '<option value="'.$id->id_kendaraan.'" selected="selected">'.$id->nomor_plat.' ( '.$id->no_internal.' )</option>';
-                }else{
-                    echo '<option value="'.$id->id_kendaraan.'">'.$id->nomor_plat.' ( '.$id->no_internal.' )</option>';
+        } else {
+            foreach ($query->result() as $id) {
+                if (strstr($data, $id->id_kendaraan) != FALSE) {
+                    echo '<option value="' . $id->id_kendaraan . '" selected="selected">' . $id->nomor_plat . ' ( ' . $id->no_internal . ' )</option>';
+                } else {
+                    echo '<option value="' . $id->id_kendaraan . '">' . $id->nomor_plat . ' ( ' . $id->no_internal . ' )</option>';
                 }
             }
         }
@@ -133,7 +135,7 @@
         $this->db->where('id_user', $param);
         $get_all = $this->db->get();
         $data = $get_all->row();
-        if (isset($data->id_perusahaan)){
+        if (isset($data->id_perusahaan)) {
             return $data->id_perusahaan;
         } else {
             return 0;
@@ -147,7 +149,7 @@
         $this->db->where('id_user', $param);
         $get_all = $this->db->get();
         $data = $get_all->row();
-        if (isset($data->id_departemen)){
+        if (isset($data->id_departemen)) {
             return $data->id_departemen;
         } else {
             return 0;
@@ -161,7 +163,7 @@
         $this->db->where('id_lokasi', $param);
         $get_all = $this->db->get();
         $data = $get_all->row();
-        if (isset($data->nama_lokasi)){
+        if (isset($data->nama_lokasi)) {
             return $data->nama_lokasi;
         } else {
             return 'Uknown';
@@ -176,12 +178,12 @@
         $this->db->limit(1);
         $get_data = $this->db->get();
         $data = $get_data->row();
-        if(!empty($data->nomor_request)){
+        if (!empty($data->nomor_request)) {
             $nomor_request = $data->nomor_request;
-        }else{
+        } else {
             $nomor_request = '';
         }
-        $char = substr($nomor_request,0,4);
+        $char = substr($nomor_request, 0, 4);
         return $char;
     }
 
@@ -199,9 +201,9 @@
     function nama_driver($param)
     {
         $db_hris = $this->load->database('db_hris', TRUE);
-        $db_hris -> select('nama_lengkap');
-        $db_hris -> from('emp_master');
-        $db_hris -> where('nik', $param);
+        $db_hris->select('nama_lengkap');
+        $db_hris->from('emp_master');
+        $db_hris->where('nik', $param);
         $emp = $db_hris->get();
         $dt = $emp->row();
         return $dt->nama_lengkap;
@@ -210,11 +212,11 @@
     function data_karyawan($param)
     {
         $db_hris = $this->load->database('db_hris', TRUE);
-        $db_hris -> select('nama_lengkap,no_hp1,emp_master.id_perusahaan,emp_master.id_divisi,alias_perusahaan,divisi_idn');
-        $db_hris -> from('emp_master');
-        $db_hris ->join('opt_perusahaan', 'opt_perusahaan.id_perusahaan=emp_master.id_perusahaan', 'LEFT');
-        $db_hris ->join('opt_divisi', 'opt_divisi.id_divisi=emp_master.id_divisi', 'LEFT');
-        $db_hris -> where('nik', $param);
+        $db_hris->select('nama_lengkap,no_hp1,emp_master.id_perusahaan,emp_master.id_divisi,alias_perusahaan,divisi_idn');
+        $db_hris->from('emp_master');
+        $db_hris->join('opt_perusahaan', 'opt_perusahaan.id_perusahaan=emp_master.id_perusahaan', 'LEFT');
+        $db_hris->join('opt_divisi', 'opt_divisi.id_divisi=emp_master.id_divisi', 'LEFT');
+        $db_hris->where('nik', $param);
         $emp = $db_hris->get();
         $dt = $emp->row();
         return $dt;
@@ -278,12 +280,11 @@
         $db_hris->where('id_divisi', $data);
         $get_data = $db_hris->get();
         $data = $get_data->row();
-        if (isset($data->divisi_idn)){
+        if (isset($data->divisi_idn)) {
             return $data->divisi_idn;
         } else {
             return 'Uknown';
         }
-        
     }
 
     function nama_perusahaan($data)
@@ -294,18 +295,17 @@
         $db_hris->where('id_perusahaan', $data);
         $get_data = $db_hris->get();
         $data = $get_data->row();
-        if (isset($data->alias_perusahaan)){
+        if (isset($data->alias_perusahaan)) {
             return $data->alias_perusahaan;
         } else {
             return 'Uknown';
         }
-        
     }
 
-    function last_tiket(){
+    function last_tiket()
+    {
         $query = $this->db->query("SELECT nomor_request FROM data_request ORDER BY id_request DESC LIMIT 1");
         $data = $query->row();
         return $data->nomor_request;
     }
-
 }
