@@ -63,7 +63,7 @@ class L_request {
                 return '<span class="badge badge-warning">Denied</span>';
                 break;
             case '3':
-                return '<span class="badge badge-success">Finish</span>';
+                return '<span class="badge badge-success">Finished</span>';
                 break;
             case '4':
                 return '<span class="badge badge-danger">Cancel</span>';

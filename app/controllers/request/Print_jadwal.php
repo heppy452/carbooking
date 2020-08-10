@@ -40,7 +40,7 @@ class Print_jadwal extends CI_Controller {
         $this->load->view($this->dir_v.'search',$data);
     }
 
-    function print($id_driver,$tgl_jadwal)
+    function printa($id_driver,$tgl_jadwal)
     {
         $data['id'] = $this->m_print_jadwal->data_print($id_driver,$tgl_jadwal);
         $data['driver']=$id_driver;
