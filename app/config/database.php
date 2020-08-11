@@ -77,7 +77,11 @@ $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'root',
+<<<<<<< HEAD
 	'password' => '',
+=======
+	'password' => 'imipsuperadmin',
+>>>>>>> origin/tiocode
 	'database' => 'db_carpool',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
