@@ -351,39 +351,7 @@ class Request extends CI_Controller
 
             if ($jns_layanan == 1) {
 
-                $no_request        = $this->generateCode();
-
-                $data = array(
-                    'kategori'          => $kategori,
-                    'jns_layanan'       => $jns_layanan,
-                    'nomor_request'     => $no_request,
-                    'jenis_kebutuhan'   => $this->input->post('jenis_kebutuhan'),
-                    'jenis_lokasi'      => $this->input->post('jenis_lokasi'),
-                    'nik_karyawan'      => $this->input->post('nik_input'),
-                    'nama_lengkap'      => $this->input->post('nm_lengkap'),
-                    'no_hp'             => $this->input->post('nomor_hp'),
-                    'dari_jam'          => $this->input->post('dari_pukul'),
-                    'sampai_jam'        => $this->input->post('sampai_pukul'),
-                    'lokasi_awal'       => $this->input->post('lokasi_tujuan'),
-                    'lokasi_tujuan'     => $this->input->post('lokasi_awal'),
-                    'jml_penumpang'     => $this->input->post('jml_penumpang'),
-                    'dari_tanggal'      => $date,
-                    'keterangan'        => $this->input->post('keterangan'),
-                    'id_perusahaan'     => $id_perusahaan,
-                    'id_departement'    => $id_departement,
-                    'id_user'           => $id_user,
-                    'tgl_jam_input'     => $today
-                );
-                $this->db->insert('data_request', $data);
-            }
-            $notif['notif'] = 'Data berhasil disimpan !';
-            $notif['status'] = 2;
-            echo json_encode($notif);
-
-            //cek pergi pulang
-            if ($pulang == 1) {
                 //perulangan tanggal
-
                 foreach ($MultiDate as $date) {
 
                     $no_request        = $this->generateCode();
@@ -541,6 +509,7 @@ class Request extends CI_Controller
         }
     }
 
+    
     function array()
     {
         $data = "1,2,3";

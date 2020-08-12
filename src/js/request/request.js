@@ -933,10 +933,7 @@ $(document).ready(function () {
 
   function setDatePicker() {
     $(".date").datepicker({
-<<<<<<< HEAD
       // startDate:'1980-01-01',
-=======
->>>>>>> origin/tiocode
       scrollInput: false,
       format: "dd-mm-yyyy",
       changeMonth: true,
