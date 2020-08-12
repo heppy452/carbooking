@@ -484,6 +484,7 @@ class Request extends CI_Controller
         }
     }
 
+    
     function array()
     {
         $data = "1,2,3";
