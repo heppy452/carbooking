@@ -564,32 +564,28 @@ $(document).ready(function () {
       return false;
     }
     if (tgl_jadwal == "") {
-        swal("Perhatian", "Isi Tanggal Jadwal ", "warning");
-        return false;
+      swal("Perhatian", "Isi Tanggal Jadwal ", "warning");
+      return false;
     }
     if (lokasi_penjemputan == "") {
-        swal("Perhatian", "Isi Lokasi Penjemputan ", "warning");
-        return false;
+      swal("Perhatian", "Isi Lokasi Penjemputan ", "warning");
+      return false;
     }
     if (lokasi_awal == "") {
-        swal("Perhatian", "Pilih Lokasi Keberangkatan ", "warning");
-        return false;
+      swal("Perhatian", "Pilih Lokasi Keberangkatan ", "warning");
+      return false;
     }
     if (lokasi_tujuan == "") {
-        swal("Perhatian", "Pilih Lokasi Tujuan ", "warning");
-        return false;
+      swal("Perhatian", "Pilih Lokasi Tujuan ", "warning");
+      return false;
     }
     if (keterangan == "") {
-        swal("Perhatian", "Isi Keterangan ", "warning");
-        return false;
+      swal("Perhatian", "Isi Keterangan ", "warning");
+      return false;
     }
     if (keterangan.length < minlength) {
-        swal(
-        "Perhatian",
-        "Keterangan harus lebih dari 15 karakter ",
-        "warning"
-        );
-        return false;
+      swal("Perhatian", "Keterangan harus lebih dari 15 karakter ", "warning");
+      return false;
     }
 
     // if (validate != "") {
@@ -602,21 +598,21 @@ $(document).ready(function () {
       url: url_ctrl + "act_edit",
       cache: false,
       data: {
-        jenis_kebutuhan     : $("#jenis_kebutuhan option:selected").val(),
-        jenis_lokasi        : $("#jenis_lokasi option:selected").val(),
-        jenis_pemesan       : $("#jenis_pemesan option:selected").val(),
-        nik_input           : $("#nik_input").val(),
-        nm_lengkap          : $("#nm_lengkap").val(),
-        nomor_hp            : $("#nomor_hp").val(),
-        jml_penumpang       : $("#jml_penumpang").val(),
-        tgl_jadwal          : $("#tgl_jadwal").val(),
-        dari_pukul          : $("#dari_pukul").val(),
-        sampai_pukul        : $("#sampai_pukul").val(),
-        lokasi_penjemputan  : $("#lokasi_penjemputan").val(),
-        lokasi_awal         : $("#lokasi_awal  option:selected").val(),
-        lokasi_tujuan       : $("#lokasi_tujuan  option:selected").val(),
-        keterangan          : $("#keterangan").val(),
-        id_request          : $("#id_request").val(),
+        jenis_kebutuhan: $("#jenis_kebutuhan option:selected").val(),
+        jenis_lokasi: $("#jenis_lokasi option:selected").val(),
+        jenis_pemesan: $("#jenis_pemesan option:selected").val(),
+        nik_input: $("#nik_input").val(),
+        nm_lengkap: $("#nm_lengkap").val(),
+        nomor_hp: $("#nomor_hp").val(),
+        jml_penumpang: $("#jml_penumpang").val(),
+        tgl_jadwal: $("#tgl_jadwal").val(),
+        dari_pukul: $("#dari_pukul").val(),
+        sampai_pukul: $("#sampai_pukul").val(),
+        lokasi_penjemputan: $("#lokasi_penjemputan").val(),
+        lokasi_awal: $("#lokasi_awal  option:selected").val(),
+        lokasi_tujuan: $("#lokasi_tujuan  option:selected").val(),
+        keterangan: $("#keterangan").val(),
+        id_request: $("#id_request").val(),
       },
     })
       .done(function (result) {
@@ -933,10 +929,7 @@ $(document).ready(function () {
 
   function setDatePicker() {
     $(".date").datepicker({
-<<<<<<< HEAD
       // startDate:'1980-01-01',
-=======
->>>>>>> origin/tiocode
       scrollInput: false,
       format: "dd-mm-yyyy",
       changeMonth: true,
