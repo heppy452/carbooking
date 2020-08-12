@@ -351,7 +351,6 @@ class Request extends CI_Controller
 
             if ($jns_layanan == 1) {
 
-<<<<<<< HEAD
                 $no_request        = $this->generateCode();
 
                 $data = array(
@@ -383,9 +382,8 @@ class Request extends CI_Controller
 
             //cek pergi pulang
             if ($pulang == 1) {
-=======
                 //perulangan tanggal
->>>>>>> origin/tiocode
+
                 foreach ($MultiDate as $date) {
 
                     $no_request        = $this->generateCode();
