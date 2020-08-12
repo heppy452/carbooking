@@ -170,6 +170,7 @@ class M_request extends CI_Model
         }
     }
 
+    //get nomor request
     function get_tahun_tiket()
     {
         $this->db->select('nomor_request');
@@ -197,6 +198,37 @@ class M_request extends CI_Model
                 ");
         return $query->row();
     }
+    //end nomor request
+
+    //get tiket
+    function get_tiket()
+    {
+        $this->db->select('nomor_tiket');
+        $this->db->from('data_request');
+        $this->db->order_by('id_request', 'desc');
+        $this->db->limit(1);
+        $get_data = $this->db->get();
+        $data = $get_data->row();
+        if (!empty($data->nomor_tiket)) {
+            $nomor_tiket = $data->nomor_tiket;
+        } else {
+            $nomor_tiket = '';
+        }
+        $char = substr($nomor_tiket, 0, 4);
+        return $char;
+    }
+
+    function getLast()
+    {
+        $query = $this->db->query("
+                    SELECT RIGHT(nomor_tiket, 6)  AS tiket_num
+                    FROM data_request
+                    ORDER BY id_request DESC
+                    LIMIT 1
+                ");
+        return $query->row();
+    }
+    //end get tiket
 
     function nama_driver($param)
     {
