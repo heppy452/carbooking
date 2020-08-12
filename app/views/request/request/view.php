@@ -31,7 +31,7 @@
                         <thead>
                             <tr>
                                 <th>Nomor Tiket</th>
-                                <th>Waktu Penjemputan</th>
+                                <th>Tanggal Jadwal</th>
                                 <th>Lokasi Keberangkatan</th>
                                 <th>Lokasi Tujuan</th>
                                 <th>Approval Atasan</th>

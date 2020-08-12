@@ -7,6 +7,12 @@ $(document).ready(function () {
     order: [["0", "desc"]],
   });
 
+  var tabledt = $("#tabel_detail").DataTable({
+    ajax: url_ctrl + "tabledt",
+    deferRender: true,
+    order: [["0", "desc"]],
+  });
+
   // Finish Button
   $(document).on("click", "#finish_btn", function (e) {
     e.preventDefault();
@@ -136,6 +142,17 @@ $(document).ready(function () {
       chekc_booking();
       jenis_pemesan();
       chekc_pulang();
+    });
+  });
+
+  // Form Edit
+  $(document).on("click", "#form_edit_btn", function (e) {
+    e.preventDefault();
+
+    var id = $(this).attr("data-id");
+
+    $("#formArea").load(url_ctrl + "form_edit/" + id, function () {
+      scrollUp();
     });
   });
 
@@ -497,12 +514,13 @@ $(document).ready(function () {
     })
       .done(function (view) {
         $("#MyModalTitle").html("<b>Ubah</b>");
-        $("div.modal-dialog").addClass("modal-md");
+        $("div.modal-dialog").addClass("modal-xl");
         $("div#MyModalContent").html(view);
         $("div#MyModalFooter").html(
           '<button type="submit" class="btn btn-default center-block" id="save_edit_btn">Ubah</button>'
         );
         $("div#MyModal").modal("show");
+        jenis_pemesan();
         setDatePicker();
         $(".time").mask("00:00");
       })
@@ -515,25 +533,88 @@ $(document).ready(function () {
   //Save edit Button
   $(document).on("click", "#save_edit_btn", function (e) {
     e.preventDefault();
+    var validate = "";
+    var jenis_pemesan = $("#jenis_pemesan option:selected").val();
+    var nik_input = $("#nik_input").val();
+    var nm_lengkap = $("#nm_lengkap").val();
+    var nomor_hp = $("#nomor_hp").val();
+    var tgl_jadwal = $("#tgl_jadwal").val();
+    var dari_pukul = $("#dari_pukul").val();
+    var sampai_pukul = $("#sampai_pukul").val();
+    var lokasi_penjemputan = $("#lokasi_penjemputan").val();
+    var lokasi_awal = $("#lokasi_awal  option:selected").val();
+    var lokasi_tujuan = $("#lokasi_tujuan  option:selected").val();
+    var keterangan = $("#keterangan").val();
+    var minlength = 15;
+    if (jenis_pemesan == 1) {
+      if (nik_input == "") {
+        swal("Perhatian", "Isi Nomor Induk Karyawan<br>", "warning");
+        return false;
+      }
+    } else {
+      if (nm_lengkap == "") {
+        swal("Perhatian", "Isi Nama Lengkap<br>", "warning");
+        return false;
+      }
+    }
+    if (nomor_hp == "") {
+      swal("Perhatian", "Isi Nomor Handphone<br>", "warning");
+      return false;
+    }
+    if (tgl_jadwal == "") {
+        swal("Perhatian", "Isi Tanggal Jadwal ", "warning");
+        return false;
+    }
+    if (lokasi_penjemputan == "") {
+        swal("Perhatian", "Isi Lokasi Penjemputan ", "warning");
+        return false;
+    }
+    if (lokasi_awal == "") {
+        swal("Perhatian", "Pilih Lokasi Keberangkatan ", "warning");
+        return false;
+    }
+    if (lokasi_tujuan == "") {
+        swal("Perhatian", "Pilih Lokasi Tujuan ", "warning");
+        return false;
+    }
+    if (keterangan == "") {
+        swal("Perhatian", "Isi Keterangan ", "warning");
+        return false;
+    }
+    if (keterangan.length < minlength) {
+        swal(
+        "Perhatian",
+        "Keterangan harus lebih dari 15 karakter ",
+        "warning"
+        );
+        return false;
+    }
+
+    // if (validate != "") {
+    //   swal("Perhatian", validate, "warning");
+    //   return false;
+    // }
 
     $.ajax({
       method: "POST",
       url: url_ctrl + "act_edit",
       cache: false,
       data: {
-        jenis_lokasi: $("#jenis_lokasi option:selected").val(),
-        tgl_jadwal: $("#tgl_jadwal").val(),
-        jam_penjemputan: $("#jam_penjemputan").val(),
-        nama_pemesan: $("#nama_pemesan").val(),
-        nomor_hp: $("#nomor_hp").val(),
-        jml_penumpang: $("#jml_penumpang").val(),
-        lokasi_penjemputan: $("#lokasi_penjemputan").val(),
-        lokasi_awal: $("#lokasi_awal  option:selected").val(),
-        lokasi_tujuan: $("#lokasi_tujuan  option:selected").val(),
-        keterangan: $("#keterangan").val(),
-        durasi: $("#durasi").val(),
-        satuan: $("#satuan option:selected").val(),
-        id_request: $("#id_request").val(),
+        jenis_kebutuhan     : $("#jenis_kebutuhan option:selected").val(),
+        jenis_lokasi        : $("#jenis_lokasi option:selected").val(),
+        jenis_pemesan       : $("#jenis_pemesan option:selected").val(),
+        nik_input           : $("#nik_input").val(),
+        nm_lengkap          : $("#nm_lengkap").val(),
+        nomor_hp            : $("#nomor_hp").val(),
+        jml_penumpang       : $("#jml_penumpang").val(),
+        tgl_jadwal          : $("#tgl_jadwal").val(),
+        dari_pukul          : $("#dari_pukul").val(),
+        sampai_pukul        : $("#sampai_pukul").val(),
+        lokasi_penjemputan  : $("#lokasi_penjemputan").val(),
+        lokasi_awal         : $("#lokasi_awal  option:selected").val(),
+        lokasi_tujuan       : $("#lokasi_tujuan  option:selected").val(),
+        keterangan          : $("#keterangan").val(),
+        id_request          : $("#id_request").val(),
       },
     })
       .done(function (result) {
@@ -544,7 +625,7 @@ $(document).ready(function () {
         if (obj.status == 2) {
           $("div#MyModal").modal("hide");
           notifYesAuto(obj.notif);
-          table.ajax.reload();
+          tabledt.ajax.reload();
         }
       })
       .fail(function (res) {
@@ -841,7 +922,7 @@ $(document).ready(function () {
   });
 
   function setDatePicker() {
-    $(".date").datetimepicker({
+    $(".date").datepicker({
       // startDate:'1980-01-01',
       scrollInput: false,
       format: "yyyy-mm-dd",
@@ -874,6 +955,11 @@ $(document).ready(function () {
   }
 
   $(document).on("click", "#batal_btn", function (e) {
+    e.preventDefault();
+    $("#formArea").html("");
+  });
+
+  $(document).on("click", "#tutup_btn", function (e) {
     e.preventDefault();
     $("#formArea").html("");
   });
