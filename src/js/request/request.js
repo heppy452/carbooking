@@ -119,6 +119,7 @@ $(document).ready(function () {
   // Add Button
   $(document).on("click", "#add_btn", function (e) {
     e.preventDefault();
+
     var kategori = $("#kategori option:selected").val();
     if (kategori == "") {
       notifNoAuto("Silahkan Pilih Kategori");
@@ -132,6 +133,7 @@ $(document).ready(function () {
       }
       scrollUp();
       $(".time").mask("00:00");
+      clock();
       chekc_layanan();
       chekc_booking();
       jenis_pemesan();
@@ -840,11 +842,18 @@ $(document).ready(function () {
       });
   });
 
+  function clock() {
+    $(".waktu").clockpicker({
+      format: "m-H",
+      align: "top",
+      autoclose: true,
+    });
+  }
+
   function setDatePicker() {
-    $(".date").datetimepicker({
-      // startDate:'1980-01-01',
+    $(".date").datepicker({
       scrollInput: false,
-      format: "yyyy-mm-dd",
+      format: "dd-mm-yyyy",
       changeMonth: true,
       changeYear: true,
       timepicker: false,
@@ -853,7 +862,6 @@ $(document).ready(function () {
 
   function setDatePickerMulti() {
     $(".date").datepicker({
-      // startDate:'1980-01-01',
       setDate: new Date(),
       scrollInput: false,
       inline: false,
@@ -861,7 +869,7 @@ $(document).ready(function () {
       step: 5,
       multidate: 6,
       closeOnDateSelect: true,
-      format: "yyyy-mm-dd",
+      format: "dd-mm-yyyy",
       changeMonth: true,
       changeYear: true,
       timepicker: false,
@@ -935,6 +943,46 @@ $(document).ready(function () {
     });
   }
 
+  //only number
+  // validasi form
+  $(document).on("keydown", "#nik_input", function (e) {
+    -1 !== $.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) ||
+      (/65|67|86|88/.test(e.keyCode) &&
+        (!0 === e.ctrlKey || !0 === e.metaKey)) ||
+      (35 <= e.keyCode && 40 >= e.keyCode) ||
+      ((e.shiftKey || 48 > e.keyCode || 57 < e.keyCode) &&
+        (96 > e.keyCode || 105 < e.keyCode) &&
+        e.preventDefault());
+
+    var val = $(this).val();
+    if (val.length == 8) {
+      val = val.substring(0, val.length - 1);
+      $(this).val(val);
+      $(this).focus();
+      return true;
+    }
+  });
+
+  //only number no hp
+  // validasi form
+  $(document).on("keydown", "#nomor_hp", function (e) {
+    -1 !== $.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) ||
+      (/65|67|86|88/.test(e.keyCode) &&
+        (!0 === e.ctrlKey || !0 === e.metaKey)) ||
+      (35 <= e.keyCode && 40 >= e.keyCode) ||
+      ((e.shiftKey || 48 > e.keyCode || 57 < e.keyCode) &&
+        (96 > e.keyCode || 105 < e.keyCode) &&
+        e.preventDefault());
+
+    var val = $(this).val();
+    if (val.length == 13) {
+      val = val.substring(0, val.length - 1);
+      $(this).val(val);
+      $(this).focus();
+      return true;
+    }
+  });
+
   $(document).on("keyup", "#nik_input", function (e) {
     e.preventDefault();
 
@@ -950,6 +998,9 @@ $(document).ready(function () {
         .done(function (result) {
           var obj = jQuery.parseJSON(result);
           if (obj !== null) {
+            $("#nam").show();
+            $("#per").show();
+            $("#div").show();
             $("#nama_lengkap").val(obj.nama_lengkap);
             $("#company").val(obj.alias_perusahaan);
             $("#divisi").val(obj.divisi_idn);
@@ -966,6 +1017,14 @@ $(document).ready(function () {
           alert("Error Response !");
           console.log("responseText", res.responseText);
         });
+    } else {
+      $("#nam").hide();
+      $("#per").hide();
+      $("#div").hide();
+      $("#nama_lengkap").val("");
+      $("#company").val("");
+      $("#divisi").val("");
+      $("#nomor_hp").val("");
     }
   });
 
@@ -1000,7 +1059,7 @@ $(document).ready(function () {
             "<div class='form-group'>" +
             "<label class='control-label'>Dari </label>" +
             "<div class='input-group'>" +
-            "<input class='form-control time dari_pukul_mlt' type='text' value='08:00' id='dari_pukul_mlt'>" +
+            "<input class='form-control time dari_pukul_mlt waktu' type='text' value='08:00' id='dari_pukul_mlt'>" +
             "<div class='input-group-append'>" +
             "<span class='input-group-text' id='basic-addon2'>" +
             "<i class='fa fa-clock'></i>" +
@@ -1012,7 +1071,7 @@ $(document).ready(function () {
             "<div class='form-group'>" +
             "<label class='control-label'>Sampai </label>" +
             "<div class='input-group'>" +
-            "<input class='form-control time sampai_pukul_mlt' type='text' value='08:00' id='sampai_pukul_mlt'>" +
+            "<input class='form-control time sampai_pukul_mlt waktu' type='text' value='08:00' id='sampai_pukul_mlt'>" +
             "<div class='input-group-append'>" +
             "<span class='input-group-text' id='basic-addon2'>" +
             "<i class='fa fa-clock'></i>" +
@@ -1065,6 +1124,7 @@ $(document).ready(function () {
             "</div>"
         );
         setDatePicker();
+        clock();
         $(".time").mask("00:00");
       } else {
         var row_id = Math.floor(Math.random() * 999999);
@@ -1077,7 +1137,7 @@ $(document).ready(function () {
             "<div class='form-group'>" +
             "<label class='control-label'>Dari </label>" +
             "<div class='input-group'>" +
-            "<input class='form-control time dari_pukul_mlt' type='text' value='08:30' id='dari_pukul'>" +
+            "<input class='form-control time dari_pukul_mlt waktu' type='text' value='08:30' id='dari_pukul'>" +
             "<div class='input-group-append'>" +
             "<span class='input-group-text' id='basic-addon2'>" +
             "<i class='fa fa-clock'></i>" +
@@ -1089,7 +1149,7 @@ $(document).ready(function () {
             "<div class='form-group'>" +
             "<label class='control-label'>Sampai </label>" +
             "<div class='input-group'>" +
-            "<input class='form-control time sampai_pukul_mlt' type='text' value='08:30' id='sampai_pukul'>" +
+            "<input class='form-control time sampai_pukul_mlt waktu' type='text' value='08:30' id='sampai_pukul'>" +
             "<div class='input-group-append'>" +
             "<span class='input-group-text' id='basic-addon2'>" +
             "<i class='fa fa-clock'></i>" +
@@ -1146,6 +1206,7 @@ $(document).ready(function () {
         );
       }
       setDatePicker();
+      clock();
       $(".time").mask("00:00");
     });
   });

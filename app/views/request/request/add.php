@@ -39,13 +39,20 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <div id="karyawan">
-                                            <div class="form-group">
+                                            <div class="form-group ">
                                                 <label class="control-label">Nomor Induk Karyawan</label>
-                                                <input type="text" class="form-control" required="true" id="nik_input">
+                                                <input type="text" class="form-control " required="true" id="nik_input">
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group" id="nam" style="display:none;">
+                                                <label class="control-label">Nama Lengkap</label>
                                                 <input type="text" class="form-control" required="true" readonly="" id="nama_lengkap">
+                                            </div>
+                                            <div class="form-group" id="per" style="display:none;">
+                                                <label class="control-label">Perusahaan</label>
                                                 <input type="text" class="form-control" required="true" readonly="" id="company">
+                                            </div>
+                                            <div class="form-group" id="div" style="display:none;">
+                                                <label class="control-label">Divisi</label>
                                                 <input type="text" class="form-control" required="true" readonly="" id="divisi">
                                             </div>
                                         </div>
@@ -60,7 +67,7 @@
                                     </div>
                                     <div class="col-lg-7">
                                         <div class="form-group">
-                                            <label class="control-label">Nomor Handphone </label>
+                                            <label class="control-label">Nomor Telepon </label>
                                             <input class="form-control" type="text" id="nomor_hp">
                                         </div>
                                     </div>
@@ -111,7 +118,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label">Dari </label>
                                                         <div class="input-group">
-                                                            <input class="form-control time" type="text" value="08:00" id="dari_pukul_bkg">
+                                                            <input class="form-control time waktu" type="text" value="08:00" id="dari_pukul_bkg">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text" id="basic-addon2">
                                                                     <i class="fa fa-clock"></i>
@@ -124,7 +131,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label">Sampai </label>
                                                         <div class="input-group">
-                                                            <input class="form-control time" type="text" value="08:00" id="sampai_pukul_bkg">
+                                                            <input class="form-control time waktu" type="text" value="08:00" id="sampai_pukul_bkg">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text" id="basic-addon2">
                                                                     <i class="fa fa-clock"></i>
@@ -207,7 +214,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label">Dari </label>
                                                             <div class="input-group">
-                                                                <input class="form-control time" type="text" value="08:00" id="dari_pukul">
+                                                                <input class="form-control time waktu" type="text" value="08:00" id="dari_pukul">
                                                                 <div class="input-group-append">
                                                                     <span class="input-group-text" id="basic-addon2">
                                                                         <i class="fa fa-clock"></i>
@@ -220,7 +227,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label">Sampai </label>
                                                             <div class="input-group">
-                                                                <input class="form-control time" type="text" value="08:00" id="sampai_pukul">
+                                                                <input class="form-control time waktu" type="text" value="08:00" id="sampai_pukul">
                                                                 <div class="input-group-append">
                                                                     <span class="input-group-text" id="basic-addon2">
                                                                         <i class="fa fa-clock"></i>
@@ -298,7 +305,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label">Dari Pukul </label>
                                                         <div class="input-group">
-                                                            <input class="form-control time" type="text" value="08:00" id="dari_pukul_plg">
+                                                            <input class="form-control time waktu" type="text" value="08:00" id="dari_pukul_plg">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text" id="basic-addon2">
                                                                     <i class="fa fa-clock"></i>
@@ -311,7 +318,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label">Sampai </label>
                                                         <div class="input-group">
-                                                            <input class="form-control time" type="text" value="08:00" id="sampai_pukul_plg">
+                                                            <input class="form-control time waktu" type="text" value="08:00" id="sampai_pukul_plg">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text" id="basic-addon2">
                                                                     <i class="fa fa-clock"></i>
@@ -346,7 +353,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label">Dari </label>
                                                     <div class="input-group">
-                                                        <input class="form-control time" type="text" value="08:00" id="dari_pukul">
+                                                        <input class="form-control time waktu" type="text" value="08:00" id="dari_pukul">
                                                         <div class="input-group-append">
                                                             <span class="input-group-text" id="basic-addon2">
                                                                 <i class="fa fa-clock"></i>
@@ -359,7 +366,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label">Sampai </label>
                                                     <div class="input-group">
-                                                        <input class="form-control time" type="text" value="08:00" id="sampai_pukul">
+                                                        <input class="form-control time waktu" type="text" value="08:00" id="sampai_pukul">
                                                         <div class="input-group-append">
                                                             <span class="input-group-text" id="basic-addon2">
                                                                 <i class="fa fa-clock"></i>
@@ -424,7 +431,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label">Dari Pukul </label>
                                                             <div class="input-group">
-                                                                <input class="form-control time" type="text" value="08:00" id="dari_pukul_plg">
+                                                                <input class="form-control time waktu" type="text" value="08:00" id="dari_pukul_plg">
                                                                 <div class="input-group-append">
                                                                     <span class="input-group-text" id="basic-addon2">
                                                                         <i class="fa fa-clock"></i>
@@ -437,7 +444,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label">Sampai </label>
                                                             <div class="input-group">
-                                                                <input class="form-control time" type="text" value="08:00" id="sampai_pukul_plg">
+                                                                <input class="form-control time waktu" type="text" value="08:00" id="sampai_pukul_plg">
                                                                 <div class="input-group-append">
                                                                     <span class="input-group-text" id="basic-addon2">
                                                                         <i class="fa fa-clock"></i>
@@ -467,7 +474,7 @@
     </div>
     <div class="card-footer" style="text-align: right;">
         <button type="submit" class="btn btn-success" id="save_add_btn"><i class="fa fa-spinner fa-spin" style="display:none" id="show_spinner"></i>Simpan</button>
-        <button type="submit" class="btn btn-danger" id="batal_btn">Cancel</button>
+        <button type="submit" class="btn btn-danger" id="batal_btn">Batal</button>
     </div>
 </div>
 </div>
