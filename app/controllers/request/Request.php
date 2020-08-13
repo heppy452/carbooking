@@ -52,36 +52,26 @@ class Request extends CI_Controller
         $data = array();
         $i = 1;
         foreach ($get_all->result() as $id) {
-                if ($id->status_request == 0) {
-                    $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
-                        <a href="" title="Edit"><i id="edit_btn" data-id="' . $id->id_request . '" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
+            if ($id->status_request == 0) {
+                $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
+                        <a href="" title="Edit"><i id="form_edit_btn" data-id="' . $id->id_request . '" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
                         <a href="" title="Delete"><i id="delete_btn" data-id="' . $id->id_request . '" data-nomor="' . $id->nomor_request . '" class="fa fa-trash" style="font-size:15px; color:red;"></i></a>';
-                } else if ($id->status_request == 1) {
-                    $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; <a href="" title="Finish"><i id="finish_btn" data-id="' . $id->id_request . '" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
+            } else if ($id->status_request == 1) {
+                $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; <a href="" title="Finish"><i id="finish_btn" data-id="' . $id->id_request . '" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
                         <a href="" title="Cancel"><i id="cancel_btn" data-id="' . $id->id_request . '" data-nomor="' . $id->nomor_request . '" class="fa fa-times" style="font-size:15px; color:red;"></i></a>';
-                } else {
-                    $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
-                }
+            } else {
+                $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
+            }
 
             $data[] = array(
                 "DT_RowId" => $id->id_request,
                 "0" => $id->nomor_request,
-<<<<<<< HEAD
-                "1" => $id->dari_tanggal . ' ' . $id->jam_jemput,
-                "2" => $this->m_request->lokasi($id->lokasi_awal),
-                "3" => $this->m_request->lokasi($id->lokasi_tujuan),
-                "4" => $this->l_request->approve($id->apr_spv),
-                "5" => $this->l_request->approve($id->apr_ga),
-                "6" => $this->l_request->status($id->status_request),
-                "7" => $action
-=======
                 "1" => $this->l_request->kategori($id->kategori),
                 "2" => $id->dari_tanggal . ' ' . $id->dari_jam,
                 "3" => $this->m_request->lokasi($id->lokasi_awal),
                 "4" => $this->m_request->lokasi($id->lokasi_tujuan),
                 "5" => $this->l_request->status($id->status_request),
                 "6" => $action
->>>>>>> hevicode
             );
         }
 
@@ -102,8 +92,6 @@ class Request extends CI_Controller
         $this->load->view($this->dir_v . 'add', $data);
     }
 
-<<<<<<< HEAD
-=======
     function form_edit($param)
     {
         $data['css'] = array(
@@ -123,7 +111,7 @@ class Request extends CI_Controller
         );
         $this->db->select('*');
         $this->db->from('data_request');
-        $this->db->where('id_request',$param);
+        $this->db->where('id_request', $param);
         $this->db->LIMIT(1);
         $result_id = $this->db->get();
         $data['id'] = $result_id->row();
@@ -135,8 +123,8 @@ class Request extends CI_Controller
         $nomor_tiket = $this->input->get('nomor_tiket');
         $this->db->select('*');
         $this->db->from('data_request');
-        $this->db->where('nomor_tiket',$nomor_tiket);
-        $this->db->order_by('dari_tanggal','asc');
+        $this->db->where('nomor_tiket', $nomor_tiket);
+        $this->db->order_by('dari_tanggal', 'asc');
         $get_all    = $this->db->get();
 
         $draw = intval($this->input->get("draw"));
@@ -147,11 +135,11 @@ class Request extends CI_Controller
         $i = 1;
         foreach ($get_all->result() as $id) {
             $action = '<a href="" title="Edit"><i id="edit_btn" data-id="' . $id->id_request . '" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a>';
-                
+
             $data[] = array(
                 "DT_RowId" => $id->id_request,
                 "0" => $id->nomor_request,
-                "1" => date('d-m-Y',strtotime($id->dari_tanggal)). ', ' . $id->dari_jam,
+                "1" => date('d-m-Y', strtotime($id->dari_tanggal)) . ', ' . $id->dari_jam,
                 "2" => $this->m_request->lokasi($id->lokasi_awal),
                 "3" => $this->m_request->lokasi($id->lokasi_tujuan),
                 "4" => $action
@@ -168,7 +156,6 @@ class Request extends CI_Controller
         exit();
     }
 
->>>>>>> hevicode
     function data_karyawan()
     {
         $nik = $this->input->get('id');
@@ -550,7 +537,7 @@ class Request extends CI_Controller
         }
     }
 
-    
+
     function array()
     {
         $data = "1,2,3";
@@ -600,22 +587,29 @@ class Request extends CI_Controller
 
     function save_finish()
     {
-        $data_id    = $this->input->post('id_request');
-        $this->form_validation->set_rules('jam_berangkat', 'Jam Berangkat', 'trim|required');
-        $this->form_validation->set_rules('jam_tiba', 'Jam Tiba', 'trim|required');
+        $this->form_validation->set_rules('keramahan', 'Keramahan Driver', 'trim|required');
+        $this->form_validation->set_rules('ketepatan', 'Ketepatan Waktu Penjemputan', 'trim|required');
+        $this->form_validation->set_rules('kebersihan', 'Kebersihan Kendaraan', 'trim|required');
         if ($this->form_validation->run() == FALSE) {
             $notif['notif'] = validation_errors();
             $notif['status'] = 1;
             echo json_encode($notif);
         } else {
-            $data = array(
-                'jam_berangkat'     => $this->input->post('jam_berangkat'),
-                'jam_tiba'          => $this->input->post('jam_tiba'),
-                'status_request'    => 3
+            $data_id = $this->input->post('id_request');
+            $data1 = array(
+                'status_request'   => 3
             );
             $this->db->where('id_request', $data_id);
-            $this->db->update('data_request', $data);
-            $notif['notif'] = 'Finish';
+            $this->db->update('data_request', $data1);
+
+            $data = array(
+                'nl_keramahan'     => $this->input->post('keramahan'),
+                'nl_ketepatan'     => $this->input->post('ketepatan'),
+                'nl_kebersihan'    => $this->input->post('kebersihan'),
+                'id_request'       => $this->input->post('id_request')
+            );
+            $this->db->insert('data_nilai', $data);
+            $notif['notif'] = 'Proses Tiket Selesai';
             $notif['status'] = 2;
             echo json_encode($notif);
         }
@@ -650,7 +644,7 @@ class Request extends CI_Controller
 
     function edit()
     {
-         $data['css'] = array(
+        $data['css'] = array(
             'lib/datepicker/datepicker.min.css',
             'lib/datepicker/bootstrap-datepicker.css',
             'lib/clockpicker/clockpicker.min.css',
@@ -666,63 +660,31 @@ class Request extends CI_Controller
             'src/js/request/request.js'
         );
         $data_id    = $this->input->get('id_request');
-        $result_id  = $this->db->query('SELECT * FROM data_request WHERE id_request=' . $data_id . ' LIMIT 1');
+        $this->db->select('*');
+        $this->db->from('data_request');
+        $this->db->where('id_request', $data_id);
+        $this->db->LIMIT(1);
+        $result_id = $this->db->get();
         $data['id'] = $result_id->row();
         $this->load->view($this->dir_v . 'edit', $data);
     }
 
     function act_edit()
     {
-<<<<<<< HEAD
-        $this->form_validation->set_rules('tgl_jadwal', 'Tanggal Jadwal', 'trim|required');
-        $this->form_validation->set_rules('jam_penjemputan', 'Jam Penjemputan', 'trim|required');
-        $this->form_validation->set_rules('durasi', 'Lama Pemakaian Kendaraan', 'trim|required');
-        $this->form_validation->set_rules('nama_pemesan', 'Nama Pemesan', 'trim|required');
-        $this->form_validation->set_rules('nomor_hp', 'Nomor Handphone', 'trim|required');
-        $this->form_validation->set_rules('lokasi_penjemputan', 'Lokasi Penjemputan', 'trim|required');
-        $this->form_validation->set_rules('lokasi_awal', 'Lokasi Keberangkatan', 'trim|required');
-        $this->form_validation->set_rules('lokasi_tujuan', 'Lokasi Tujuan', 'trim|required');
-        $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required|min_length[20]');
-        if ($this->form_validation->run() == FALSE) {
-            $notif['notif'] = validation_errors();
-            $notif['status'] = 1;
-            echo json_encode($notif);
-        } else {
-            $data_id = $this->input->post('id_request');
-            $data = array(
-                'jenis_lokasi'      => $this->input->post('jenis_lokasi'),
-                'tgl_jadwal'        => $this->input->post('tgl_jadwal'),
-                'jam_jemput'        => $this->input->post('jam_penjemputan'),
-                'durasi'            => $this->input->post('durasi'),
-                'satuan'            => $this->input->post('satuan'),
-                'lokasi_jemput'     => $this->input->post('lokasi_penjemputan'),
-                'jml_penumpang'     => $this->input->post('jml_penumpang'),
-                'nama_pemesan'      => $this->input->post('nama_pemesan'),
-                'no_hp'             => $this->input->post('nomor_hp'),
-                'lokasi_awal'       => $this->input->post('lokasi_awal'),
-                'lokasi_tujuan'     => $this->input->post('lokasi_tujuan'),
-                'keterangan'        => $this->input->post('keterangan')
-            );
-            $this->db->where('id_request', $data_id);
-            $this->db->update('data_request', $data);
-            $notif['notif'] = 'Data berhasil dirubah !';
-            $notif['status'] = 2;
-            echo json_encode($notif);
-=======
         $data_id = $this->input->post('id_request');
-        $kategori= $this->input->post('kategori');
+        $kategori = $this->input->post('kategori');
         $jns_booking = $this->input->post('jns_booking');
         $date = $this->input->post('tgl_jadwal');
-        $date2= $this->input->post('sampai_tanggal');
+        $date2 = $this->input->post('sampai_tanggal');
         $jns_pemesan = $this->input->post('jenis_pemesan');
-        if ($jns_pemesan==1){
+        if ($jns_pemesan == 1) {
             $this->form_validation->set_rules('nik_input', 'Nomor Induk Karyawan', 'trim|required');
-        }else{
+        } else {
             $this->form_validation->set_rules('nm_lengkap', 'Nama Lengkap', 'trim|required');
         }
         $this->form_validation->set_rules('nomor_hp', 'Nomor Telepon', 'trim|required');
-        if ($kategori==3){
-            if ($jns_booking==1){
+        if ($kategori == 3) {
+            if ($jns_booking == 1) {
                 $this->form_validation->set_rules('tgl_jadwal', 'Tanggal Jadwal', 'trim|required');
                 $this->form_validation->set_rules('dari_pukul', 'Dari Pukul', 'trim|required');
                 $this->form_validation->set_rules('sampai_pukul', 'Sampai Pukul', 'trim|required');
@@ -740,7 +702,7 @@ class Request extends CI_Controller
                         'nama_lengkap'      => $this->input->post('nm_lengkap'),
                         'no_hp'             => $this->input->post('nomor_hp'),
                         'jml_penumpang'     => $this->input->post('jml_penumpang'),
-                        'dari_tanggal'      => date('Y-m-d',strtotime($date)),
+                        'dari_tanggal'      => date('Y-m-d', strtotime($date)),
                         'dari_jam'          => $this->input->post('dari_pukul'),
                         'sampai_jam'        => $this->input->post('sampai_pukul'),
                         'keterangan'        => $this->input->post('keterangan')
@@ -768,8 +730,8 @@ class Request extends CI_Controller
                         'nama_lengkap'      => $this->input->post('nm_lengkap'),
                         'no_hp'             => $this->input->post('nomor_hp'),
                         'jml_penumpang'     => $this->input->post('jml_penumpang'),
-                        'dari_tanggal'      => date('Y-m-d',strtotime($date)),
-                        'sampai_tanggal'    => date('Y-m-d',strtotime($date2)),
+                        'dari_tanggal'      => date('Y-m-d', strtotime($date)),
+                        'sampai_tanggal'    => date('Y-m-d', strtotime($date2)),
                         'keterangan'        => $this->input->post('keterangan')
                     );
                     $this->db->where('id_request', $data_id);
@@ -800,7 +762,7 @@ class Request extends CI_Controller
                     'nama_lengkap'      => $this->input->post('nm_lengkap'),
                     'no_hp'             => $this->input->post('nomor_hp'),
                     'jml_penumpang'     => $this->input->post('jml_penumpang'),
-                    'dari_tanggal'      => date('Y-m-d',strtotime($date)),
+                    'dari_tanggal'      => date('Y-m-d', strtotime($date)),
                     'dari_jam'          => $this->input->post('dari_pukul'),
                     'sampai_jam'        => $this->input->post('sampai_pukul'),
                     'lokasi_jemput'     => $this->input->post('lokasi_penjemputan'),
@@ -814,7 +776,6 @@ class Request extends CI_Controller
                 $notif['status'] = 2;
                 echo json_encode($notif);
             }
->>>>>>> hevicode
         }
     }
 
