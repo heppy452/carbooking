@@ -88,8 +88,23 @@ class Request extends CI_Controller
     //Form Add
     function add($param)
     {
+        $data['css'] = array(
+            'lib/datepicker/datepicker.min.css',
+            'lib/datepicker/bootstrap-datepicker.css',
+            'lib/clockpicker/clockpicker.min.css',
+            'lib/datatables/dataTables.bootstrap.min.css'
+        );
+        $data['js'] = array(
+            'lib/datatables/datatables.min.js',
+            'lib/datepicker/datepicker.min.js',
+            'lib/datepicker/bootstrap-datepicker.js',
+            'lib/clockpicker/clockpicker.min.js',
+            'lib/datatables/dataTables.bootstrap.min.js',
+            'lib/mask/jquery.mask.min.js',
+            'src/js/request/request.js'
+        );
         $data['kategori'] = $param;
-        $this->load->view($this->dir_v . 'add', $data);
+        $this->l_skin->main($this->dir_v . 'add', $data);
     }
 
     function form_edit($param)

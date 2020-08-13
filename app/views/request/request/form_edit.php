@@ -87,7 +87,7 @@
             </div>
         </div>
         <div class="card-footer" style="text-align: right;">
-            <button type="submit" class="btn btn-danger" id="tutup_edit_btn">Tutup</button>
+            <button type="submit" class="btn btn-danger" id="batal_btn">Tutup</button>
         </div>
     </div>
 </div>
