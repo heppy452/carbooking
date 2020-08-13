@@ -1,8 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class L_request
+class L_app_head
 {
-
     function jenis_kebutuhan($param)
     {
         switch ($param) {
@@ -11,6 +10,24 @@ class L_request
                 break;
             case '2':
                 return 'Kebutuhan Pribadi';
+                break;
+            default:
+                return 'Uknown';
+                break;
+        }
+    }
+
+    function kategori($param)
+    {
+        switch ($param) {
+            case '1':
+                return 'Tidak Rutin';
+                break;
+            case '2':
+                return 'Rutin';
+                break;
+            case '3':
+                return 'Non Driver';
                 break;
             default:
                 return 'Uknown';
@@ -103,5 +120,24 @@ class L_request
                 return 'Uknown';
                 break;
         }
+    }
+
+    function action_pilihan()
+    {
+        return '<select class="form-control approved" >
+                        <option value="0">--- Pilih ---</option>
+                        <option value="1">Stuju</option>
+                        <option value="2">Tidak Stuju</option>
+                </select>';
+    }
+
+    function keterangan()
+    {
+        return '<textarea type="text" cols="10" rows="1" class="form-control keterangan"></textarea>';
+    }
+
+    function id_request($param)
+    {
+        return '<input type="text" hidden class="form-control id_request" value="' . $param . '">';
     }
 }

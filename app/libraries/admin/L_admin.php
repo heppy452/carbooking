@@ -1,22 +1,25 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class L_admin {
+class L_admin
+{
 
 	function rand_str($length = 10, $specialCharacters = TRUE)
 	{
 		$digits = '';
 		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-		if($specialCharacters === TRUE){$chars .= "!_?=/&+,.";}
-		for($i=0;$i<$length; $i++){
-			$x = mt_rand(0, strlen($chars) -1);
-			$digits .= $chars{$x};
+		if ($specialCharacters === TRUE) {
+			$chars .= "!_?=/&+,.";
+		}
+		for ($i = 0; $i < $length; $i++) {
+			$x = mt_rand(0, strlen($chars) - 1);
+			$digits .= $chars[$x];
 		}
 		return $digits;
 	}
 
 	function encrypt_pass($password, $salt)
 	{
-		return sha1(md5($password).$salt);
+		return sha1(md5($password) . $salt);
 	}
 
 	function status_aktif($data)
@@ -52,10 +55,10 @@ class L_admin {
 		}
 	}
 
-	function filter_array($input){
-        $ganti = array('[', ']');
-        $baru = array('', '');
-        return str_replace($ganti, $baru, $input);
-    }
-
+	function filter_array($input)
+	{
+		$ganti = array('[', ']');
+		$baru = array('', '');
+		return str_replace($ganti, $baru, $input);
+	}
 }
