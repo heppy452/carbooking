@@ -18,6 +18,24 @@ class L_request
         }
     }
 
+    function kategori($param)
+    {
+        switch ($param) {
+            case '1':
+                return 'Tidak Rutin';
+                break;
+            case '2':
+                return 'Rutin';
+                break;
+            case '3':
+                return 'Non Driver';
+                break;
+            default:
+                return 'Uknown';
+                break;
+        }
+    }
+
     function jenis_lokasi($param)
     {
         switch ($param) {

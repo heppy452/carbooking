@@ -33,11 +33,10 @@
                         <thead>
                             <tr>
                                 <th>Nomor Tiket</th>
+                                <th>Kategori</th>
                                 <th>Tanggal Jadwal</th>
                                 <th>Lokasi Keberangkatan</th>
                                 <th>Lokasi Tujuan</th>
-                                <th>Approval Atasan</th>
-                                <th>Approval GA</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
