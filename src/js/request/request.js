@@ -33,15 +33,14 @@ $(document).ready(function () {
       data: { id_request: $(this).attr("data-id") },
     })
       .done(function (view) {
-        $("#MyModalTitle").html("<b>Finish</b>");
+        $("#MyModalTitle").html("<b>Penilaian</b>");
         $("div.modal-dialog").addClass("modal-sm");
         $("div#MyModalContent").html(view);
         $("div#MyModalFooter").html(
           '<button type="submit" class="btn btn-default center-block" id="save_finish">Simpan</button>'
         );
         $("div#MyModal").modal("show");
-        setDatePicker();
-        $(".time").mask("00:00");
+        
       })
       .fail(function (res) {
         alert("Error Response !");
@@ -52,14 +51,16 @@ $(document).ready(function () {
   // act finish
   $(document).on("click", "#save_finish", function (e) {
     e.preventDefault();
+    var validate = "";
     $.ajax({
       method: "POST",
       url: url_ctrl + "save_finish",
       cache: false,
       data: {
         id_request: $("#id_request").val(),
-        jam_berangkat: $("#jam_berangkat").val(),
-        jam_tiba: $("#jam_tiba").val(),
+        keramahan : $("input:radio[name='keramahan']:checked").val(),
+        ketepatan : $("input:radio[name='ketepatan']:checked").val(),
+        kebersihan: $("input:radio[name='kebersihan']:checked").val()
       },
     })
       .done(function (view) {
@@ -546,89 +547,12 @@ $(document).ready(function () {
   //Save edit Button
   $(document).on("click", "#save_edit_btn", function (e) {
     e.preventDefault();
-<<<<<<< HEAD
-    var validate = "";
-    var jenis_pemesan = $("#jenis_pemesan option:selected").val();
-    var nik_input = $("#nik_input").val();
-    var nm_lengkap = $("#nm_lengkap").val();
-    var nomor_hp = $("#nomor_hp").val();
-    var tgl_jadwal = $("#tgl_jadwal").val();
-    var dari_pukul = $("#dari_pukul").val();
-    var sampai_pukul = $("#sampai_pukul").val();
-    var lokasi_penjemputan = $("#lokasi_penjemputan").val();
-    var lokasi_awal = $("#lokasi_awal  option:selected").val();
-    var lokasi_tujuan = $("#lokasi_tujuan  option:selected").val();
-    var keterangan = $("#keterangan").val();
-    var minlength = 15;
-    if (jenis_pemesan == 1) {
-      if (nik_input == "") {
-        swal("Perhatian", "Isi Nomor Induk Karyawan<br>", "warning");
-        return false;
-      }
-    } else {
-      if (nm_lengkap == "") {
-        swal("Perhatian", "Isi Nama Lengkap<br>", "warning");
-        return false;
-      }
-    }
-    if (nomor_hp == "") {
-      swal("Perhatian", "Isi Nomor Handphone<br>", "warning");
-      return false;
-    }
-    if (tgl_jadwal == "") {
-      swal("Perhatian", "Isi Tanggal Jadwal ", "warning");
-      return false;
-    }
-    if (lokasi_penjemputan == "") {
-      swal("Perhatian", "Isi Lokasi Penjemputan ", "warning");
-      return false;
-    }
-    if (lokasi_awal == "") {
-      swal("Perhatian", "Pilih Lokasi Keberangkatan ", "warning");
-      return false;
-    }
-    if (lokasi_tujuan == "") {
-      swal("Perhatian", "Pilih Lokasi Tujuan ", "warning");
-      return false;
-    }
-    if (keterangan == "") {
-      swal("Perhatian", "Isi Keterangan ", "warning");
-      return false;
-    }
-    if (keterangan.length < minlength) {
-      swal("Perhatian", "Keterangan harus lebih dari 15 karakter ", "warning");
-      return false;
-    }
-
-    // if (validate != "") {
-    //   swal("Perhatian", validate, "warning");
-    //   return false;
-    // }
-=======
->>>>>>> hevicode
 
     $.ajax({
       method: "POST",
       url: url_ctrl + "act_edit",
       cache: false,
       data: {
-<<<<<<< HEAD
-        jenis_kebutuhan: $("#jenis_kebutuhan option:selected").val(),
-        jenis_lokasi: $("#jenis_lokasi option:selected").val(),
-        jenis_pemesan: $("#jenis_pemesan option:selected").val(),
-        nik_input: $("#nik_input").val(),
-        nm_lengkap: $("#nm_lengkap").val(),
-        nomor_hp: $("#nomor_hp").val(),
-        jml_penumpang: $("#jml_penumpang").val(),
-        tgl_jadwal: $("#tgl_jadwal").val(),
-        dari_pukul: $("#dari_pukul").val(),
-        sampai_pukul: $("#sampai_pukul").val(),
-        lokasi_penjemputan: $("#lokasi_penjemputan").val(),
-        lokasi_awal: $("#lokasi_awal  option:selected").val(),
-        lokasi_tujuan: $("#lokasi_tujuan  option:selected").val(),
-        keterangan: $("#keterangan").val(),
-        id_request: $("#id_request").val(),
-=======
         jenis_kebutuhan     : $("#jenis_kebutuhan option:selected").val(),
         jenis_lokasi        : $("#jenis_lokasi option:selected").val(),
         jenis_pemesan       : $("#jenis_pemesan option:selected").val(),
@@ -647,7 +571,6 @@ $(document).ready(function () {
         id_request          : $("#id_request").val(),
         kategori            : $("#kategori").val(),
         jns_booking         : $("#jns_booking").val()
->>>>>>> hevicode
       },
     })
       .done(function (result) {
