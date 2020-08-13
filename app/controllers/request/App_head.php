@@ -105,7 +105,7 @@ class App_head extends CI_Controller
 
             $data[] = array(
                 "DT_RowId" => $id->id_request . '' . $this->l_app_head->id_request($id->id_request),
-                "0" => $id->nomor_request,
+                "0" => '<a href="#" id="detail_btn" style="color : red; text-decoration:none" data-id="'.$id->id_request.'">'.$id->nomor_request.'</a>',
                 "1" => $this->m_app_head->nama_karyawan($id->nik_karyawan),
                 "2" => $id->keterangan,
                 "3" => $id->dari_jam,

@@ -1,3 +1,4 @@
+<div class="container-fluid">
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -89,4 +90,5 @@
             <button type="submit" class="btn btn-danger" id="tutup_edit_btn">Tutup</button>
         </div>
     </div>
+</div>
 </div>
