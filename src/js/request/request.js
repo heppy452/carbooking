@@ -7,10 +7,20 @@ $(document).ready(function () {
     order: [["0", "desc"]],
   });
 
-  var tabledt = $("#tabel_detail").DataTable({
-    ajax: url_ctrl + "tabledt",
-    deferRender: true,
-    order: [["0", "desc"]],
+  var table_detail = $("#tabel_detail").DataTable({
+    "ajax": {
+         method: "GET",
+         url: url_ctrl + 'table_detail',
+         cache: false,
+         data: {
+             nomor_tiket: $("#nomor_tiket").val()
+         }
+     },
+    "deferRender": true,
+    "searching": false,
+    "paging": false,
+    "info": false,
+    "ordering": false
   });
 
   // Finish Button
@@ -69,7 +79,7 @@ $(document).ready(function () {
       });
   });
 
-  // Finish cancel
+  // cancel
   $(document).on("click", "#cancel_btn", function (e) {
     e.preventDefault();
     $.ajax({
@@ -93,7 +103,7 @@ $(document).ready(function () {
       });
   });
 
-  // act finish
+  // act cancel
   $(document).on("click", "#save_cancel", function (e) {
     e.preventDefault();
     $.ajax({
@@ -153,9 +163,8 @@ $(document).ready(function () {
 
     var id = $(this).attr("data-id");
 
-    $("#formArea").load(url_ctrl + "form_edit/" + id, function () {
-      scrollUp();
-    });
+    window.location=url_ctrl + "form_edit/" + id;
+
   });
 
   //Save Add Button
@@ -522,9 +531,11 @@ $(document).ready(function () {
           '<button type="submit" class="btn btn-default center-block" id="save_edit_btn">Ubah</button>'
         );
         $("div#MyModal").modal("show");
+        clock();
         jenis_pemesan();
         setDatePicker();
         $(".time").mask("00:00");
+
       })
       .fail(function (res) {
         alert("Error Response !");
@@ -535,67 +546,6 @@ $(document).ready(function () {
   //Save edit Button
   $(document).on("click", "#save_edit_btn", function (e) {
     e.preventDefault();
-    var validate = "";
-    var jenis_pemesan = $("#jenis_pemesan option:selected").val();
-    var nik_input = $("#nik_input").val();
-    var nm_lengkap = $("#nm_lengkap").val();
-    var nomor_hp = $("#nomor_hp").val();
-    var tgl_jadwal = $("#tgl_jadwal").val();
-    var dari_pukul = $("#dari_pukul").val();
-    var sampai_pukul = $("#sampai_pukul").val();
-    var lokasi_penjemputan = $("#lokasi_penjemputan").val();
-    var lokasi_awal = $("#lokasi_awal  option:selected").val();
-    var lokasi_tujuan = $("#lokasi_tujuan  option:selected").val();
-    var keterangan = $("#keterangan").val();
-    var minlength = 15;
-    if (jenis_pemesan == 1) {
-      if (nik_input == "") {
-        swal("Perhatian", "Isi Nomor Induk Karyawan<br>", "warning");
-        return false;
-      }
-    } else {
-      if (nm_lengkap == "") {
-        swal("Perhatian", "Isi Nama Lengkap<br>", "warning");
-        return false;
-      }
-    }
-    if (nomor_hp == "") {
-      swal("Perhatian", "Isi Nomor Handphone<br>", "warning");
-      return false;
-    }
-    if (tgl_jadwal == "") {
-        swal("Perhatian", "Isi Tanggal Jadwal ", "warning");
-        return false;
-    }
-    if (lokasi_penjemputan == "") {
-        swal("Perhatian", "Isi Lokasi Penjemputan ", "warning");
-        return false;
-    }
-    if (lokasi_awal == "") {
-        swal("Perhatian", "Pilih Lokasi Keberangkatan ", "warning");
-        return false;
-    }
-    if (lokasi_tujuan == "") {
-        swal("Perhatian", "Pilih Lokasi Tujuan ", "warning");
-        return false;
-    }
-    if (keterangan == "") {
-        swal("Perhatian", "Isi Keterangan ", "warning");
-        return false;
-    }
-    if (keterangan.length < minlength) {
-        swal(
-        "Perhatian",
-        "Keterangan harus lebih dari 15 karakter ",
-        "warning"
-        );
-        return false;
-    }
-
-    // if (validate != "") {
-    //   swal("Perhatian", validate, "warning");
-    //   return false;
-    // }
 
     $.ajax({
       method: "POST",
@@ -610,6 +560,7 @@ $(document).ready(function () {
         nomor_hp            : $("#nomor_hp").val(),
         jml_penumpang       : $("#jml_penumpang").val(),
         tgl_jadwal          : $("#tgl_jadwal").val(),
+        sampai_tanggal      : $("#sampai_tanggal").val(),
         dari_pukul          : $("#dari_pukul").val(),
         sampai_pukul        : $("#sampai_pukul").val(),
         lokasi_penjemputan  : $("#lokasi_penjemputan").val(),
@@ -617,6 +568,8 @@ $(document).ready(function () {
         lokasi_tujuan       : $("#lokasi_tujuan  option:selected").val(),
         keterangan          : $("#keterangan").val(),
         id_request          : $("#id_request").val(),
+        kategori            : $("#kategori").val(),
+        jns_booking         : $("#jns_booking").val()
       },
     })
       .done(function (result) {
@@ -627,7 +580,7 @@ $(document).ready(function () {
         if (obj.status == 2) {
           $("div#MyModal").modal("hide");
           notifYesAuto(obj.notif);
-          tabledt.ajax.reload();
+          table_detail.ajax.reload();
         }
       })
       .fail(function (res) {
@@ -699,230 +652,6 @@ $(document).ready(function () {
       });
   });
 
-  // Denied spv
-  $(document).on("click", "#dined_spv", function (e) {
-    e.preventDefault();
-    $.ajax({
-      method: "GET",
-      url: url_ctrl + "dined_spv",
-      cache: false,
-      data: { id_request: $(this).attr("data-id") },
-    })
-      .done(function (view) {
-        $("#MyModalTitle").html("<b>Denied</b>");
-        $("div.modal-dialog").addClass("modal-sm");
-        $("div#MyModalContent").html(view);
-        $("div#MyModalFooter").html(
-          '<button type="submit" class="btn btn-default center-block" id="save_dined_spv">Simpan</button>'
-        );
-        $("div#MyModal").modal("show");
-      })
-      .fail(function (res) {
-        alert("Error Response !");
-        console.log("responseText", res.responseText);
-      });
-  });
-
-  // act denied spv
-  $(document).on("click", "#save_dined_spv", function (e) {
-    e.preventDefault();
-    $.ajax({
-      method: "POST",
-      url: url_ctrl + "save_dined_spv",
-      cache: false,
-      data: {
-        id_request: $("#id_request").val(),
-        keterangan: $("#keterangan").val(),
-      },
-    })
-      .done(function (view) {
-        var obj = jQuery.parseJSON(view);
-        if (obj.status == 1) {
-          notifNo(obj.notif);
-        }
-        if (obj.status == 2) {
-          $("div#MyModal").modal("hide");
-          notifYesAuto(obj.notif);
-          table.ajax.reload();
-        }
-      })
-      .fail(function (res) {
-        alert("Error Response !");
-        console.log("responseText", res.responseText);
-      });
-  });
-
-  // Approval spv
-  $(document).on("click", "#apr_spv", function (e) {
-    e.preventDefault();
-    swal({
-      title: "Approve pemesanan mobil ?",
-      type: "question",
-      showCancelButton: true,
-      confirmButtonText: "Ya",
-      cancelButtonText: "Tidak",
-    }).then((result) => {
-      if (result.value) {
-        let timerInterval;
-        Swal.fire({
-          title: "LOADING...",
-          html:
-            "Mohon halaman jangan di close, sistem sedang mengirim email ke admin departemen.",
-          timer: 8000,
-          timerProgressBar: true,
-          onBeforeOpen: () => {
-            Swal.showLoading();
-            timerInterval = setInterval(() => {
-              const content = Swal.getContent();
-              if (content) {
-                const b = content.querySelector("b");
-                if (b) {
-                  b.textContent = Swal.getTimerLeft();
-                }
-              }
-            }, 100);
-          },
-          onClose: () => {
-            clearInterval(timerInterval);
-          },
-        }).then((result) => {
-          if (result.dismiss === Swal.DismissReason.timer) {
-            console.log("I was closed by the timer");
-          }
-        });
-        $.ajax({
-          method: "POST",
-          url: url_ctrl + "apr_spv",
-          cache: false,
-          data: { id_request: $(this).attr("data-id") },
-        })
-          .done(function (view) {
-            var obj = jQuery.parseJSON(view);
-            if (obj.status == 1) {
-              notifNo(obj.notif);
-            }
-            if (obj.status == 2) {
-              notifYesAuto(obj.notif);
-              table.ajax.reload();
-            }
-          })
-          .fail(function (res) {
-            alert("Error Response !");
-            console.log("responseText", res.responseText);
-          });
-      }
-    });
-  });
-
-  // Approved GA
-  $(document).on("click", "#apr_ga", function (e) {
-    e.preventDefault();
-    $.ajax({
-      method: "GET",
-      url: url_ctrl + "apr_ga",
-      cache: false,
-      data: { id_request: $(this).attr("data-id") },
-    })
-      .done(function (view) {
-        $("#MyModalTitle").html("<b>Approved</b>");
-        $("div.modal-dialog").addClass("modal-sm");
-        $("div#MyModalContent").html(view);
-        $("div#MyModalFooter").html(
-          '<button type="submit" class="btn btn-default center-block" id="save_apr_ga"><i class="fa fa-spinner fa-spin" style="display:none" id="show_spinner_ga"></i>Simpan</button>'
-        );
-        $("div#MyModal").modal("show");
-      })
-      .fail(function (res) {
-        alert("Error Response !");
-        console.log("responseText", res.responseText);
-      });
-  });
-
-  // act apr ga
-  $(document).on("click", "#save_apr_ga", function (e) {
-    e.preventDefault();
-    $("#show_spinner_ga").show();
-    $.ajax({
-      method: "POST",
-      url: url_ctrl + "save_apr_ga",
-      cache: false,
-      data: {
-        id_request: $("#id_request").val(),
-        id_driver: $("#id_driver option:selected").val(),
-        id_kendaraan: $("#id_kendaraan option:selected").val(),
-      },
-    })
-      .done(function (view) {
-        var obj = jQuery.parseJSON(view);
-        if (obj.status == 1) {
-          notifNo(obj.notif);
-          $("#show_spinner_ga").hide();
-        }
-        if (obj.status == 2) {
-          $("div#MyModal").modal("hide");
-          notifYesAuto(obj.notif);
-          table.ajax.reload();
-        }
-      })
-      .fail(function (res) {
-        alert("Error Response !");
-        console.log("responseText", res.responseText);
-      });
-  });
-
-  // denied GA
-  $(document).on("click", "#dined_ga", function (e) {
-    e.preventDefault();
-    $.ajax({
-      method: "GET",
-      url: url_ctrl + "dined_ga",
-      cache: false,
-      data: { id_request: $(this).attr("data-id") },
-    })
-      .done(function (view) {
-        $("#MyModalTitle").html("<b>Denied</b>");
-        $("div.modal-dialog").addClass("modal-sm");
-        $("div#MyModalContent").html(view);
-        $("div#MyModalFooter").html(
-          '<button type="submit" class="btn btn-default center-block" id="save_denied_ga">Simpan</button>'
-        );
-        $("div#MyModal").modal("show");
-      })
-      .fail(function (res) {
-        alert("Error Response !");
-        console.log("responseText", res.responseText);
-      });
-  });
-
-  // act denied ga
-  $(document).on("click", "#save_denied_ga", function (e) {
-    e.preventDefault();
-    $.ajax({
-      method: "POST",
-      url: url_ctrl + "save_denied_ga",
-      cache: false,
-      data: {
-        id_request: $("#id_request").val(),
-        keterangan: $("#keterangan").val(),
-      },
-    })
-      .done(function (view) {
-        var obj = jQuery.parseJSON(view);
-        if (obj.status == 1) {
-          notifNo(obj.notif);
-        }
-        if (obj.status == 2) {
-          $("div#MyModal").modal("hide");
-          notifYesAuto(obj.notif);
-          table.ajax.reload();
-        }
-      })
-      .fail(function (res) {
-        alert("Error Response !");
-        console.log("responseText", res.responseText);
-      });
-  });
-
   function clock() {
     $(".waktu").clockpicker({
       format: "m-H",
@@ -966,6 +695,11 @@ $(document).ready(function () {
   $(document).on("click", "#batal_btn", function (e) {
     e.preventDefault();
     $("#formArea").html("");
+  });
+
+  $(document).on("click", "#tutup_edit_btn", function (e) {
+    e.preventDefault();
+    window.location=url_ctrl;
   });
 
   $(document).on("click", "#tutup_btn", function (e) {

@@ -52,7 +52,6 @@ class Request extends CI_Controller
         $data = array();
         $i = 1;
         foreach ($get_all->result() as $id) {
-            if ($level_user == 5) {
                 if ($id->status_request == 0) {
                     $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
                         <a href="" title="Edit"><i id="form_edit_btn" data-id="' . $id->id_request . '" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
@@ -63,26 +62,16 @@ class Request extends CI_Controller
                 } else {
                     $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
                 }
-            } else if ($level_user == 4) {
-                if ($id->apr_spv == 0) {
-                    $action = '<a href="" title="Approved"><i id="apr_spv" data-id="' . $id->id_request . '" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; <a href="" title="Denied"><i id="dined_spv" data-id="' . $id->id_request . '" class="fa fa-times" style="font-size:15px; color:red;"></i></a> &nbsp; <a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
-                } else {
-                    $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
-                }
-            } else if ($level_user == 2) {
-                $action = '<a href="" title="Approved"><i id="apr_ga" data-id="' . $id->id_request . '" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; <a href="" title="Denied"><i id="dined_ga" data-id="' . $id->id_request . '" class="fa fa-times" style="font-size:15px; color:red;"></i></a> &nbsp; <a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
-            }
 
             $data[] = array(
                 "DT_RowId" => $id->id_request,
                 "0" => $id->nomor_request,
-                "1" => $id->dari_tanggal . ' ' . $id->dari_jam,
-                "2" => $this->m_request->lokasi($id->lokasi_awal),
-                "3" => $this->m_request->lokasi($id->lokasi_tujuan),
-                "4" => $this->l_request->approve($id->apr_spv),
-                "5" => $this->l_request->approve($id->apr_ga),
-                "6" => $this->l_request->status($id->status_request),
-                "7" => $action
+                "1" => $this->l_request->kategori($id->kategori),
+                "2" => $id->dari_tanggal . ' ' . $id->dari_jam,
+                "3" => $this->m_request->lokasi($id->lokasi_awal),
+                "4" => $this->m_request->lokasi($id->lokasi_tujuan),
+                "5" => $this->l_request->status($id->status_request),
+                "6" => $action
             );
         }
 
@@ -105,27 +94,66 @@ class Request extends CI_Controller
 
     function form_edit($param)
     {
+        $data['css'] = array(
+            'lib/datepicker/datepicker.min.css',
+            'lib/datepicker/bootstrap-datepicker.css',
+            'lib/clockpicker/clockpicker.min.css',
+            'lib/datatables/dataTables.bootstrap.min.css'
+        );
+        $data['js'] = array(
+            'lib/datatables/datatables.min.js',
+            'lib/datepicker/datepicker.min.js',
+            'lib/datepicker/bootstrap-datepicker.js',
+            'lib/clockpicker/clockpicker.min.js',
+            'lib/datatables/dataTables.bootstrap.min.js',
+            'lib/mask/jquery.mask.min.js',
+            'src/js/request/request.js'
+        );
         $this->db->select('*');
         $this->db->from('data_request');
         $this->db->where('id_request',$param);
         $this->db->LIMIT(1);
         $result_id = $this->db->get();
-        $data_tiket = $result_id->row();
-        $nomor_tiket= $data_tiket->nomor_tiket;
+        $data['id'] = $result_id->row();
+        $this->l_skin->main($this->dir_v . 'form_edit', $data);
+    }
 
+    function table_detail()
+    {
+        $nomor_tiket = $this->input->get('nomor_tiket');
         $this->db->select('*');
         $this->db->from('data_request');
         $this->db->where('nomor_tiket',$nomor_tiket);
-        $this->db->order_by('nomor_request','asc');
+        $this->db->order_by('dari_tanggal','asc');
         $get_all    = $this->db->get();
-        $data['key']= $get_all->result();
-        $data['id'] = $result_id->row();
-        $this->load->view($this->dir_v . 'form_edit', $data);
-    }
 
-    function tabledt()
-    {
-        
+        $draw = intval($this->input->get("draw"));
+        $start = intval($this->input->get("start"));
+        $length = intval($this->input->get("length"));
+
+        $data = array();
+        $i = 1;
+        foreach ($get_all->result() as $id) {
+            $action = '<a href="" title="Edit"><i id="edit_btn" data-id="' . $id->id_request . '" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a>';
+                
+            $data[] = array(
+                "DT_RowId" => $id->id_request,
+                "0" => $id->nomor_request,
+                "1" => date('d-m-Y',strtotime($id->dari_tanggal)). ', ' . $id->dari_jam,
+                "2" => $this->m_request->lokasi($id->lokasi_awal),
+                "3" => $this->m_request->lokasi($id->lokasi_tujuan),
+                "4" => $action
+            );
+        }
+
+        $output = array(
+            "draw" => $draw,
+            "recordsTotal" => $get_all->num_rows(),
+            "recordsFiltered" => $get_all->num_rows(),
+            "data" => $data
+        );
+        echo json_encode($output);
+        exit();
     }
 
     function data_karyawan()
@@ -589,7 +617,7 @@ class Request extends CI_Controller
     function save_cancel()
     {
         $data_id    = $this->input->post('id_request');
-        $this->form_validation->set_rules('ket_cancel', 'Keterangan', 'trim|required|min_length[20]');
+        $this->form_validation->set_rules('ket_cancel', 'Keterangan', 'trim|required|min_length[10]');
         if ($this->form_validation->run() == FALSE) {
             $notif['notif'] = validation_errors();
             $notif['status'] = 1;
@@ -609,6 +637,21 @@ class Request extends CI_Controller
 
     function edit()
     {
+         $data['css'] = array(
+            'lib/datepicker/datepicker.min.css',
+            'lib/datepicker/bootstrap-datepicker.css',
+            'lib/clockpicker/clockpicker.min.css',
+            'lib/datatables/dataTables.bootstrap.min.css'
+        );
+        $data['js'] = array(
+            'lib/datatables/datatables.min.js',
+            'lib/datepicker/datepicker.min.js',
+            'lib/datepicker/bootstrap-datepicker.js',
+            'lib/clockpicker/clockpicker.min.js',
+            'lib/datatables/dataTables.bootstrap.min.js',
+            'lib/mask/jquery.mask.min.js',
+            'src/js/request/request.js'
+        );
         $data_id    = $this->input->get('id_request');
         $this->db->select('*');
         $this->db->from('data_request');
@@ -622,27 +665,111 @@ class Request extends CI_Controller
     function act_edit()
     {
         $data_id = $this->input->post('id_request');
-        $data = array(
-            'jenis_kebutuhan'   => $this->input->post('jenis_kebutuhan'),
-            'jenis_lokasi'      => $this->input->post('jenis_lokasi'),
-            'jns_pemesan'       => $this->input->post('jenis_pemesan'),
-            'nik_karyawan'      => $this->input->post('nik_input'),
-            'nama_lengkap'      => $this->input->post('nm_lengkap'),
-            'no_hp'             => $this->input->post('nomor_hp'),
-            'jml_penumpang'     => $this->input->post('jml_penumpang'),
-            'dari_tanggal'      => $this->input->post('tgl_jadwal'),
-            'dari_jam'          => $this->input->post('dari_pukul'),
-            'sampai_jam'        => $this->input->post('sampai_pukul'),
-            'lokasi_jemput'     => $this->input->post('lokasi_penjemputan'),
-            'lokasi_awal'       => $this->input->post('lokasi_awal'),
-            'lokasi_tujuan'     => $this->input->post('lokasi_tujuan'),
-            'keterangan'        => $this->input->post('keterangan')
-        );
-        $this->db->where('id_request', $data_id);
-        $this->db->update('data_request', $data);
-        $notif['notif'] = 'Data berhasil dirubah !';
-        $notif['status'] = 2;
-        echo json_encode($notif);
+        $kategori= $this->input->post('kategori');
+        $jns_booking = $this->input->post('jns_booking');
+        $date = $this->input->post('tgl_jadwal');
+        $date2= $this->input->post('sampai_tanggal');
+        $jns_pemesan = $this->input->post('jenis_pemesan');
+        if ($jns_pemesan==1){
+            $this->form_validation->set_rules('nik_input', 'Nomor Induk Karyawan', 'trim|required');
+        }else{
+            $this->form_validation->set_rules('nm_lengkap', 'Nama Lengkap', 'trim|required');
+        }
+        $this->form_validation->set_rules('nomor_hp', 'Nomor Telepon', 'trim|required');
+        if ($kategori==3){
+            if ($jns_booking==1){
+                $this->form_validation->set_rules('tgl_jadwal', 'Tanggal Jadwal', 'trim|required');
+                $this->form_validation->set_rules('dari_pukul', 'Dari Pukul', 'trim|required');
+                $this->form_validation->set_rules('sampai_pukul', 'Sampai Pukul', 'trim|required');
+                $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required|min_length[15]');
+                if ($this->form_validation->run() == FALSE) {
+                    $notif['notif'] = validation_errors();
+                    $notif['status'] = 1;
+                    echo json_encode($notif);
+                } else {
+                    $data = array(
+                        'jenis_kebutuhan'   => $this->input->post('jenis_kebutuhan'),
+                        'jenis_lokasi'      => $this->input->post('jenis_lokasi'),
+                        'jns_pemesan'       => $this->input->post('jenis_pemesan'),
+                        'nik_karyawan'      => $this->input->post('nik_input'),
+                        'nama_lengkap'      => $this->input->post('nm_lengkap'),
+                        'no_hp'             => $this->input->post('nomor_hp'),
+                        'jml_penumpang'     => $this->input->post('jml_penumpang'),
+                        'dari_tanggal'      => date('Y-m-d',strtotime($date)),
+                        'dari_jam'          => $this->input->post('dari_pukul'),
+                        'sampai_jam'        => $this->input->post('sampai_pukul'),
+                        'keterangan'        => $this->input->post('keterangan')
+                    );
+                    $this->db->where('id_request', $data_id);
+                    $this->db->update('data_request', $data);
+                    $notif['notif'] = 'Data berhasil dirubah !';
+                    $notif['status'] = 2;
+                    echo json_encode($notif);
+                }
+            } else {
+                $this->form_validation->set_rules('tgl_jadwal', 'Dari Tanggal', 'trim|required');
+                $this->form_validation->set_rules('sampai_tanggal', 'Sampai Tanggal', 'trim|required');
+                $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required|min_length[15]');
+                if ($this->form_validation->run() == FALSE) {
+                    $notif['notif'] = validation_errors();
+                    $notif['status'] = 1;
+                    echo json_encode($notif);
+                } else {
+                    $data = array(
+                        'jenis_kebutuhan'   => $this->input->post('jenis_kebutuhan'),
+                        'jenis_lokasi'      => $this->input->post('jenis_lokasi'),
+                        'jns_pemesan'       => $this->input->post('jenis_pemesan'),
+                        'nik_karyawan'      => $this->input->post('nik_input'),
+                        'nama_lengkap'      => $this->input->post('nm_lengkap'),
+                        'no_hp'             => $this->input->post('nomor_hp'),
+                        'jml_penumpang'     => $this->input->post('jml_penumpang'),
+                        'dari_tanggal'      => date('Y-m-d',strtotime($date)),
+                        'sampai_tanggal'    => date('Y-m-d',strtotime($date2)),
+                        'keterangan'        => $this->input->post('keterangan')
+                    );
+                    $this->db->where('id_request', $data_id);
+                    $this->db->update('data_request', $data);
+                    $notif['notif'] = 'Data berhasil dirubah !';
+                    $notif['status'] = 2;
+                    echo json_encode($notif);
+                }
+            }
+        } else {
+            $this->form_validation->set_rules('tgl_jadwal', 'Tanggal Jadwal', 'trim|required');
+            $this->form_validation->set_rules('dari_pukul', 'Dari Pukul', 'trim|required');
+            $this->form_validation->set_rules('sampai_pukul', 'Sampai Pukul', 'trim|required');
+            $this->form_validation->set_rules('lokasi_penjemputan', 'Lokasi Penjemputan', 'trim|required');
+            $this->form_validation->set_rules('lokasi_awal', 'Lokasi Keberangkatan', 'trim|required');
+            $this->form_validation->set_rules('lokasi_tujuan', 'Lokasi Tujuan', 'trim|required');
+            $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required|min_length[15]');
+            if ($this->form_validation->run() == FALSE) {
+                $notif['notif'] = validation_errors();
+                $notif['status'] = 1;
+                echo json_encode($notif);
+            } else {
+                $data = array(
+                    'jenis_kebutuhan'   => $this->input->post('jenis_kebutuhan'),
+                    'jenis_lokasi'      => $this->input->post('jenis_lokasi'),
+                    'jns_pemesan'       => $this->input->post('jenis_pemesan'),
+                    'nik_karyawan'      => $this->input->post('nik_input'),
+                    'nama_lengkap'      => $this->input->post('nm_lengkap'),
+                    'no_hp'             => $this->input->post('nomor_hp'),
+                    'jml_penumpang'     => $this->input->post('jml_penumpang'),
+                    'dari_tanggal'      => date('Y-m-d',strtotime($date)),
+                    'dari_jam'          => $this->input->post('dari_pukul'),
+                    'sampai_jam'        => $this->input->post('sampai_pukul'),
+                    'lokasi_jemput'     => $this->input->post('lokasi_penjemputan'),
+                    'lokasi_awal'       => $this->input->post('lokasi_awal'),
+                    'lokasi_tujuan'     => $this->input->post('lokasi_tujuan'),
+                    'keterangan'        => $this->input->post('keterangan')
+                );
+                $this->db->where('id_request', $data_id);
+                $this->db->update('data_request', $data);
+                $notif['notif'] = 'Data berhasil dirubah !';
+                $notif['status'] = 2;
+                echo json_encode($notif);
+            }
+        }
     }
 
     function act_del()
@@ -693,199 +820,5 @@ class Request extends CI_Controller
             }
         }
         return $year . str_pad($nomor_tiket, 6, "0", STR_PAD_LEFT);
-    }
-
-    function apr_spv()
-    {
-        $data_id    = $this->input->post('id_request');
-        $today = date("Y-m-d");
-        $data = array(
-            'apr_spv'       => 1,
-            'apr_spv_tgl'   => $today,
-            'apr_spv_ket'   => '',
-            'status_request' => 1,
-            'apr_ga'        => 0,
-            'apr_ga_tgl'    => 0000 - 00 - 00,
-            'apr_ga_ket'    => ''
-        );
-        $this->db->where('id_request', $data_id);
-        $this->db->update('data_request', $data);
-
-        //email approve spv ke admin GA
-        // $this->email_to_ga($data_id);
-
-        $notif['notif'] = 'Approved';
-        $notif['status'] = 2;
-        echo json_encode($notif);
-    }
-
-    //email ke GA
-    function email_to_ga($data_id)
-    {
-        $result_id  = $this->db->query('SELECT * FROM data_request WHERE id_request=' . $data_id . ' LIMIT 1');
-        $data['id'] = $result_id->row();
-
-        $email_ga  = $this->m_request->email_ga();
-        $from_email = "carpool@apps.imip.co.id";
-
-        $config = array(
-            'protocol'      => 'smtp',
-            'smtp_host'     => 'ssl://mail.apps.imip.co.id',
-            'smtp_user'     => 'carpool@apps.imip.co.id',
-            'smtp_pass'     => '84FML4GH3iB=',
-            'smtp_port'     => 465,
-            'mailtype'      => 'html',
-            'smtp_timeout'  => 20,
-            'charset'       => 'iso-8859-1'
-        );
-
-        $this->load->library('email', $config);
-        $this->email->set_newline("\r\n");
-
-        $this->email->from($from_email, 'E-Carpool');
-        $this->email->to($email_ga);
-        $this->email->subject('Pemesanan Mobil E-Carpool IMIP');
-
-        $message = $this->load->view($this->dir_v . 'email_app_spv', $data, TRUE);
-
-        $this->email->message($message);
-        $this->email->send();
-    }
-
-    function dined_spv()
-    {
-        $data['id'] = $this->input->get('id_request');
-        $this->load->view($this->dir_v . 'denied', $data);
-    }
-
-    function save_dined_spv()
-    {
-        $data_id    = $this->input->post('id_request');
-        $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required|min_length[20]');
-        if ($this->form_validation->run() == FALSE) {
-            $notif['notif'] = validation_errors();
-            $notif['status'] = 1;
-            echo json_encode($notif);
-        } else {
-            $today = date("Y-m-d");
-            $data = array(
-                'apr_spv'       => 2,
-                'apr_spv_tgl'   => $today,
-                'apr_spv_ket'   => $this->input->post('keterangan'),
-                'status_request' => 2,
-                'apr_ga'        => 2,
-                'apr_ga_tgl'    => $today,
-                'apr_ga_ket'    => 'Tidak disetujui oleh Head Departement'
-            );
-            $this->db->where('id_request', $data_id);
-            $this->db->update('data_request', $data);
-            $notif['notif'] = 'Denied';
-            $notif['status'] = 2;
-            echo json_encode($notif);
-        }
-    }
-
-    function apr_ga()
-    {
-        $data['id'] = $this->input->get('id_request');
-        $this->load->view($this->dir_v . 'apr_ga', $data);
-    }
-
-    function save_apr_ga()
-    {
-        $data_id    = $this->input->post('id_request');
-        $this->form_validation->set_rules('id_driver', 'Nama Sopir', 'trim|required');
-        $this->form_validation->set_rules('id_kendaraan', 'Plat Kendaraan', 'trim|required');
-        if ($this->form_validation->run() == FALSE) {
-            $notif['notif'] = validation_errors();
-            $notif['status'] = 1;
-            echo json_encode($notif);
-        } else {
-            $today = date("Y-m-d");
-            $data  = array(
-                'apr_ga'       => 1,
-                'apr_ga_tgl'   => $today,
-                'apr_ga_ket'   => '',
-                'status_request' => 1,
-                'id_driver'    => $this->input->post('id_driver'),
-                'id_kendaraan' => $this->input->post('id_kendaraan')
-            );
-            $this->db->where('id_request', $data_id);
-            $this->db->update('data_request', $data);
-
-            // $this->email_apr_ga($data_id);
-
-            $notif['notif'] = 'Approved';
-            $notif['status'] = 2;
-            echo json_encode($notif);
-        }
-    }
-
-    //email GA ke Admin
-    function email_apr_ga($data_id)
-    {
-        $result_id  = $this->db->query('SELECT * FROM data_request WHERE id_request=' . $data_id . ' LIMIT 1');
-        $data['id'] = $result_id->row();
-        $datauser = $result_id->row();
-
-
-        $perusahaan = $this->m_request->id_perusahaan($datauser->id_user);
-        $departement = $this->m_request->id_departement($datauser->id_user);
-
-        $email_admin  = $this->m_request->email_admin($perusahaan, $departement);
-        $from_email = "carpool@apps.imip.co.id";
-
-        $config = array(
-            'protocol'      => 'smtp',
-            'smtp_host'     => 'ssl://mail.apps.imip.co.id',
-            'smtp_user'     => 'carpool@apps.imip.co.id',
-            'smtp_pass'     => '84FML4GH3iB=',
-            'smtp_port'     => 465,
-            'mailtype'      => 'html',
-            'smtp_timeout'  => 20,
-            'charset'       => 'iso-8859-1'
-        );
-
-        $this->load->library('email', $config);
-        $this->email->set_newline("\r\n");
-
-        $this->email->from($from_email, 'E-Carpool');
-        $this->email->to($email_admin);
-        $this->email->subject('Approve GA untuk Pemesanan Mobil E-Carpool IMIP');
-
-        $message = $this->load->view($this->dir_v . 'email_app_ga', $data, TRUE);
-
-        $this->email->message($message);
-        $this->email->send();
-    }
-
-    function dined_ga()
-    {
-        $data['id'] = $this->input->get('id_request');
-        $this->load->view($this->dir_v . 'denied_ga', $data);
-    }
-
-    function save_denied_ga()
-    {
-        $data_id    = $this->input->post('id_request');
-        $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required|min_length[20]');
-        if ($this->form_validation->run() == FALSE) {
-            $notif['notif'] = validation_errors();
-            $notif['status'] = 1;
-            echo json_encode($notif);
-        } else {
-            $today = date("Y-m-d");
-            $data = array(
-                'status_request' => 2,
-                'apr_ga'        => 2,
-                'apr_ga_tgl'    => $today,
-                'apr_ga_ket'    => $this->input->post('keterangan')
-            );
-            $this->db->where('id_request', $data_id);
-            $this->db->update('data_request', $data);
-            $notif['notif'] = 'Denied';
-            $notif['status'] = 2;
-            echo json_encode($notif);
-        }
     }
 }

@@ -19,16 +19,7 @@
                         <td>:</td>
                         <td><?=$this->l_request->jenis_lokasi($id->jenis_lokasi)?></td>
                     </tr>
-                    <tr>
-                        <td class="tdstyle">Tanggal Penjemputan</td>
-                        <td>:</td>
-                        <td><?=$id->tgl_jadwal?></td>
-                    </tr>
-                    <tr>
-                        <td class="tdstyle">Lama Pemakaian Kendaraan</td>
-                        <td>:</td>
-                        <td><?=$id->durasi?> <?=$id->satuan?></td>
-                    </tr>
+                    <?php if ($id->jns_pemesan==1){ ?>
                     <tr>
                         <td class="tdstyle">Perusahaan</td>
                         <td>:</td>
@@ -40,24 +31,65 @@
                         <td><?=$this->m_request->nama_divisi($id->id_departement)?></td>
                     </tr>
                     <tr>
-                        <td class="tdstyle">Jam Penjemputan</td>
+                        <td class="tdstyle">Nomor Induk</td>
                         <td>:</td>
-                        <td><?=$id->jam_jemput?></td>
+                        <td><?=$id->nik_karyawan?></td>
                     </tr>
                     <tr>
-                        <td class="tdstyle">Nama Pemesan</td>
+                        <td class="tdstyle">Nama Lengkap</td>
                         <td>:</td>
-                        <td><?=$id->nama_pemesan?></td>
+                        <td><?=$this->m_request->nama_driver($id->nik_karyawan)?></td>
                     </tr>
+                    <?php } else {?>
+                    <tr>
+                        <td class="tdstyle">Nama Tamu</td>
+                        <td>:</td>
+                        <td><?=$id->nama_lengkap?></td>
+                    </tr>
+                    <?php } ?>
                     <tr>
                         <td class="tdstyle">Nomor Handphone</td>
                         <td>:</td>
                         <td><?=$id->no_hp?></td>
                     </tr>
+                    <?php if ($id->kategori==3) {
+                        if ($id->jns_booking==1) {?>
+                            <tr>
+                                <td class="tdstyle">Tanggal Jadwal</td>
+                                <td>:</td>
+                                <td><?=date('d-m-Y',strtotime($id->dari_tanggal))?></td>
+                            </tr>
+                            <tr>
+                                <td class="tdstyle">Dari Pukul</td>
+                                <td>:</td>
+                                <td><?=$id->dari_jam?></td>
+                            </tr>
+                            <tr>
+                                <td class="tdstyle">Sampai Pukul</td>
+                                <td>:</td>
+                                <td><?=$id->sampai_jam?></td>
+                            </tr>
+                        <?php } else { ?>
+                            <tr>
+                                <td class="tdstyle">Dari Tanggal</td>
+                                <td>:</td>
+                                <td><?=date('d-m-Y',strtotime($id->dari_tanggal))?></td>
+                            </tr>
+                            <tr>
+                                <td class="tdstyle">Sampai Tanggal</td>
+                                <td>:</td>
+                                <td><?=date('d-m-Y',strtotime($id->sampai_tanggal))?></td>
+                            </tr>
+                    <?php } } else { ?>
                     <tr>
                         <td class="tdstyle">Jumlah Penumpang</td>
                         <td>:</td>
                         <td><?=$id->jml_penumpang?> Orang</td>
+                    </tr>
+                    <tr>
+                        <td class="tdstyle">Tanggal Jadwal</td>
+                        <td>:</td>
+                        <td><?=date('d-m-Y',strtotime($id->dari_tanggal))?></td>
                     </tr>
                     <tr>
                         <td class="tdstyle">Lokasi Penjemputan</td>
@@ -65,28 +97,21 @@
                         <td><?=$id->lokasi_jemput?></td>
                     </tr>
                     <tr>
+                        <td class="tdstyle">Jam Penjemputan</td>
+                        <td>:</td>
+                        <td><?=$id->dari_jam?></td>
+                    </tr>
+                    <tr>
                         <td class="tdstyle">Lokasi Keberangkatan</td>
                         <td>:</td>
                         <td><?=$this->m_request->lokasi($id->lokasi_awal)?></td>
                     </tr>
-                    <?php if ($id->jam_berangkat!='00:00:00'){ ?>
-                    <tr>
-                        <td class="tdstyle">Jam Berangkat</td>
-                        <td>:</td>
-                        <td><?=$id->jam_berangkat?></td>
-                    </tr>
-                    <?php } if ($id->jam_tiba!='00:00:00'){ ?>
-                    <tr>
-                        <td class="tdstyle">Jam Tiba</td>
-                        <td>:</td>
-                        <td><?=$id->jam_tiba?></td>
-                    </tr>
-                    <?php } ?>
                     <tr>
                         <td class="tdstyle">Lokasi Tujuan</td>
                         <td>:</td>
                         <td><?=$this->m_request->lokasi($id->lokasi_tujuan)?></td>
                     </tr>
+                    <?php } ?>
                     <tr>
                         <td class="tdstyle" style="vertical-align: top;">Keterangan</td>
                         <td style="vertical-align: top;">:</td>
