@@ -587,22 +587,29 @@ class Request extends CI_Controller
 
     function save_finish()
     {
-        $data_id    = $this->input->post('id_request');
-        $this->form_validation->set_rules('jam_berangkat', 'Jam Berangkat', 'trim|required');
-        $this->form_validation->set_rules('jam_tiba', 'Jam Tiba', 'trim|required');
+        $this->form_validation->set_rules('keramahan', 'Keramahan Driver', 'trim|required');
+        $this->form_validation->set_rules('ketepatan', 'Ketepatan Waktu Penjemputan', 'trim|required');
+        $this->form_validation->set_rules('kebersihan', 'Kebersihan Kendaraan', 'trim|required');
         if ($this->form_validation->run() == FALSE) {
             $notif['notif'] = validation_errors();
             $notif['status'] = 1;
             echo json_encode($notif);
         } else {
-            $data = array(
-                'jam_berangkat'     => $this->input->post('jam_berangkat'),
-                'jam_tiba'          => $this->input->post('jam_tiba'),
-                'status_request'    => 3
+            $data_id = $this->input->post('id_request');
+            $data1=array(
+                'status_request'   =>3
             );
             $this->db->where('id_request', $data_id);
-            $this->db->update('data_request', $data);
-            $notif['notif'] = 'Finish';
+            $this->db->update('data_request', $data1);
+
+            $data = array(
+                'nl_keramahan'     => $this->input->post('keramahan'),
+                'nl_ketepatan'     => $this->input->post('ketepatan'),
+                'nl_kebersihan'    => $this->input->post('kebersihan'),
+                'id_request'       => $this->input->post('id_request')
+            );
+            $this->db->insert('data_nilai', $data);
+            $notif['notif'] = 'Proses Tiket Selesai';
             $notif['status'] = 2;
             echo json_encode($notif);
         }

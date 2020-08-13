@@ -33,15 +33,14 @@ $(document).ready(function () {
       data: { id_request: $(this).attr("data-id") },
     })
       .done(function (view) {
-        $("#MyModalTitle").html("<b>Finish</b>");
+        $("#MyModalTitle").html("<b>Penilaian</b>");
         $("div.modal-dialog").addClass("modal-sm");
         $("div#MyModalContent").html(view);
         $("div#MyModalFooter").html(
           '<button type="submit" class="btn btn-default center-block" id="save_finish">Simpan</button>'
         );
         $("div#MyModal").modal("show");
-        setDatePicker();
-        $(".time").mask("00:00");
+        
       })
       .fail(function (res) {
         alert("Error Response !");
@@ -52,14 +51,16 @@ $(document).ready(function () {
   // act finish
   $(document).on("click", "#save_finish", function (e) {
     e.preventDefault();
+    var validate = "";
     $.ajax({
       method: "POST",
       url: url_ctrl + "save_finish",
       cache: false,
       data: {
         id_request: $("#id_request").val(),
-        jam_berangkat: $("#jam_berangkat").val(),
-        jam_tiba: $("#jam_tiba").val(),
+        keramahan : $("input:radio[name='keramahan']:checked").val(),
+        ketepatan : $("input:radio[name='ketepatan']:checked").val(),
+        kebersihan: $("input:radio[name='kebersihan']:checked").val()
       },
     })
       .done(function (view) {
