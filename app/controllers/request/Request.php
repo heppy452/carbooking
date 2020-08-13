@@ -54,7 +54,7 @@ class Request extends CI_Controller
         foreach ($get_all->result() as $id) {
                 if ($id->status_request == 0) {
                     $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
-                        <a href="" title="Edit"><i id="edit_btn" data-id="' . $id->id_request . '" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
+                        <a href="" title="Edit"><i id="form_edit_btn" data-id="' . $id->id_request . '" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
                         <a href="" title="Delete"><i id="delete_btn" data-id="' . $id->id_request . '" data-nomor="' . $id->nomor_request . '" class="fa fa-trash" style="font-size:15px; color:red;"></i></a>';
                 } else if ($id->status_request == 1) {
                     $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; <a href="" title="Finish"><i id="finish_btn" data-id="' . $id->id_request . '" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
@@ -66,22 +66,12 @@ class Request extends CI_Controller
             $data[] = array(
                 "DT_RowId" => $id->id_request,
                 "0" => $id->nomor_request,
-<<<<<<< HEAD
-                "1" => $id->dari_tanggal . ' ' . $id->jam_jemput,
-                "2" => $this->m_request->lokasi($id->lokasi_awal),
-                "3" => $this->m_request->lokasi($id->lokasi_tujuan),
-                "4" => $this->l_request->approve($id->apr_spv),
-                "5" => $this->l_request->approve($id->apr_ga),
-                "6" => $this->l_request->status($id->status_request),
-                "7" => $action
-=======
                 "1" => $this->l_request->kategori($id->kategori),
                 "2" => $id->dari_tanggal . ' ' . $id->dari_jam,
                 "3" => $this->m_request->lokasi($id->lokasi_awal),
                 "4" => $this->m_request->lokasi($id->lokasi_tujuan),
                 "5" => $this->l_request->status($id->status_request),
                 "6" => $action
->>>>>>> hevicode
             );
         }
 
@@ -102,8 +92,6 @@ class Request extends CI_Controller
         $this->load->view($this->dir_v . 'add', $data);
     }
 
-<<<<<<< HEAD
-=======
     function form_edit($param)
     {
         $data['css'] = array(
@@ -168,7 +156,6 @@ class Request extends CI_Controller
         exit();
     }
 
->>>>>>> hevicode
     function data_karyawan()
     {
         $nik = $this->input->get('id');
@@ -673,49 +660,17 @@ class Request extends CI_Controller
             'src/js/request/request.js'
         );
         $data_id    = $this->input->get('id_request');
-        $result_id  = $this->db->query('SELECT * FROM data_request WHERE id_request=' . $data_id . ' LIMIT 1');
+        $this->db->select('*');
+        $this->db->from('data_request');
+        $this->db->where('id_request',$data_id);
+        $this->db->LIMIT(1);
+        $result_id = $this->db->get();
         $data['id'] = $result_id->row();
         $this->load->view($this->dir_v . 'edit', $data);
     }
 
     function act_edit()
     {
-<<<<<<< HEAD
-        $this->form_validation->set_rules('tgl_jadwal', 'Tanggal Jadwal', 'trim|required');
-        $this->form_validation->set_rules('jam_penjemputan', 'Jam Penjemputan', 'trim|required');
-        $this->form_validation->set_rules('durasi', 'Lama Pemakaian Kendaraan', 'trim|required');
-        $this->form_validation->set_rules('nama_pemesan', 'Nama Pemesan', 'trim|required');
-        $this->form_validation->set_rules('nomor_hp', 'Nomor Handphone', 'trim|required');
-        $this->form_validation->set_rules('lokasi_penjemputan', 'Lokasi Penjemputan', 'trim|required');
-        $this->form_validation->set_rules('lokasi_awal', 'Lokasi Keberangkatan', 'trim|required');
-        $this->form_validation->set_rules('lokasi_tujuan', 'Lokasi Tujuan', 'trim|required');
-        $this->form_validation->set_rules('keterangan', 'Keterangan', 'trim|required|min_length[20]');
-        if ($this->form_validation->run() == FALSE) {
-            $notif['notif'] = validation_errors();
-            $notif['status'] = 1;
-            echo json_encode($notif);
-        } else {
-            $data_id = $this->input->post('id_request');
-            $data = array(
-                'jenis_lokasi'      => $this->input->post('jenis_lokasi'),
-                'tgl_jadwal'        => $this->input->post('tgl_jadwal'),
-                'jam_jemput'        => $this->input->post('jam_penjemputan'),
-                'durasi'            => $this->input->post('durasi'),
-                'satuan'            => $this->input->post('satuan'),
-                'lokasi_jemput'     => $this->input->post('lokasi_penjemputan'),
-                'jml_penumpang'     => $this->input->post('jml_penumpang'),
-                'nama_pemesan'      => $this->input->post('nama_pemesan'),
-                'no_hp'             => $this->input->post('nomor_hp'),
-                'lokasi_awal'       => $this->input->post('lokasi_awal'),
-                'lokasi_tujuan'     => $this->input->post('lokasi_tujuan'),
-                'keterangan'        => $this->input->post('keterangan')
-            );
-            $this->db->where('id_request', $data_id);
-            $this->db->update('data_request', $data);
-            $notif['notif'] = 'Data berhasil dirubah !';
-            $notif['status'] = 2;
-            echo json_encode($notif);
-=======
         $data_id = $this->input->post('id_request');
         $kategori= $this->input->post('kategori');
         $jns_booking = $this->input->post('jns_booking');
@@ -821,7 +776,6 @@ class Request extends CI_Controller
                 $notif['status'] = 2;
                 echo json_encode($notif);
             }
->>>>>>> hevicode
         }
     }
 
@@ -875,3 +829,4 @@ class Request extends CI_Controller
         return $year . str_pad($nomor_tiket, 6, "0", STR_PAD_LEFT);
     }
 }
+
