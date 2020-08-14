@@ -102,17 +102,21 @@ class App_head extends CI_Controller
             } else {
                 $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
             }
+            if ($id->dari_jam == '00:00:00') {
+                $jam = '-';
+            } else {
+                $jam = $id->dari_jam;
+            }
 
             $data[] = array(
                 "DT_RowId" => $id->id_request . '' . $this->l_app_head->id_request($id->id_request),
                 "0" => '<a href="#" id="detail_btn" style="color : red; text-decoration:none" data-id="' . $id->id_request . '">' . $id->nomor_request . '</a>',
                 "1" => $this->m_app_head->nama_karyawan($id->nik_karyawan),
-                "2" => $id->keterangan,
-                "3" => $id->dari_jam,
-                "4" => $this->m_app_head->lokasi($id->lokasi_awal),
-                "5" => $this->m_app_head->lokasi($id->lokasi_tujuan),
-                "6" => $this->l_app_head->action_pilihan() . '' . $this->l_app_head->id_request($id->id_request),
-                "7" => $this->l_app_head->keterangan(),
+                "2" => $jam,
+                "3" => $this->m_app_head->lokasi($id->lokasi_awal),
+                "4" => $this->m_app_head->lokasi($id->lokasi_tujuan),
+                "5" => $this->l_app_head->action_pilihan() . '' . $this->l_app_head->id_request($id->id_request),
+                "6" => $this->l_app_head->keterangan(),
             );
         }
 
@@ -159,33 +163,20 @@ class App_head extends CI_Controller
 
         for ($i = 0; $i < $count; $i++) {
             if ($approved[$i] == 1) {
-                $data[$i] = array(
-                    'id_request'        => $id_request[$i],
-                    'apr_spv'           => $approved[$i],
-                    'apr_spv_ket'       => $keterangan[$i],
-                    'apr_spv_tgl'       => $today,
-                    'status_request'    => 1,
-                );
-
-                $this->db->where('id_request', $id_request[$i]);
-                $this->db->update('data_request', $data[$i]);
+                $status = 1;
             } else {
-                $data1[$i] = array(
-                    'id_request'        => $id_request[$i],
-                    'apr_spv'           => $approved[$i],
-                    'apr_spv_ket'       => $keterangan[$i],
-                    'apr_spv_tgl'       => $today,
-                    'status_request'    => 2,
-                    'apr_ga_ket'        => 'Tidak disetujui oleh Head Departement'
-                );
-
-                //email approve spv ke admin GA
-                // $this->email_to_ga($data_id);
-                $this->db->where('id_request', $id_request[$i]);
-                $this->db->update('data_request', $data1[$i]);
+                $status = 2;
             }
+            $data[$i] = array(
+                'id_request'        => $id_request[$i],
+                'apr_spv'           => $approved[$i],
+                'apr_spv_ket'       => $keterangan[$i],
+                'apr_spv_tgl'       => $today,
+                'status_request'    => $status,
+            );
+            $this->db->where('id_request', $id_request[$i]);
+            $this->db->update('data_request', $data[$i]);
         }
-
         $notif['notif'] = 'Approved';
         $notif['status'] = 2;
         echo json_encode($notif);

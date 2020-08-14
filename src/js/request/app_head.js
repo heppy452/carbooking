@@ -59,6 +59,7 @@ $(document).ready(function () {
       })
       .get();
 
+<<<<<<< HEAD
     var setuju = [];
     $(".approved option:selected").each(function (i, selected) {
       setuju[i] = $(selected).val();
@@ -66,6 +67,15 @@ $(document).ready(function () {
         validate += "Pilih Approval<br>";
       }
     });
+=======
+        var setuju = [];
+        $(".approved option:selected").each(function (i, selected) {
+          setuju[i] = $(selected).val();
+          if ( setuju[i] =="") {
+            validate += "Pilih Approval<br>";
+          }
+        });
+>>>>>>> 0a89c619af5a1a99f0d559dfd493a4d48920528a
 
     if (validate != "") {
       swal("Perhatian", validate, "warning");

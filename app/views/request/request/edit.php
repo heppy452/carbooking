@@ -96,7 +96,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Tanggal Jadwal </label>
                                     <div class="input-group">
-                                        <input class="form-control date" placeholder="Pilih Tanggal" type="text" id="tgl_jadwal" value="<?=date('d-m-Y',strtotime($id->dari_tanggal))?>">
+                                        <input class="form-control date1" placeholder="Pilih Tanggal" type="text" id="tgl_jadwal" value="<?=date('d-m-Y',strtotime($id->dari_tanggal))?>">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon2">
                                                 <i class="fa fa-calendar"></i>
@@ -136,7 +136,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Dari Tanggal </label>
                                     <div class="input-group">
-                                        <input class="form-control date" placeholder="Pilih Tanggal" type="text" id="tgl_jadwal" value="<?=date('d-m-Y',strtotime($id->dari_tanggal))?>">
+                                        <input class="form-control date1" placeholder="Pilih Tanggal" type="text" id="tgl_jadwal" value="<?=date('d-m-Y',strtotime($id->dari_tanggal))?>">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon2">
                                                 <i class="fa fa-calendar"></i>
@@ -149,7 +149,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Sampai Tanggal </label>
                                     <div class="input-group">
-                                        <input class="form-control date" placeholder="Pilih Tanggal" type="text" id="sampai_tanggal" value="<?=date('d-m-Y',strtotime($id->dari_tanggal))?>">
+                                        <input class="form-control date1" placeholder="Pilih Tanggal" type="text" id="sampai_tanggal" value="<?=date('d-m-Y',strtotime($id->dari_tanggal))?>">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon2">
                                                 <i class="fa fa-calendar"></i>
@@ -163,7 +163,7 @@
                         <div class="form-group">
                             <label class="control-label">Tanggal Jadwal </label>
                             <div class="input-group">
-                                <input class="form-control date" placeholder="Pilih Tanggal" type="text" id="tgl_jadwal" value="<?=date('d-m-Y',strtotime($id->dari_tanggal))?>">
+                                <input class="form-control date1" placeholder="Pilih Tanggal" type="text" id="tgl_jadwal" value="<?=date('d-m-Y',strtotime($id->dari_tanggal))?>">
                                 <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon2">
                                         <i class="fa fa-calendar"></i>

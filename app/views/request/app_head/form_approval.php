@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header"><strong>Form Edit Tiket</strong></div>
+                <div class="card-header"><strong>Form Approval Tiket</strong></div>
                 <div class="card-body">
                     <div class="row">
                         <input type="text" value="<?= $tanggal ?>" id="tanggal" hidden>
@@ -16,7 +16,6 @@
                                             <tr>
                                                 <th style="text-align: center;">Nomor Tiket</th>
                                                 <th style="text-align: center;">Nama Karyawan</th>
-                                                <th style="text-align: center;">Keterangan</th>
                                                 <th style="text-align: center;">Waktu Penjemputan</th>
                                                 <th style="text-align: center;">Lokasi Keberangkatan</th>
                                                 <th style="text-align: center;">Lokasi Tujuan</th>

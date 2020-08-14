@@ -141,21 +141,16 @@ $(document).ready(function () {
       notifNoAuto("Silahkan Pilih Kategori");
       return false;
     }
-    $("#formArea").load(url_ctrl + "add/" + kategori, function () {
-      if (kategori == 2) {
-        setDatePickerMulti();
-      } else {
-        setDatePicker();
-      }
-      scrollUp();
-      $(".time").mask("00:00");
-      clock();
-      chekc_layanan();
-      chekc_booking();
-      jenis_pemesan();
-      chekc_pulang();
-    });
+    window.location = url_ctrl + "add/" + kategori;
   });
+  setDatePickerMulti();
+  setDatePicker();
+  $(".time").mask("00:00");
+  jenis_pemesan();
+  chekc_pulang();
+  clock();
+  chekc_layanan();
+  chekc_booking();
 
   // Form Edit
   $(document).on("click", "#form_edit_btn", function (e) {
@@ -502,9 +497,8 @@ $(document).ready(function () {
           $("#show_spinner").hide();
         }
         if (obj.status == 2) {
-          $("#formArea").html("");
           notifYesAuto(obj.notif);
-          table.ajax.reload();
+          window.location = url_ctrl;
         }
         // console.log(result);
       })
@@ -531,9 +525,9 @@ $(document).ready(function () {
           '<button type="submit" class="btn btn-default center-block" id="save_edit_btn">Ubah</button>'
         );
         $("div#MyModal").modal("show");
+        setDatePicker();
         clock();
         jenis_pemesan();
-        setDatePicker();
         $(".time").mask("00:00");
       })
       .fail(function (res) {
@@ -660,7 +654,7 @@ $(document).ready(function () {
   }
 
   function setDatePicker() {
-    $(".date").datepicker({
+    $(".date1").datepicker({
       // startDate:'1980-01-01',
       scrollInput: false,
       format: "dd-mm-yyyy",
@@ -693,17 +687,7 @@ $(document).ready(function () {
 
   $(document).on("click", "#batal_btn", function (e) {
     e.preventDefault();
-    $("#formArea").html("");
-  });
-
-  $(document).on("click", "#tutup_edit_btn", function (e) {
-    e.preventDefault();
     window.location = url_ctrl;
-  });
-
-  $(document).on("click", "#tutup_btn", function (e) {
-    e.preventDefault();
-    $("#formArea").html("");
   });
 
   function chekc_pulang() {
@@ -867,7 +851,7 @@ $(document).ready(function () {
             "<div class='form-group'>" +
             "<label class='control-label'>Tanggal Jadwal </label>" +
             "<div class='input-group'>" +
-            "<input class='form-control date tgl_jadwal_mlt' placeholder='Pilih Tanggal' type='text' id='tgl_jadwal_mlt'>" +
+            "<input class='form-control date1 tgl_jadwal_mlt' placeholder='Pilih Tanggal' type='text' id='tgl_jadwal_mlt'>" +
             "<div class='input-group-append'>" +
             "<span class='input-group-text' id='basic-addon2'>" +
             "<i class='fa fa-calendar'></i>" +
