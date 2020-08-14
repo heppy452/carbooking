@@ -63,7 +63,7 @@ $(document).ready(function () {
         var setuju = [];
         $(".approved option:selected").each(function (i, selected) {
           setuju[i] = $(selected).val();
-          if ( setuju[i] == 0) {
+          if ( setuju[i] =="") {
             validate += "Pilih Approval<br>";
           }
         });

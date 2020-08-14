@@ -134,58 +134,86 @@
         </div>
     </div>
     <div class="col-lg-5">
+        <?php 
+        $kategori = $id->kategori;
+        $jns_booking = $id->jns_booking;
+        if ($kategori==3 AND $jns_booking==2) {?>
+            <div class="card">
+                <div class="card-header"><i class="fa fa-check"></i> <strong>Approval Direktur </strong></div>
+                <div class="card-body">
+                    <?php if ($id->apr_dir!=0) {?>
+                        <table class="table">
+                            <tr>
+                                <td><?=$this->l_app_head->approve($id->apr_dir)?></td>
+                            </tr>
+                            <tr>
+                                <td><?php if ($id->apr_dir_tgl==0000-00-00){ echo '';} else { echo date('d-m-Y',strtotime($id->apr_dir_tgl)); }?></td>
+                            </tr>
+                            <tr>
+                                <td><?=$id->apr_dir_ket?></td>
+                            </tr>
+                        </table>
+                    <?php } ?>
+                </div>
+            </div><br>
+        <?php } else {?>
+            <div class="card">
+                <div class="card-header"><i class="fa fa-car"></i> <strong>Informasi Sopir </strong></div>
+                <div class="card-body">
+                    <?php 
+                        $id_driver= $id->id_driver;
+                        $id_kendaraan= $id->id_kendaraan;
+                        if ($id_kendaraan!=0 OR $id_driver!=0){
+                    ?>
+                    <table class="table">
+                        <tr>
+                            <td><b><?=$this->m_app_head->plat($id->id_kendaraan).' ('.$this->m_app_head->no_internal($id->id_kendaraan).')'?></b></td>
+                        </tr>
+                        <tr>
+                            <td><?php $nik=$this->m_app_head->nik_driver($id->id_driver); echo $this->m_app_head->nama_driver($nik);?></td>
+                        </tr>
+                        <tr>
+                            <td><?=$this->m_app_head->no_hp($id->id_driver)?></td>
+                        </tr>
+                    </table>
+                <?php } ?>
+                </div>
+            </div><br>
+        <?php } ?>
         <div class="card">
-            <div class="card-header"><i class="fa fa-car"></i> <strong>Informasi Sopir </strong></div>
+            <div class="card-header"><i class="fa fa-check"></i> <strong>Approval Head Departement </strong></div>
             <div class="card-body">
-                <?php 
-                    $id_driver= $id->id_driver;
-                    $id_kendaraan= $id->id_kendaraan;
-                    if ($id_kendaraan!=0 OR $id_driver!=0){
-                ?>
+                <?php if ($id->apr_spv!=0) {?>
                 <table class="table">
                     <tr>
-                        <td><b><?=$this->m_app_head->plat($id->id_kendaraan).' ('.$this->m_app_head->no_internal($id->id_kendaraan).')'?></b></td>
+                        <td><?=$this->l_app_head->approve($id->apr_spv)?></td>
                     </tr>
                     <tr>
-                        <td><?php $nik=$this->m_app_head->nik_driver($id->id_driver); echo $this->m_app_head->nama_driver($nik);?></td>
+                        <td><?php if ($id->apr_spv_tgl==0000-00-00){ echo '';} else { echo date('d-m-Y',strtotime($id->apr_spv_tgl)); }?></td>
                     </tr>
                     <tr>
-                        <td><?=$this->m_app_head->no_hp($id->id_driver)?></td>
+                        <td><?=$id->apr_spv_ket?></td>
                     </tr>
                 </table>
             <?php } ?>
             </div>
         </div><br>
         <div class="card">
-            <div class="card-header"><i class="fa fa-check"></i> <strong>Approval Head Departement </strong></div>
-            <div class="card-body">
-                <table class="table">
-                    <tr>
-                        <td><?=$this->l_app_head->approve($id->apr_spv)?></td>
-                    </tr>
-                    <tr>
-                        <td><?php if ($id->apr_spv_tgl==0000-00-00){ echo '';} else { echo $id->apr_spv_tgl; }?></td>
-                    </tr>
-                    <tr>
-                        <td><?=$id->apr_spv_ket?></td>
-                    </tr>
-                </table>
-            </div>
-        </div><br>
-        <div class="card">
             <div class="card-header"><i class="fa fa-check"></i> <strong>Approval Administrator GA </strong></div>
             <div class="card-body">
+                <?php if ($id->apr_ga!=0) {?>
                 <table class="table">
                     <tr>
                         <td><?=$this->l_app_head->approve($id->apr_ga)?></td>
                     </tr>
                     <tr>
-                        <td><?php if ($id->apr_ga_tgl==0000-00-00){ echo '';} else { echo $id->apr_ga_tgl; }?></td>
+                        <td><?php if ($id->apr_ga_tgl==0000-00-00){ echo '';} else { echo date('d-m-Y',strtotime($id->apr_ga_tgl)); }?></td>
                     </tr>
                     <tr>
                         <td><?=$id->apr_ga_ket?></td>
                     </tr>
                 </table>
+            <?php } ?>
             </div>
         </div>
     </div>

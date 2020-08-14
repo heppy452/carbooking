@@ -1,20 +1,20 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class L_app_head
-{
+class L_app_direktur {
+
     function jenis_kebutuhan($param)
     {
-        switch ($param) {
-            case '1':
-                return 'Operasioanl Kantor';
-                break;
-            case '2':
-                return 'Kebutuhan Pribadi';
-                break;
-            default:
-                return 'Uknown';
-                break;
-        }
+    	switch ($param) {
+    		case '1':
+    			return 'Operasioanl Kantor';
+    			break;
+    		case '2':
+    			return 'Kebutuhan Pribadi';
+    			break;
+    		default:
+    			return 'Uknown';
+    			break;
+    	}
     }
 
     function kategori($param)
@@ -37,17 +37,17 @@ class L_app_head
 
     function jenis_lokasi($param)
     {
-        switch ($param) {
-            case '1':
-                return 'Internal';
-                break;
-            case '2':
-                return 'External';
-                break;
-            default:
-                return 'Uknown';
-                break;
-        }
+    	switch ($param) {
+    		case '1':
+    			return 'Internal';
+    			break;
+    		case '2':
+    			return 'External';
+    			break;
+    		default:
+    			return 'Uknown';
+    			break;
+    	}
     }
 
     function approve($param)
@@ -122,22 +122,4 @@ class L_app_head
         }
     }
 
-    function action_pilihan()
-    {
-        return '<select class="form-control approved" >
-                        <option value="">--- Pilih ---</option>
-                        <option value="1">Approved</option>
-                        <option value="2">Denied</option>
-                </select>';
-    }
-
-    function keterangan()
-    {
-        return '<textarea type="text" cols="10" rows="1" class="form-control keterangan"></textarea>';
-    }
-
-    function id_request($param)
-    {
-        return '<input type="text" hidden class="form-control id_request" value="' . $param . '">';
-    }
 }

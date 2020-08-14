@@ -76,7 +76,7 @@ class M_app_head extends CI_Model
         if (isset($data->nama_lokasi)) {
             return $data->nama_lokasi;
         } else {
-            return 'Uknown';
+            return '-';
         }
     }
 
