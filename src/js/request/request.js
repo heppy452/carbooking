@@ -492,6 +492,7 @@ $(document).ready(function () {
         lokasi_awal_mlt: lokasi_awal_mlt,
         lokasi_tujuan_mlt: lokasi_tujuan_mlt,
         keterangan_mlt: keterangan_mlt,
+        keterangan: keterangan,
       },
     })
       .done(function (result) {
@@ -1028,10 +1029,9 @@ $(document).ready(function () {
       clock();
       $(".time").mask("00:00");
     });
-  });
-
-  $(document).on("click", ".delete_tujuan", function (e) {
-    var row_id = $(this).attr("row-id");
-    $("#" + row_id).remove();
+    $(document).on("click", ".delete_tujuan", function (e) {
+      var row_id = $(this).attr("row-id");
+      $("#" + row_id).remove();
+    });
   });
 });

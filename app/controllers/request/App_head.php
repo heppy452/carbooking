@@ -63,7 +63,7 @@ class App_head extends CI_Controller
                 "DT_RowId" => $id->id_request,
                 "0" => $id->nomor_request,
                 "1" => $id->dari_tanggal . ' ' . $id->dari_jam,
-                "2" => $this->l_app_head->kategori($id->jns_layanan),
+                "2" => $this->l_app_head->kategori($id->kategori),
                 "3" => $this->m_app_head->lokasi($id->lokasi_awal),
                 "4" => $this->m_app_head->lokasi($id->lokasi_tujuan),
                 "5" => $this->l_app_head->status($id->status_request),
@@ -105,7 +105,7 @@ class App_head extends CI_Controller
 
             $data[] = array(
                 "DT_RowId" => $id->id_request . '' . $this->l_app_head->id_request($id->id_request),
-                "0" => $id->nomor_request,
+                "0" => '<a href="#" id="detail_btn" style="color : red; text-decoration:none" data-id="' . $id->id_request . '">' . $id->nomor_request . '</a>',
                 "1" => $this->m_app_head->nama_karyawan($id->nik_karyawan),
                 "2" => $id->keterangan,
                 "3" => $id->dari_jam,
@@ -157,9 +157,8 @@ class App_head extends CI_Controller
 
         $count          = count($id_request);
 
-        for($i =0; $i < $count; $i++)
-        {
-            if($approved[$i] == 1){
+        for ($i = 0; $i < $count; $i++) {
+            if ($approved[$i] == 1) {
                 $data[$i] = array(
                     'id_request'        => $id_request[$i],
                     'apr_spv'           => $approved[$i],
@@ -167,10 +166,10 @@ class App_head extends CI_Controller
                     'apr_spv_tgl'       => $today,
                     'status_request'    => 1,
                 );
-    
+
                 $this->db->where('id_request', $id_request[$i]);
                 $this->db->update('data_request', $data[$i]);
-            }else{
+            } else {
                 $data1[$i] = array(
                     'id_request'        => $id_request[$i],
                     'apr_spv'           => $approved[$i],
@@ -179,13 +178,12 @@ class App_head extends CI_Controller
                     'status_request'    => 2,
                     'apr_ga_ket'        => 'Tidak disetujui oleh Head Departement'
                 );
-    
+
                 //email approve spv ke admin GA
                 // $this->email_to_ga($data_id);
                 $this->db->where('id_request', $id_request[$i]);
                 $this->db->update('data_request', $data1[$i]);
             }
-           
         }
 
         $notif['notif'] = 'Approved';

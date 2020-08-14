@@ -1,21 +1,20 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class L_request
-{
+class L_request {
 
     function jenis_kebutuhan($param)
     {
-        switch ($param) {
-            case '1':
-                return 'Operasioanl Kantor';
-                break;
-            case '2':
-                return 'Kebutuhan Pribadi';
-                break;
-            default:
-                return 'Uknown';
-                break;
-        }
+    	switch ($param) {
+    		case '1':
+    			return 'Operasioanl Kantor';
+    			break;
+    		case '2':
+    			return 'Kebutuhan Pribadi';
+    			break;
+    		default:
+    			return 'Uknown';
+    			break;
+    	}
     }
 
     function kategori($param)
@@ -38,17 +37,17 @@ class L_request
 
     function jenis_lokasi($param)
     {
-        switch ($param) {
-            case '1':
-                return 'Internal';
-                break;
-            case '2':
-                return 'External';
-                break;
-            default:
-                return 'Uknown';
-                break;
-        }
+    	switch ($param) {
+    		case '1':
+    			return 'Internal';
+    			break;
+    		case '2':
+    			return 'External';
+    			break;
+    		default:
+    			return 'Uknown';
+    			break;
+    	}
     }
 
     function approve($param)
@@ -122,4 +121,5 @@ class L_request
                 break;
         }
     }
+
 }

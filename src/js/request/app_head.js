@@ -23,7 +23,7 @@ $(document).ready(function () {
     info: false,
     ordering: false,
   });
-  // Form Edit
+
   $(document).on("click", "#form_approval", function (e) {
     e.preventDefault();
 
@@ -41,60 +41,58 @@ $(document).ready(function () {
     $("html, body").animate({ scrollTop: 0 }, "slow");
   }
 
-    $(document).on("click", "#approve_btn", function (e) {
-         
-       var validate = "";
-       var id_request = $("input.id_request")
-          .map(function () {
-            return $(this).val();
-          })
-          .get();
-        var keterangan = $(".keterangan")
-          .map(function () {
-            return $(this).val();
-          })
-          .get();
-        var approved = $(".approved option:selected")
-          .map(function () {
-            return $(this).val();
-          })
-          .get();
-
-        var setuju = [];
-        $(".approved option:selected").each(function (i, selected) {
-          setuju[i] = $(selected).val();
-          if ( setuju[i] == 0) {
-            validate += "Pilih Approval<br>";
-          }
-        });
-
-        if (validate != "") {
-          swal("Perhatian", validate, "warning");
-          return false;
-        }
-       
-      
-      $.ajax({
-        method : "POST",
-        url : url_ctrl + 'approve_all',
-        data : {
-          id_request : id_request,
-          keterangan : keterangan,
-          approved   : approved
-        }
+  $(document).on("click", "#approve_btn", function (e) {
+    var validate = "";
+    var id_request = $("input.id_request")
+      .map(function () {
+        return $(this).val();
       })
-      .done(function(result){
+      .get();
+    var keterangan = $(".keterangan")
+      .map(function () {
+        return $(this).val();
+      })
+      .get();
+    var approved = $(".approved option:selected")
+      .map(function () {
+        return $(this).val();
+      })
+      .get();
+
+    var setuju = [];
+    $(".approved option:selected").each(function (i, selected) {
+      setuju[i] = $(selected).val();
+      if (setuju[i] == 0) {
+        validate += "Pilih Approval<br>";
+      }
+    });
+
+    if (validate != "") {
+      swal("Perhatian", validate, "warning");
+      return false;
+    }
+
+    $.ajax({
+      method: "POST",
+      url: url_ctrl + "approve_all",
+      data: {
+        id_request: id_request,
+        keterangan: keterangan,
+        approved: approved,
+      },
+    })
+      .done(function (result) {
         var obj = jQuery.parseJSON(result);
-        if(obj.status == 1){
+        if (obj.status == 1) {
           notifNo(obj.notif);
         }
-        if(obj.status == 2){
+        if (obj.status == 2) {
           notifYesAuto(obj.notif);
-          window.location = url_ctrl, 2000;
+          (window.location = url_ctrl), 2000;
         }
       })
-      .fail(function (res){
-        alert('Error Response !');
+      .fail(function (res) {
+        alert("Error Response !");
         console.log("responseText", res.responseText);
       });
   });
