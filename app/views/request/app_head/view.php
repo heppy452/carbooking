@@ -15,7 +15,7 @@
                             <tr>
                                 <th>Nomor Tiket</th>
                                 <th>Tanggal Jadwal</th>
-                                <th>kategori</th>
+                                <th>Kategori</th>
                                 <th>Lokasi Keberangkatan</th>
                                 <th>Lokasi Tujuan</th>
                                 <th>Status</th>

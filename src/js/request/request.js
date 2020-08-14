@@ -500,7 +500,7 @@ $(document).ready(function () {
         }
         if (obj.status == 2) {
           notifYesAuto(obj.notif);
-          table.ajax.reload();
+          window.location = url_ctrl;
         }
         // console.log(result);
       })

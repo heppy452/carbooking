@@ -125,9 +125,9 @@ class L_app_head
     function action_pilihan()
     {
         return '<select class="form-control approved" >
-                        <option value="0">--- Pilih ---</option>
-                        <option value="1">Stuju</option>
-                        <option value="2">Tidak Stuju</option>
+                        <option value="">--- Pilih ---</option>
+                        <option value="1">Approved</option>
+                        <option value="2">Denied</option>
                 </select>';
     }
 
