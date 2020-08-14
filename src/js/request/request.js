@@ -8,19 +8,19 @@ $(document).ready(function () {
   });
 
   var table_detail = $("#tabel_detail").DataTable({
-    "ajax": {
-         method: "GET",
-         url: url_ctrl + 'table_detail',
-         cache: false,
-         data: {
-             nomor_tiket: $("#nomor_tiket").val()
-         }
-     },
-    "deferRender": true,
-    "searching": false,
-    "paging": false,
-    "info": false,
-    "ordering": false
+    ajax: {
+      method: "GET",
+      url: url_ctrl + "table_detail",
+      cache: false,
+      data: {
+        nomor_tiket: $("#nomor_tiket").val(),
+      },
+    },
+    deferRender: true,
+    searching: false,
+    paging: false,
+    info: false,
+    ordering: false,
   });
 
   // Finish Button
@@ -40,7 +40,6 @@ $(document).ready(function () {
           '<button type="submit" class="btn btn-default center-block" id="save_finish">Simpan</button>'
         );
         $("div#MyModal").modal("show");
-        
       })
       .fail(function (res) {
         alert("Error Response !");
@@ -58,9 +57,9 @@ $(document).ready(function () {
       cache: false,
       data: {
         id_request: $("#id_request").val(),
-        keramahan : $("input:radio[name='keramahan']:checked").val(),
-        ketepatan : $("input:radio[name='ketepatan']:checked").val(),
-        kebersihan: $("input:radio[name='kebersihan']:checked").val()
+        keramahan: $("input:radio[name='keramahan']:checked").val(),
+        ketepatan: $("input:radio[name='ketepatan']:checked").val(),
+        kebersihan: $("input:radio[name='kebersihan']:checked").val(),
       },
     })
       .done(function (view) {
@@ -160,8 +159,7 @@ $(document).ready(function () {
 
     var id = $(this).attr("data-id");
 
-    window.location=url_ctrl + "form_edit/" + id;
-
+    window.location = url_ctrl + "form_edit/" + id;
   });
 
   //Save Add Button
@@ -490,6 +488,7 @@ $(document).ready(function () {
         lokasi_awal_mlt: lokasi_awal_mlt,
         lokasi_tujuan_mlt: lokasi_tujuan_mlt,
         keterangan_mlt: keterangan_mlt,
+        keterangan: keterangan,
       },
     })
       .done(function (result) {
@@ -531,7 +530,6 @@ $(document).ready(function () {
         clock();
         jenis_pemesan();
         $(".time").mask("00:00");
-
       })
       .fail(function (res) {
         alert("Error Response !");
@@ -548,24 +546,24 @@ $(document).ready(function () {
       url: url_ctrl + "act_edit",
       cache: false,
       data: {
-        jenis_kebutuhan     : $("#jenis_kebutuhan option:selected").val(),
-        jenis_lokasi        : $("#jenis_lokasi option:selected").val(),
-        jenis_pemesan       : $("#jenis_pemesan option:selected").val(),
-        nik_input           : $("#nik_input").val(),
-        nm_lengkap          : $("#nm_lengkap").val(),
-        nomor_hp            : $("#nomor_hp").val(),
-        jml_penumpang       : $("#jml_penumpang").val(),
-        tgl_jadwal          : $("#tgl_jadwal").val(),
-        sampai_tanggal      : $("#sampai_tanggal").val(),
-        dari_pukul          : $("#dari_pukul").val(),
-        sampai_pukul        : $("#sampai_pukul").val(),
-        lokasi_penjemputan  : $("#lokasi_penjemputan").val(),
-        lokasi_awal         : $("#lokasi_awal  option:selected").val(),
-        lokasi_tujuan       : $("#lokasi_tujuan  option:selected").val(),
-        keterangan          : $("#keterangan").val(),
-        id_request          : $("#id_request").val(),
-        kategori            : $("#kategori").val(),
-        jns_booking         : $("#jns_booking").val()
+        jenis_kebutuhan: $("#jenis_kebutuhan option:selected").val(),
+        jenis_lokasi: $("#jenis_lokasi option:selected").val(),
+        jenis_pemesan: $("#jenis_pemesan option:selected").val(),
+        nik_input: $("#nik_input").val(),
+        nm_lengkap: $("#nm_lengkap").val(),
+        nomor_hp: $("#nomor_hp").val(),
+        jml_penumpang: $("#jml_penumpang").val(),
+        tgl_jadwal: $("#tgl_jadwal").val(),
+        sampai_tanggal: $("#sampai_tanggal").val(),
+        dari_pukul: $("#dari_pukul").val(),
+        sampai_pukul: $("#sampai_pukul").val(),
+        lokasi_penjemputan: $("#lokasi_penjemputan").val(),
+        lokasi_awal: $("#lokasi_awal  option:selected").val(),
+        lokasi_tujuan: $("#lokasi_tujuan  option:selected").val(),
+        keterangan: $("#keterangan").val(),
+        id_request: $("#id_request").val(),
+        kategori: $("#kategori").val(),
+        jns_booking: $("#jns_booking").val(),
       },
     })
       .done(function (result) {
@@ -690,7 +688,16 @@ $(document).ready(function () {
 
   $(document).on("click", "#batal_btn", function (e) {
     e.preventDefault();
+<<<<<<< HEAD
     window.location=url_ctrl;
+=======
+    $("#formArea").html("");
+  });
+
+  $(document).on("click", "#tutup_edit_btn", function (e) {
+    e.preventDefault();
+    window.location = url_ctrl;
+>>>>>>> origin/master
   });
 
   function chekc_pulang() {
@@ -1016,10 +1023,9 @@ $(document).ready(function () {
       clock();
       $(".time").mask("00:00");
     });
-  });
-
-  $(document).on("click", ".delete_tujuan", function (e) {
-    var row_id = $(this).attr("row-id");
-    $("#" + row_id).remove();
+    $(document).on("click", ".delete_tujuan", function (e) {
+      var row_id = $(this).attr("row-id");
+      $("#" + row_id).remove();
+    });
   });
 });

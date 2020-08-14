@@ -1,35 +1,54 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class L_proses {
+class L_proses
+{
 
     function jenis_kebutuhan($param)
     {
-    	switch ($param) {
-    		case '1':
-    			return 'Operasioanl Kantor';
-    			break;
-    		case '2':
-    			return 'Kebutuhan Pribadi';
-    			break;
-    		default:
-    			return 'Uknown';
-    			break;
-    	}
+        switch ($param) {
+            case '1':
+                return 'Operasioanl Kantor';
+                break;
+            case '2':
+                return 'Kebutuhan Pribadi';
+                break;
+            default:
+                return 'Uknown';
+                break;
+        }
+    }
+
+    function kategori($param)
+    {
+        switch ($param) {
+            case '1':
+                return 'Tidak Rutin';
+                break;
+            case '2':
+                return 'Rutin';
+                break;
+            case '3':
+                return 'Non Driver';
+                break;
+            default:
+                return 'Uknown';
+                break;
+        }
     }
 
     function jenis_lokasi($param)
     {
-    	switch ($param) {
-    		case '1':
-    			return 'Internal';
-    			break;
-    		case '2':
-    			return 'External';
-    			break;
-    		default:
-    			return 'Uknown';
-    			break;
-    	}
+        switch ($param) {
+            case '1':
+                return 'Internal';
+                break;
+            case '2':
+                return 'External';
+                break;
+            default:
+                return 'Uknown';
+                break;
+        }
     }
 
     function approve($param)
@@ -104,4 +123,23 @@ class L_proses {
         }
     }
 
+    function action_pilihan()
+    {
+        return '<select class="form-control approved" >
+                        <option value="0">--- Pilih ---</option>
+                        <option value="1">Approved</option>
+                        <option value="2">Denied</option>
+                </select>';
+    }
+
+
+    function keterangan()
+    {
+        return '<textarea type="text" cols="10" rows="1" class="form-control keterangan"></textarea>';
+    }
+
+    function id_request($param)
+    {
+        return '<input type="text" hidden class="form-control id_request" value="' . $param . '">';
+    }
 }

@@ -1,16 +1,18 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Print_jadwal extends CI_Controller {
+class Print_jadwal extends CI_Controller
+{
 
     public $dir_v = 'request/print_jadwal/';
-	public $dir_m = 'request/';
-	public $dir_l = 'request/';
+    public $dir_m = 'request/';
+    public $dir_l = 'request/';
 
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
         $this->m_auth->check_login();
-        $this->load->model($this->dir_m.'m_print_jadwal');
-        $this->load->library($this->dir_l.'l_print_jadwal');
+        $this->load->model($this->dir_m . 'm_print_jadwal');
+        $this->load->library($this->dir_l . 'l_print_jadwal');
     }
 
     function index()
@@ -26,7 +28,7 @@ class Print_jadwal extends CI_Controller {
             'src/js/request/print_jadwal.js'
         );
         $data['panel'] = '<i class="fa fa-print"></i> &nbsp;<b>Print Jadwal</b>';
-        $this->l_skin->main($this->dir_v.'view', $data);
+        $this->l_skin->main($this->dir_v . 'view', $data);
     }
 
     //Form search
@@ -34,22 +36,22 @@ class Print_jadwal extends CI_Controller {
     {
         $id_driver  = $this->input->post('id_driver');
         $tgl_jadwal = $this->input->post('tgl_jadwal');
-        $data['id'] = $this->m_print_jadwal->data_print($id_driver,$tgl_jadwal);
-        $data['driver']=$id_driver;
+        $data['id'] = $this->m_print_jadwal->data_print($id_driver, $tgl_jadwal);
+        $data['driver'] = $id_driver;
         $data['tgl'] = $tgl_jadwal;
-        $this->load->view($this->dir_v.'search',$data);
+        $this->load->view($this->dir_v . 'search', $data);
     }
 
-    function printa($id_driver,$tgl_jadwal)
+    function printa($id_driver, $tgl_jadwal)
     {
-        $data['id'] = $this->m_print_jadwal->data_print($id_driver,$tgl_jadwal);
-        $data['driver']=$id_driver;
+        $data['id'] = $this->m_print_jadwal->data_print($id_driver, $tgl_jadwal);
+        $data['driver'] = $id_driver;
         $data['tgl'] = $tgl_jadwal;
-        $this->load->view($this->dir_v.'print',$data);
+        $this->load->view($this->dir_v . 'print', $data);
     }
 
     function tampil()
     {
-        $this->load->view($this->dir_v.'tampil');
+        $this->load->view($this->dir_v . 'tampil');
     }
 }

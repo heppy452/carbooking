@@ -135,6 +135,26 @@ class M_app_head extends CI_Model
         return $dt->nama_lengkap;
     }
 
+    function nik_driver($param)
+    {
+        $this->db->select('drv_nik');
+        $this->db->from('data_driver');
+        $this->db->where('id_driver', $param);
+        $get_all = $this->db->get();
+        $data = $get_all->row();
+        return $data->drv_nik;
+    }
+
+    function no_hp($param)
+    {
+        $this->db->select('drv_hp');
+        $this->db->from('data_driver');
+        $this->db->where('id_driver', $param);
+        $get_all = $this->db->get();
+        $data = $get_all->row();
+        return $data->drv_hp;
+    }
+
     function nama_karyawan($param)
     {
         $db_hris = $this->load->database('db_hris', TRUE);
@@ -144,5 +164,25 @@ class M_app_head extends CI_Model
         $emp = $db_hris->get();
         $dt = $emp->row();
         return $dt->nama_lengkap;
+    }
+
+    function plat($param)
+    {
+        $this->db->select('nomor_plat');
+        $this->db->from('data_kendaraan');
+        $this->db->where('id_kendaraan', $param);
+        $get_all = $this->db->get();
+        $data = $get_all->row();
+        return $data->nomor_plat;
+    }
+
+    function no_internal($param)
+    {
+        $this->db->select('no_internal');
+        $this->db->from('data_kendaraan');
+        $this->db->where('id_kendaraan', $param);
+        $get_all = $this->db->get();
+        $data = $get_all->row();
+        return $data->no_internal;
     }
 }
