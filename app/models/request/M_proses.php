@@ -15,6 +15,37 @@ class M_proses extends CI_Model
         $this->db->where('dari_tanggal', $tanggal);
         $this->db->where('id_departement', $departement);
         $this->db->where('apr_spv', 1);
+        $this->db->where('apr_ga', 0);
+        $this->db->where('kategori !=', 3);
+        $this->db->where('jns_booking !=', 2);
+        $get_all = $this->db->get();
+        return $get_all;
+    }
+
+    function data_detail_dir_1($tanggal, $departement)
+    {
+        $this->db->select('*');
+        $this->db->from('data_request');
+        $this->db->where('dari_tanggal', $tanggal);
+        $this->db->where('id_departement', $departement);
+        $this->db->where('apr_spv', 1);
+        $this->db->where('apr_ga', 0);
+        $this->db->where('kategori =', 3);
+        $this->db->where('jns_booking !=', 2);
+        $get_all = $this->db->get();
+        return $get_all;
+    }
+
+    function data_detail_dir($tanggal, $departement)
+    {
+        $this->db->select('*');
+        $this->db->from('data_request');
+        $this->db->where('dari_tanggal', $tanggal);
+        $this->db->where('id_departement', $departement);
+        $this->db->where('kategori', 3);
+        $this->db->where('jns_booking', 2);
+        $this->db->where('apr_spv', 1);
+        $this->db->where('apr_dir', 1);
         $get_all = $this->db->get();
         return $get_all;
     }

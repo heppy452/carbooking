@@ -12,17 +12,8 @@ class M_app_head extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('data_request');
-        if ($level == 5) {
-            $this->db->where('id_user', $id);
-        } else if ($level == 4) {
-            $this->db->where('jenis_kebutuhan', 1);
-            $this->db->where('id_departement', $departement);
-            $this->db->where('id_departement', $departement);
-        } else if ($level == 2) {
-            $this->db->where('apr_spv', 1);
-            $this->db->where('apr_ga', 0);
-        }
-
+        $this->db->where('id_departement', $departement);
+        $this->db->where('id_departement', $departement);
         $get_all = $this->db->get();
         return $get_all;
     }

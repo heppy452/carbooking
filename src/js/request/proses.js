@@ -24,6 +24,8 @@ $(document).ready(function () {
       data: {
         tanggal: $("#tanggal").val(),
         departement: $("#departement").val(),
+        kategori: $("#kategori").val(),
+        booking: $("#booking").val(),
       },
     },
     deferRender: true,
@@ -338,7 +340,21 @@ $(document).ready(function () {
 
     var tanggal = $(this).attr("data-tanggal");
     var departement = $(this).attr("data-departement");
-    window.location = url_ctrl + "form_approval/" + tanggal + "/" + departement;
+    var kategori = $(this).attr("data-kategori");
+    var booking = $(this).attr("data-booking");
+    var app_dir = $(this).attr("data-dir");
+    window.location =
+      url_ctrl +
+      "form_approval/" +
+      tanggal +
+      "/" +
+      departement +
+      "/" +
+      kategori +
+      "/" +
+      booking +
+      "/" +
+      app_dir;
   });
 
   $(document).on("click", "#tutup_btn", function (e) {

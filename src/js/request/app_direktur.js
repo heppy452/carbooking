@@ -44,6 +44,7 @@ $(document).ready(function () {
           '<button type="submit" class="btn btn-default center-block" id="save_approval">Simpan</button>'
         );
         $("div#MyModal").modal("show");
+        ket();
       })
       .fail(function (res) {
         alert("Error Response !");
@@ -80,4 +81,15 @@ $(document).ready(function () {
         console.log("responseText", res.responseText);
       });
   });
+
+  function ket() {
+    $("#apr_dir").on("change", function () {
+      //  alert( this.value ); // or $(this).val()
+      if (this.value == 1) {
+        $("#ket").hide();
+      } else {
+        $("#ket").show();
+      }
+    });
+  }
 });

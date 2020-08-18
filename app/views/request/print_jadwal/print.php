@@ -54,7 +54,7 @@
                 if ($key->jns_pemesan == 1) {
                     $nama = $this->m_print_jadwal->nama_karyawan($key->nik_karyawan);
                 } else {
-                    $nama = $key->nama_karyawan;
+                    $nama = $key->nama_lengkap;
                 }
             ?>
                 <tr>

@@ -68,7 +68,7 @@ class Proses extends CI_Controller
             if ($id->kategori == 3 and $id->jns_booking == 2 and $id->apr_dir == 0) {
                 $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
             } else {
-                $action = '<a href="" title="Approval"><i id="form_approval" data-tanggal="' . $id->dari_tanggal . '" data-departement="' . $id->id_departement . '" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp;';
+                $action = '<a href="" title="Approval"><i id="form_approval" data-tanggal="' . $id->dari_tanggal . '" data-dir="' . $id->apr_dir . '" data-departement="' . $id->id_departement . '" data-kategori ="' . $id->kategori . '" data-booking="' . $id->jns_booking . '" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp;';
             }
 
             $data[] = array(
@@ -98,10 +98,12 @@ class Proses extends CI_Controller
 
     function table_proses()
     {
+        $date = date("Y-m-d");
         $this->db->select('*');
         $this->db->from('data_request');
         $this->db->where('apr_spv', 1);
         $this->db->where('apr_ga', 1);
+        $this->db->where('dari_tanggal', $date);
         $get_all = $this->db->get();
         // Datatables Variables
         $draw = intval($this->input->get("draw"));
@@ -112,7 +114,12 @@ class Proses extends CI_Controller
         $i = 0;
         foreach ($get_all->result() as $id) {
 
-            $nik_driver = $this->l_proses->status($id->status_request);
+            $nik_driver = $this->m_proses->nik_driver($id->id_driver);
+            if ($id->id_driver == 0) {
+                $driver = '-';
+            } else {
+                $driver =  $this->m_proses->nama_driver($nik_driver) . ' ' . $this->m_proses->no_internal($id->id_kendaraan);
+            }
 
             $data[] = array(
                 "DT_RowId" => $id->id_request,
@@ -121,11 +128,12 @@ class Proses extends CI_Controller
                 "2" => $this->l_proses->kategori($id->kategori),
                 "3" => $this->m_proses->lokasi($id->lokasi_awal),
                 "4" => $this->m_proses->lokasi($id->lokasi_tujuan),
-                "5" => $this->m_proses->nama_driver($nik_driver) . ' ' . $this->m_proses->no_internal($id->id_kendaraan),
+                "5" => $driver,
                 "6" => $this->l_proses->status($id->status_request),
                 "7" => '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> 
                 &nbsp; <a href="" title="Pilih Sopir"><i id="sopir_btn" data-id="' . $id->id_request . '" class="fa fa-user" style="font-size:15px; color:#0b7d32;"></i></a>
-                &nbsp; <a href="" title="Edit"><i id="edit_btn" data-id="' . $id->id_request . '" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a>'
+                &nbsp; <a href="" title="Edit"><i id="edit_btn" data-id="' . $id->id_request . '" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a>
+                &nbsp; <a href="' . site_url("request/print_jadwal/printa/$id->id_driver/$id->dari_tanggal") . '" title="Edit"><i class="fa fa-print" style="font-size:15px; color:#0b7d32;"></i></a>'
             );
         }
 
@@ -144,7 +152,18 @@ class Proses extends CI_Controller
 
         $tanggal = $this->input->get('tanggal');
         $departement = $this->input->get('departement');
-        $get_all = $this->m_proses->data_detail($tanggal, $departement);
+        $kategori = $this->input->get('kategori');
+        $booking = $this->input->get('booking');
+        $app_dir = $this->input->get('app_dir');
+
+        if ($kategori == 3 and $booking == 2) {
+            $get_all = $this->m_proses->data_detail_dir($tanggal, $departement);
+        } else if ($kategori == 3 and $booking != 2) {
+            $get_all = $this->m_proses->data_detail_dir_1($tanggal, $departement);
+        } else {
+            $get_all = $this->m_proses->data_detail($tanggal, $departement);
+        }
+
 
         // Datatables Variables
         $draw = intval($this->input->get("draw"));
@@ -155,7 +174,13 @@ class Proses extends CI_Controller
         $i = 1;
         foreach ($get_all->result() as $id) {
 
-            $driver = '<div class="row">' . $this->driver() . ' ' . $this->kendaraan() . '</div>';
+            if ($id->kategori == 3 and $id->jns_booking == 2) {
+                $pilih_driver = '';
+            } else {
+                $pilih_driver = $this->driver();
+            }
+
+            $driver = '<div class="row">' . $pilih_driver . ' ' . $this->kendaraan() . '</div>';
 
             $data[] = array(
                 "DT_RowId" => $id->id_request . '' . $this->l_proses->id_request($id->id_request),
@@ -212,7 +237,9 @@ class Proses extends CI_Controller
         $end_date       = $this->input->post('end_date');
         $this->db->select('*');
         $this->db->from('data_request');
-        $this->db->where('status_request', 3);
+        $this->db->where('status_request !=', 0);
+        $this->db->where('apr_spv', 1);
+        $this->db->where('apr_ga', 1);
         $this->db->where('dari_tanggal between"' . $start_date . '"and"' . $end_date . '"', '', false);
         $get_all = $this->db->get();
         $data['id'] = $get_all;
@@ -266,7 +293,7 @@ class Proses extends CI_Controller
         echo json_encode($notif);
     }
 
-    function form_approval($tanggal, $departement)
+    function form_approval($tanggal, $departement, $kategori, $booking)
     {
         $data['css'] = array(
             'lib/datepicker/datepicker.min.css',
@@ -285,6 +312,8 @@ class Proses extends CI_Controller
         );
         $data['tanggal'] = $tanggal;
         $data['departement'] = $departement;
+        $data['kategori'] = $kategori;
+        $data['booking'] = $booking;
         $this->l_skin->main($this->dir_v . 'form_approval', $data);
     }
 

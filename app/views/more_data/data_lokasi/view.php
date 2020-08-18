@@ -3,15 +3,19 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
                 <div class="card-header">
-                    <?php if(!empty($panel)){echo $panel;}?>
+                    <?php if (!empty($panel)) {
+                        echo $panel;
+                    } ?>
                 </div>
                 <div class="card-body">
-                    <button id="add_btn" class="btn btn-default"><i class="fa fa-user-plus"></i> Tambah Data</button><hr>
+                    <button id="add_btn" class="btn btn-default"><i class="fa fa-user-plus"></i> Tambah Data</button>
+                    <hr>
                     <table class="table table-bordered table-hover" id="tabel_custom">
                         <thead>
                             <tr>
                                 <th>Id Lokasi</th>
                                 <th>Nama Lokasi</th>
+                                <th>Kategori Lokasi</th>
                             </tr>
                         </thead>
                         <tbody>

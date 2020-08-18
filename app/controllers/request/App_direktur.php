@@ -31,9 +31,9 @@ class App_direktur extends CI_Controller {
     {
         $this->db->select('*');
         $this->db->from('data_request');
-        $this->db->where('kategori',3);
-        $this->db->where('jns_booking',2);
-        $this->db->where('apr_spv',1);
+        $this->db->where('(kategori=3 AND jns_booking=2 AND apr_spv=1)');
+        $this->db->or_where('(kategori=2 AND jenis_kebutuhan=2 AND apr_spv=1)'); 
+        $this->db->or_where('(kategori=1 AND jenis_kebutuhan=2 AND apr_spv=1)');
         $get_all = $this->db->get();
 
         // Datatables Variables
@@ -46,6 +46,11 @@ class App_direktur extends CI_Controller {
         foreach ($get_all->result() as $id) {
                     $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
                         <a href="" title="Approval"><i id="appoval_btn" data-id="' . $id->id_request . '" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a>';
+                        if ($id->sampai_tanggal=='0000-00-00'){ 
+                            $sampai_tanggal='-';
+                        }else{
+                            $sampai_tanggal=date('d-m-Y',strtotime($id->sampai_tanggal));
+                        }
 
             $data[] = array(
                 "DT_RowId" => $id->id_request,
@@ -53,7 +58,7 @@ class App_direktur extends CI_Controller {
                 "1" => $this->m_app_direktur->nama_perusahaan($id->id_perusahaan),
                 "2" => $this->m_app_direktur->nama_divisi($id->id_departement),
                 "3" => date('d-m-Y',strtotime($id->dari_tanggal)),
-                "4" => date('d-m-Y',strtotime($id->sampai_tanggal)),
+                "4" => $sampai_tanggal,
                 "5" => $this->l_app_direktur->approve($id->apr_dir),
                 "6" => $action
             );
@@ -102,11 +107,16 @@ class App_direktur extends CI_Controller {
             echo json_encode($notif);
         } else {
             $today=date('Y-m-d');
+            if ($apr_dir==1){
+                $keterangan='';
+            }else{
+                $keterangan=$this->input->post('keterangan');
+            }
             $data1=array(
                 'status_request'=>$status,
                 'apr_dir'       =>$apr_dir,
                 'apr_dir_tgl'   =>$today,
-                'apr_dir_ket'   =>$this->input->post('keterangan')
+                'apr_dir_ket'   =>$keterangan
             );
             $this->db->where('id_request', $data_id);
             $this->db->update('data_request', $data1);

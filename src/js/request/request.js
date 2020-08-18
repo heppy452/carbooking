@@ -23,6 +23,25 @@ $(document).ready(function () {
     ordering: false,
   });
 
+  var table_view = $("#tabel_view").DataTable({
+    ajax: {
+      method: "GET",
+      url: url_ctrl + "table_view",
+      cache: false,
+      data: {
+        nik: $("#nik").val(),
+        tanggal: $("#tanggal").val(),
+        nama: $("#nama").val(),
+        pemesan: $("#pemesan").val(),
+      },
+    },
+    deferRender: true,
+    searching: false,
+    paging: false,
+    info: false,
+    ordering: false,
+  });
+
   // Finish Button
   $(document).on("click", "#finish_btn", function (e) {
     e.preventDefault();
@@ -153,11 +172,37 @@ $(document).ready(function () {
   chekc_booking();
 
   // Form Edit
+  $(document).on("click", "#detail_btn", function (e) {
+    e.preventDefault();
+
+    var nik = $(this).attr("data-nik");
+    var tanggal = $(this).attr("data-tanggal");
+    var nama = $(this).attr("data-nama");
+    var pemesan = $(this).attr("data-pemesan");
+
+    if (nama == "") {
+      var name = "null";
+    } else {
+      var name = nama;
+    }
+
+    window.location =
+      url_ctrl +
+      "tampil_view_detail/" +
+      nik +
+      "/" +
+      tanggal +
+      "/" +
+      name +
+      "/" +
+      pemesan;
+  });
+
+  // tampil detail
   $(document).on("click", "#form_edit_btn", function (e) {
     e.preventDefault();
 
     var id = $(this).attr("data-id");
-
     window.location = url_ctrl + "form_edit/" + id;
   });
 
@@ -625,7 +670,7 @@ $(document).ready(function () {
   });
 
   // Tampil Button
-  $(document).on("click", "#detail_btn", function (e) {
+  $(document).on("click", "#detail_btn_view", function (e) {
     e.preventDefault();
     $.ajax({
       method: "GET",
@@ -849,18 +894,6 @@ $(document).ready(function () {
             "<div class='col-lg-12'><hr></div>" +
             "<div class='col-lg-3'>" +
             "<div class='form-group'>" +
-            "<label class='control-label'>Tanggal Jadwal </label>" +
-            "<div class='input-group'>" +
-            "<input class='form-control date1 tgl_jadwal_mlt' placeholder='Pilih Tanggal' type='text' id='tgl_jadwal_mlt'>" +
-            "<div class='input-group-append'>" +
-            "<span class='input-group-text' id='basic-addon2'>" +
-            "<i class='fa fa-calendar'></i>" +
-            "</div>" +
-            "</div>" +
-            "</div>" +
-            "</div>" +
-            "<div class='col-lg-2'>" +
-            "<div class='form-group'>" +
             "<label class='control-label'>Dari </label>" +
             "<div class='input-group'>" +
             "<input class='form-control time dari_pukul_mlt waktu' type='text' value='08:00' id='dari_pukul_mlt'>" +
@@ -871,7 +904,7 @@ $(document).ready(function () {
             "</div>" +
             "</div>" +
             "</div>" +
-            "<div class='col-lg-2'>" +
+            "<div class='col-lg-3'>" +
             "<div class='form-group'>" +
             "<label class='control-label'>Sampai </label>" +
             "<div class='input-group'>" +
@@ -883,7 +916,7 @@ $(document).ready(function () {
             "</div>" +
             "</div>" +
             "</div>" +
-            "<div class='col-lg-4'>" +
+            "<div class='col-lg-5'>" +
             "<div class='form-group'>" +
             "<label class='control-label'>Lokasi Penjemputan </label>" +
             "<input class='form-control lokasi_penjemputan_mlt' type='text' id='lokasi_penjemputan'>" +

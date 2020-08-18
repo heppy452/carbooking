@@ -7,6 +7,8 @@
                     <div class="row">
                         <input type="text" value="<?= $tanggal ?>" id="tanggal" hidden>
                         <input type="text" value="<?= $departement ?>" id="departement" hidden>
+                        <input type="text" value="<?= $kategori ?>" id="kategori" hidden>
+                        <input type="text" value="<?= $booking ?>" id="booking" hidden>
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-header"><i class="fa fa-city"></i> <strong>Departement </strong> <strong class="text-danger"><?= $this->m_proses->nama_departemen($departement) ?></strong></div>

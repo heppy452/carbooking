@@ -24,7 +24,8 @@
                 <td><?= $this->l_proses->status($key->status_request) ?></td>
                 <td><?= '<a href="" title="Detail"><i id="detail_btn" data-id="' . $key->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> 
                 &nbsp; <a href="" title="Pilih Sopir"><i id="sopir_btn" data-id="' . $key->id_request . '" class="fa fa-user" style="font-size:15px; color:#0b7d32;"></i></a>
-                &nbsp; <a href="" title="Edit"><i id="edit_btn" data-id="' . $key->id_request . '" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a>' ?></td>
+                &nbsp; <a href="" title="Edit"><i id="edit_btn" data-id="' . $key->id_request . '" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a>
+                &nbsp; <a href="' . site_url("request/print_jadwal/printa/$key->id_driver/$key->dari_tanggal") . '" title="Edit"><i class="fa fa-print" style="font-size:15px; color:#0b7d32;"></i></a>' ?></td>
             </tr>
         <?php } ?>
     </tbody>
