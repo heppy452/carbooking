@@ -74,9 +74,9 @@ class M_request extends CI_Model
         }
     }
 
-    function select_lokasi($data)
+    function select_lokasi($data, $jns_lokasi)
     {
-        $query = $this->db->query('SELECT * FROM data_lokasi ORDER BY nama_lokasi ASC');
+        $query = $this->db->query('SELECT * FROM data_lokasi where kategori_lokasi = ' . $jns_lokasi . ' ORDER BY nama_lokasi ASC');
         if (empty($data)) {
             foreach ($query->result() as $id) {
                 echo '<option value="' . $id->id_lokasi . '">' . $id->nama_lokasi . '</option>';

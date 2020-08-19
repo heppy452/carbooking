@@ -24,6 +24,7 @@
                                             <div class="form-group">
                                                 <label class="control-label">Jenis Lokasi </label>
                                                 <select class="form-control" id="jenis_lokasi">
+                                                    <option value="">-- Pilih --</option>
                                                     <option value="1">Internal</option>
                                                     <option value="2">External</option>
                                                 </select>
@@ -248,7 +249,6 @@
                                                                 <label class="control-label">Lokasi Keberangkatan</label>
                                                                 <select class="form-control" id="lokasi_awal">
                                                                     <option value="">--- Pilih ---</option>
-                                                                    <?php $this->m_request->select_lokasi($data = NULL); ?>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -257,7 +257,7 @@
                                                                 <label class="control-label">Lokasi Tujuan</label>
                                                                 <select class="form-control" id="lokasi_tujuan">
                                                                     <option value="">--- Pilih ---</option>
-                                                                    <?php $this->m_request->select_lokasi($data = NULL); ?>
+
                                                                 </select>
                                                             </div>
                                                         </div>

@@ -42,6 +42,27 @@ $(document).ready(function () {
     ordering: false,
   });
 
+  //change lokasi
+  $(document).on("change", "#jenis_lokasi", function (e) {
+    var jns_lokasi = this.value;
+    e.preventDefault();
+
+    $.ajax({
+      method: "GET",
+      cache: false,
+      data: { jns_lokasi: jns_lokasi },
+      url: url_ctrl + "get_lokasi",
+    })
+      .done(function (result) {
+        $("#lokasi_awal").html(result);
+        $("#lokasi_tujuan").html(result);
+      })
+      .fail(function (res) {
+        alert("Error Response !");
+        console.log("responseText", res.responseText);
+      });
+  });
+
   // Finish Button
   $(document).on("click", "#finish_btn", function (e) {
     e.preventDefault();
@@ -879,10 +900,14 @@ $(document).ready(function () {
 
   $(document).on("click", "#add_tujuan", function (e) {
     e.preventDefault();
+
+    var jns_lokasi = $("#jenis_lokasi").val();
+
     $.ajax({
       method: "GET",
       cache: false,
-      url: url_ctrl + "data_lokasi",
+      data: { jns_lokasi: jns_lokasi },
+      url: url_ctrl + "get_lokasi",
     }).done(function (result) {
       var kategori = $("#kategori").val();
       if (kategori == 1) {

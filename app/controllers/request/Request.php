@@ -110,6 +110,12 @@ class Request extends CI_Controller
         $this->l_skin->main($this->dir_v . 'add', $data);
     }
 
+    function get_lokasi()
+    {
+        $jns_lokasi = $this->input->get('jns_lokasi');
+        echo  $this->m_request->select_lokasi($data = NULL, $jns_lokasi);
+    }
+
     function form_edit($param)
     {
         $data['css'] = array(
