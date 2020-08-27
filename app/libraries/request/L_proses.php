@@ -142,4 +142,9 @@ class L_proses
     {
         return '<input type="text" hidden class="form-control id_request" value="' . $param . '">';
     }
+
+    function kategori_tiket($param)
+    {
+        return '<input type="text" hidden class="form-control kategori_tiket" value="' . $param . '">';
+    }
 }

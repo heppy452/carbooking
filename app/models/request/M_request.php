@@ -92,6 +92,24 @@ class M_request extends CI_Model
         }
     }
 
+    function select_lokasi_berangkat($data)
+    {
+        $query = $this->db->query('SELECT * FROM data_lokasi ORDER BY nama_lokasi ASC');
+        if (empty($data)) {
+            foreach ($query->result() as $id) {
+                echo '<option value="' . $id->id_lokasi . '">' . $id->nama_lokasi . '</option>';
+            }
+        } else {
+            foreach ($query->result() as $id) {
+                if (strstr($data, $id->id_lokasi) != FALSE) {
+                    echo '<option value="' . $id->id_lokasi . '" selected="selected">' . $id->nama_lokasi . '</option>';
+                } else {
+                    echo '<option value="' . $id->id_lokasi . '">' . $id->nama_lokasi . '</option>';
+                }
+            }
+        }
+    }
+
     function select_driver($data)
     {
         $query = $this->db->query('SELECT * FROM data_driver ORDER BY drv_nik ASC');
@@ -339,5 +357,26 @@ class M_request extends CI_Model
         $query = $this->db->query("SELECT nomor_request FROM data_request ORDER BY id_request DESC LIMIT 1");
         $data = $query->row();
         return $data->nomor_request;
+    }
+
+    function cek_status()
+    {
+        $id_user = $this->session->userdata('sess_id');
+        $kemarin = date('Y-m-d', strtotime("-1 day", strtotime(date("Y-m-d"))));
+        $this->db->select('*');
+        $this->db->from('data_request');
+        $this->db->where('status_request', 1);
+        $this->db->where('apr_ga', 1);
+        $this->db->where('dari_tanggal', $kemarin);
+        $this->db->where('id_user', $id_user);
+        $this->db->where('kategori !=', 3);
+        $this->db->where('jns_booking !=', 2);
+        $get = $this->db->get();
+        $id = $get->row();
+        if (isset($id->id_request)) {
+            return $id->id_request;
+        } else {
+            return NULL;
+        }
     }
 }

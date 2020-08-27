@@ -65,7 +65,7 @@ class Proses extends CI_Controller
         $i = 0;
         foreach ($get_all->result() as $id) {
 
-            if ($id->kategori == 3 and $id->jns_booking == 2 and $id->apr_dir == 0) {
+            if ($id->kategori == 3 and $id->jns_booking == 2 and $id->apr_dir == 0 or $id->kategori != 3 and $id->jenis_kebutuhan == 2 and $id->app_dir == 0) {
                 $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
             } else {
                 $action = '<a href="" title="Approval"><i id="form_approval" data-tanggal="' . $id->dari_tanggal . '" data-dir="' . $id->apr_dir . '" data-departement="' . $id->id_departement . '" data-kategori ="' . $id->kategori . '" data-booking="' . $id->jns_booking . '" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp;';
@@ -118,19 +118,18 @@ class Proses extends CI_Controller
             if ($id->id_driver == 0) {
                 $driver = '-';
             } else {
-                $driver =  $this->m_proses->nama_driver($nik_driver) . ' ' . $this->m_proses->no_internal($id->id_kendaraan);
+                $driver =  '<b>' . $this->m_proses->nama_driver($nik_driver) . '</b>' . ' ' . $this->m_proses->no_internal($id->id_kendaraan);
             }
 
             $data[] = array(
                 "DT_RowId" => $id->id_request,
                 "0" => $id->nomor_request,
                 "1" => $id->dari_tanggal . ' ' . $id->dari_jam,
-                "2" => $this->l_proses->kategori($id->kategori),
-                "3" => $this->m_proses->lokasi($id->lokasi_awal),
-                "4" => $this->m_proses->lokasi($id->lokasi_tujuan),
-                "5" => $driver,
-                "6" => $this->l_proses->status($id->status_request),
-                "7" => '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> 
+                "2" => $this->m_proses->lokasi($id->lokasi_awal),
+                "3" => $this->m_proses->lokasi($id->lokasi_tujuan),
+                "4" => $driver,
+                "5" => $this->l_proses->status($id->status_request),
+                "6" => '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> 
                 &nbsp; <a href="" title="Pilih Sopir"><i id="sopir_btn" data-id="' . $id->id_request . '" class="fa fa-user" style="font-size:15px; color:#0b7d32;"></i></a>
                 &nbsp; <a href="" title="Edit"><i id="edit_btn" data-id="' . $id->id_request . '" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a>
                 &nbsp; <a href="' . site_url("request/print_jadwal/printa/$id->id_driver/$id->dari_tanggal") . '" title="Edit"><i class="fa fa-print" style="font-size:15px; color:#0b7d32;"></i></a>'
@@ -188,7 +187,7 @@ class Proses extends CI_Controller
                 "1" => $id->dari_tanggal . ' ' . $id->dari_jam,
                 "2" => $this->m_proses->lokasi($id->lokasi_awal),
                 "3" => $this->m_proses->lokasi($id->lokasi_tujuan),
-                "4" => $this->l_proses->action_pilihan() . '' . $this->l_proses->id_request($id->id_request),
+                "4" => $this->l_proses->action_pilihan() . '' . $this->l_proses->id_request($id->id_request) . '' . $this->l_proses->kategori_tiket($id->kategori),
                 "5" => $this->l_proses->keterangan(),
                 "6" => $driver,
             );
@@ -253,41 +252,71 @@ class Proses extends CI_Controller
         $keterangan     = $this->input->post('keterangan');
         $driver         = $this->input->post('driver');
         $kendaraan      = $this->input->post('kendaraan');
+        $kategori       = $this->input->post('kategori');
         $today          = date("Y-m-d");
 
         $count          = count($id_request);
 
         for ($i = 0; $i < $count; $i++) {
-            if ($approved[$i] == 1) {
-                $data[$i] = array(
-                    'id_request'        => $id_request[$i],
-                    'apr_ga'            => $approved[$i],
-                    'apr_ga_ket'        => $keterangan[$i],
-                    'apr_spv_tgl'       => $today,
-                    'apr_ga_tgl'        => $today,
-                    'id_kendaraan'      => $kendaraan[$i],
-                    'id_driver'         => $driver[$i],
-                    'status_request'    => 1,
-                );
+            if ($kategori[$i] == 3) {
+                if ($approved[$i] == 1) {
+                    $data[$i] = array(
+                        'id_request'        => $id_request[$i],
+                        'apr_ga'            => $approved[$i],
+                        'apr_ga_ket'        => $keterangan[$i],
+                        'apr_spv_tgl'       => $today,
+                        'apr_ga_tgl'        => $today,
+                        'id_kendaraan'      => $kendaraan[$i],
+                        'status_request'    => 1,
+                    );
 
-                $this->db->where('id_request', $id_request[$i]);
-                $this->db->update('data_request', $data[$i]);
+                    $this->db->where('id_request', $id_request[$i]);
+                    $this->db->update('data_request', $data[$i]);
+                } else {
+                    $data1[$i] = array(
+                        'id_request'       => $id_request[$i],
+                        'apr_ga'           => $approved[$i],
+                        'apr_ga_ket'       => $keterangan[$i],
+                        'apr_ga_tgl'       => $today,
+                        'status_request'    => 2
+                    );
+
+                    //email approve spv ke admin GA
+                    // $this->email_to_ga($data_id);
+                    $this->db->where('id_request', $id_request[$i]);
+                    $this->db->update('data_request', $data1[$i]);
+                }
             } else {
-                $data1[$i] = array(
-                    'id_request'       => $id_request[$i],
-                    'apr_ga'           => $approved[$i],
-                    'apr_ga_ket'       => $keterangan[$i],
-                    'apr_ga_tgl'       => $today,
-                    'status_request'    => 2
-                );
+                if ($approved[$i] == 1) {
+                    $data[$i] = array(
+                        'id_request'        => $id_request[$i],
+                        'apr_ga'            => $approved[$i],
+                        'apr_ga_ket'        => $keterangan[$i],
+                        'apr_spv_tgl'       => $today,
+                        'apr_ga_tgl'        => $today,
+                        'id_kendaraan'      => $kendaraan[$i],
+                        'id_driver'         => $driver[$i],
+                        'status_request'    => 1,
+                    );
 
-                //email approve spv ke admin GA
-                // $this->email_to_ga($data_id);
-                $this->db->where('id_request', $id_request[$i]);
-                $this->db->update('data_request', $data1[$i]);
+                    $this->db->where('id_request', $id_request[$i]);
+                    $this->db->update('data_request', $data[$i]);
+                } else {
+                    $data1[$i] = array(
+                        'id_request'       => $id_request[$i],
+                        'apr_ga'           => $approved[$i],
+                        'apr_ga_ket'       => $keterangan[$i],
+                        'apr_ga_tgl'       => $today,
+                        'status_request'    => 2
+                    );
+
+                    //email approve spv ke admin GA
+                    // $this->email_to_ga($data_id);
+                    $this->db->where('id_request', $id_request[$i]);
+                    $this->db->update('data_request', $data1[$i]);
+                }
             }
         }
-
         $notif['notif'] = 'Approved';
         $notif['status'] = 2;
         echo json_encode($notif);

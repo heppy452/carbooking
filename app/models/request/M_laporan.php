@@ -40,6 +40,17 @@
         
     }
 
+    function nama_driver($param)
+    {
+        $db_hris = $this->load->database('db_hris', TRUE);
+        $db_hris->select('nama_lengkap');
+        $db_hris->from('emp_master');
+        $db_hris->where('nik', $param);
+        $emp = $db_hris->get();
+        $dt = $emp->row();
+        return $dt->nama_lengkap;
+    }
+
     function nama_perusahaan($data)
     {
         $db_hris = $this->load->database('db_hris', TRUE);
@@ -77,16 +88,43 @@
         $this->db->where('id_kendaraan', $param);
         $get_all = $this->db->get();
         $data = $get_all->row();
-        return $data->nomor_plat;
+        if (isset($data->nomor_plat)){
+            return $data->nomor_plat;
+        } else {
+            return '-';
+        }
+        
     }
 
-    function data_download($dari,$sampai)
+    function data_download($dari,$sampai,$kategori)
     {
-        $this->db->select('*');
-        $this->db->from('data_request');
-        $this->db->where('status_request', 3);
-        $this->db->where('tgl_jadwal between"'.$dari.'"and"'.$sampai.'"','',false);
+        if ($kategori==2){
+            $this->db->select('*');
+            $this->db->from('data_request');
+            $this->db->where('kategori',3);
+            $this->db->where('status_request', 3);
+            $this->db->where('dari_tanggal between"'.$dari.'"and"'.$sampai.'"','',false);
+            $get_all = $this->db->get();
+            return $get_all;
+        } else {
+            $this->db->select('*');
+            $this->db->from('data_request');
+            $this->db->where('kategori !=',3);
+            $this->db->where('status_request', 3);
+            $this->db->where('dari_tanggal between"'.$dari.'"and"'.$sampai.'"','',false);
+            $get_all = $this->db->get();
+            return $get_all;
+        }
+        
+    }
+
+    function nik_driver($param)
+    {
+        $this->db->select('drv_nik');
+        $this->db->from('data_driver');
+        $this->db->where('id_driver', $param);
         $get_all = $this->db->get();
-        return $get_all;
+        $data = $get_all->row();
+        return $data->drv_nik;
     }
 }

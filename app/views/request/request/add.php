@@ -1,14 +1,24 @@
 <input type="hidden" value="<?= $kategori ?>" id="kategori">
+<?php
+if ($kategori == 1) {
+    $tittle = '<strong style="color:green;">Tidak Rutin</strong>';
+} else if ($kategori == 2) {
+    $tittle = '<strong style="color:green;">Rutin</strong>';
+} else if ($kategori == 3) {
+    $tittle = '<strong style="color:green;">Non Driver</strong>';
+}
+?>
 <div class="container-fluid">
+    <?= $this->l_skin->breadcrumb(); ?>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header"><strong>Form Tambah Tiket</strong></div>
+                <div class="card-header"><strong>Form Tambah Tiket</strong> <?= $tittle ?></div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="card">
-                                <div class="card-header"><i class="fa fa-book"></i> <strong>Data Pemesanan </strong></div>
+                                <div class="card-header"><i class="fa fa-book"></i> <strong>Data Pemesan </strong></div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-7">
@@ -203,7 +213,7 @@
                                                             <div class="form-group">
                                                                 <label class="control-label">Tanggal Jadwal </label>
                                                                 <div class="input-group">
-                                                                    <input class="form-control date1" placeholder="Pilih Tanggal" type="text" id="tgl_jadwal">
+                                                                    <input class="form-control date1 " placeholder="Pilih Tanggal" type="text" id="tgl_jadwal">
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text" id="basic-addon2">
                                                                             <i class="fa fa-calendar"></i>
@@ -241,22 +251,24 @@
                                                         <div class="col-lg-5">
                                                             <div class="form-group">
                                                                 <label class="control-label">Lokasi Penjemputan </label>
-                                                                <input class="form-control" type="text" id="lokasi_penjemputan">
+                                                                <input class="form-control " type="text" id="lokasi_penjemputan">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-3">
                                                             <div class="form-group">
                                                                 <label class="control-label">Lokasi Keberangkatan</label>
-                                                                <select class="form-control" id="lokasi_awal">
+                                                                <select class="form-control select-lokasi" id="lokasi_awal">
                                                                     <option value="">--- Pilih ---</option>
+                                                                    <?php $this->m_request->select_lokasi_berangkat($data = NULL); ?>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4">
                                                             <div class="form-group">
                                                                 <label class="control-label">Lokasi Tujuan</label>
-                                                                <select class="form-control" id="lokasi_tujuan">
+                                                                <select class="form-control select-lokasi" id="lokasi_tujuan">
                                                                     <option value="">--- Pilih ---</option>
+
 
                                                                 </select>
                                                             </div>
@@ -350,6 +362,13 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <!-- lokasi penjemputan -->
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Lokasi Penjemputan </label>
+                                                        <input class="form-control" type="text" id="lokasi_penjemputan">
+                                                    </div>
+                                                </div>
                                                 <div class="col-lg-2">
                                                     <div class="form-group">
                                                         <label class="control-label">Dari </label>
@@ -378,25 +397,18 @@
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="form-group">
-                                                        <label class="control-label">Lokasi Penjemputan </label>
-                                                        <input class="form-control" type="text" id="lokasi_penjemputan">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
                                                         <label class="control-label">Lokasi Keberangkatan</label>
-                                                        <select class="form-control" id="lokasi_awal">
+                                                        <select class="form-control select-lokasi" id="lokasi_awal">
                                                             <option value="">--- Pilih ---</option>
-                                                            <?php $this->m_request->select_lokasi($data = NULL); ?>
+                                                            <?php $this->m_request->select_lokasi_berangkat($data = NULL); ?>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="form-group">
                                                         <label class="control-label">Lokasi Tujuan</label>
-                                                        <select class="form-control" id="lokasi_tujuan">
+                                                        <select class="form-control select-lokasi" id="lokasi_tujuan">
                                                             <option value="">--- Pilih ---</option>
-                                                            <?php $this->m_request->select_lokasi($data = NULL); ?>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -474,8 +486,8 @@
             </div>
         </div>
         <div class="card-footer" style="text-align: right;">
-            <button type="submit" class="btn btn-success" id="save_add_btn"><i class="fa fa-spinner fa-spin" style="display:none" id="show_spinner"></i>Simpan</button>
             <button type="submit" class="btn btn-danger" id="batal_btn">Batal</button>
+            <button type="submit" class="btn btn-success" id="save_add_btn"><i class="fa fa-spinner fa-spin" style="display:none" id="show_spinner"></i>Simpan</button>
         </div>
     </div>
 </div>

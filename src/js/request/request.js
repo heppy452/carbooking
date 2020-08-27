@@ -33,6 +33,7 @@ $(document).ready(function () {
         tanggal: $("#tanggal").val(),
         nama: $("#nama").val(),
         pemesan: $("#pemesan").val(),
+        id_request: $("#id_request").val(),
       },
     },
     deferRender: true,
@@ -51,10 +52,9 @@ $(document).ready(function () {
       method: "GET",
       cache: false,
       data: { jns_lokasi: jns_lokasi },
-      url: url_ctrl + "get_lokasi",
+      url: url_ctrl + "get_lokasi_jns",
     })
       .done(function (result) {
-        $("#lokasi_awal").html(result);
         $("#lokasi_tujuan").html(result);
       })
       .fail(function (res) {
@@ -66,25 +66,50 @@ $(document).ready(function () {
   // Finish Button
   $(document).on("click", "#finish_btn", function (e) {
     e.preventDefault();
-    $.ajax({
-      method: "GET",
-      url: url_ctrl + "finish",
-      cache: false,
-      data: { id_request: $(this).attr("data-id") },
-    })
-      .done(function (view) {
-        $("#MyModalTitle").html("<b>Penilaian</b>");
-        $("div.modal-dialog").addClass("modal-sm");
-        $("div#MyModalContent").html(view);
-        $("div#MyModalFooter").html(
-          '<button type="submit" class="btn btn-default center-block" id="save_finish">Simpan</button>'
-        );
-        $("div#MyModal").modal("show");
+    var kategori = $(this).attr("data-kategori");
+    if (kategori == 3) {
+      $.ajax({
+        method: "POST",
+        url: url_ctrl + "save_status",
+        cache: false,
+        data: { id_request: $(this).attr("data-id") },
       })
-      .fail(function (res) {
-        alert("Error Response !");
-        console.log("responseText", res.responseText);
-      });
+        .done(function (view) {
+          var obj = jQuery.parseJSON(view);
+          if (obj.status == 1) {
+            notifNo(obj.notif);
+          }
+          if (obj.status == 2) {
+            $("div#MyModal").modal("hide");
+            notifYesAuto(obj.notif);
+            table.ajax.reload();
+          }
+        })
+        .fail(function (res) {
+          alert("Error Response !");
+          console.log("responseText", res.responseText);
+        });
+    } else {
+      $.ajax({
+        method: "GET",
+        url: url_ctrl + "finish",
+        cache: false,
+        data: { id_request: $(this).attr("data-id") },
+      })
+        .done(function (view) {
+          $("#MyModalTitle").html("<b>Penilaian</b>");
+          $("div.modal-dialog").addClass("modal-sm");
+          $("div#MyModalContent").html(view);
+          $("div#MyModalFooter").html(
+            '<button type="submit" class="btn btn-default center-block" id="save_finish">Simpan</button>'
+          );
+          $("div#MyModal").modal("show");
+        })
+        .fail(function (res) {
+          alert("Error Response !");
+          console.log("responseText", res.responseText);
+        });
+    }
   });
 
   // act finish
@@ -176,13 +201,32 @@ $(document).ready(function () {
   $(document).on("click", "#add_btn", function (e) {
     e.preventDefault();
 
-    var kategori = $("#kategori option:selected").val();
-    if (kategori == "") {
-      notifNoAuto("Silahkan Pilih Kategori");
-      return false;
-    }
-    window.location = url_ctrl + "add/" + kategori;
+    $.ajax({
+      method: "POST",
+      url: url_ctrl + "cek_status",
+      cache: false,
+    })
+      .done(function (view) {
+        var obj = jQuery.parseJSON(view);
+        if (obj.status == 1) {
+          var kategori = $("#kategori option:selected").val();
+          if (kategori == "") {
+            notifNoAuto("Silahkan Pilih Kategori");
+            return false;
+          }
+          window.location = url_ctrl + "add/" + kategori;
+        }
+        if (obj.status == 2) {
+          notifError();
+        }
+      })
+      .fail(function (res) {
+        alert("Error Response !");
+        console.log("responseText", res.responseText);
+      });
   });
+
+  //pemanggilan function
   setDatePickerMulti();
   setDatePicker();
   $(".time").mask("00:00");
@@ -197,6 +241,7 @@ $(document).ready(function () {
     e.preventDefault();
 
     var nik = $(this).attr("data-nik");
+    var id_request = $(this).attr("data-id");
     var tanggal = $(this).attr("data-tanggal");
     var nama = $(this).attr("data-nama");
     var pemesan = $(this).attr("data-pemesan");
@@ -216,7 +261,9 @@ $(document).ready(function () {
       "/" +
       name +
       "/" +
-      pemesan;
+      pemesan +
+      "/" +
+      id_request;
   });
 
   // tampil detail
@@ -722,6 +769,7 @@ $(document).ready(function () {
   function setDatePicker() {
     $(".date1").datepicker({
       // startDate:'1980-01-01',
+      autoclose: true,
       scrollInput: false,
       format: "dd-mm-yyyy",
       changeMonth: true,
@@ -901,14 +949,35 @@ $(document).ready(function () {
   $(document).on("click", "#add_tujuan", function (e) {
     e.preventDefault();
 
+    var validate = "";
     var jns_lokasi = $("#jenis_lokasi").val();
 
-    $.ajax({
+    if (jns_lokasi == "") {
+      swal("Perhatian", "Pilih jenis lokasi<br>", "warning");
+      return false;
+    }
+
+    if (validate != "") {
+      swal("Perhatian", validate, "warning");
+      return false;
+    }
+
+    var ajax = $.ajax({
+      method: "GET",
+      cache: false,
+      url: url_ctrl + "get_lokasi",
+      success: function (result) {},
+    });
+
+    var ajax_jns = $.ajax({
       method: "GET",
       cache: false,
       data: { jns_lokasi: jns_lokasi },
-      url: url_ctrl + "get_lokasi",
-    }).done(function (result) {
+      url: url_ctrl + "get_lokasi_jns",
+      success: function (result) {},
+    });
+
+    $.when(ajax, ajax_jns).done(function (param_awal, param_tujuan) {
       var kategori = $("#kategori").val();
       if (kategori == 1) {
         var row_id = Math.floor(Math.random() * 999999);
@@ -958,10 +1027,10 @@ $(document).ready(function () {
             "<div class='col-lg-3'>" +
             "<div class='form-group'>" +
             "<label class='control-label'>Lokasi Keberangkatan </label>" +
-            "<select class='form-control lokasi_awal_mlt' id='lokasi_awal'>" +
+            "<select class='form-control lokasi_awal_mlt ' id='lokasi_awal'>" +
             "<option value=''>--- Pilih ---</option>" +
             "" +
-            result +
+            param_awal +
             "" +
             "</select>" +
             "</div>" +
@@ -969,10 +1038,10 @@ $(document).ready(function () {
             "<div class='col-lg-4'>" +
             "<div class='form-group'>" +
             "<label class='control-label'>Lokasi Tujuan </label>" +
-            "<select class='form-control lokasi_tujuan_mlt' id='lokasi_tujuan'>" +
+            "<select class='form-control lokasi_tujuan_mlt ' id='lokasi_tujuan'>" +
             "<option value=''>--- Pilih ---</option>" +
             "" +
-            result +
+            param_tujuan +
             "" +
             "</select>" +
             "</div>" +
@@ -1022,10 +1091,10 @@ $(document).ready(function () {
             "<div class='col-lg-3'>" +
             "<div class='form-group'>" +
             "<label class='control-label'>Lokasi Keberangkatan </label>" +
-            "<select class='form-control lokasi_awal_mlt' id='lokasi_awal'>" +
+            "<select class='form-control lokasi_awal_mlt ' id='lokasi_awal'>" +
             "<option value=''>--- Pilih ---</option>" +
             "" +
-            result +
+            param_awal +
             "" +
             "</select>" +
             "</div>" +
@@ -1033,10 +1102,10 @@ $(document).ready(function () {
             "<div class='col-lg-4'>" +
             "<div class='form-group'>" +
             "<label class='control-label'>Lokasi Tujuan </label>" +
-            "<select class='form-control lokasi_tujuan_mlt' id='lokasi_tujuan'>" +
+            "<select class='form-control lokasi_tujuan_mlt ' id='lokasi_tujuan'>" +
             "<option value=''>--- Pilih ---</option>" +
             "" +
-            result +
+            param_tujuan +
             "" +
             "</select>" +
             "</div>" +

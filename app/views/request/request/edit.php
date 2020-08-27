@@ -1,7 +1,21 @@
+<?php
+$kategori = $id->kategori;
+if ($kategori == 1) {
+    $tittle = '<strong style="color:green;">Tiket Tidak Rutin</strong>';
+} else if ($kategori == 2) {
+    $tittle = '<strong style="color:green;">Tiket Rutin</strong>';
+} else if ($kategori == 3) {
+    $tittle = '<strong style="color:green;">Tiket Non Driver</strong>';
+}
+?>
+
 <div class="row">
     <div class="col-lg-4">
         <div class="card">
-            <div class="card-header"><i class="fa fa-money-bill"></i> <strong style="color: red;"> <?= $id->nomor_request ?></strong></div>
+            <div class="card-header">
+                <i class="fa fa-money-bill"></i> <strong style="color: red;"> <?= $tittle ?></strong><strong style="color: red;"> <?= $id->nomor_request ?></strong>
+
+            </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-7">
@@ -96,14 +110,81 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-lg-8">
-        <div class="card">
-            <div class="card-header"><i class="fa fa-clock"></i> <strong>Data Jadwal </strong></div>
-            <div class="card-body">
-                <div class="row">
-                    <?php if ($id->kategori == 3) {
-                        if ($id->jns_booking == 1) { ?>
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header"><i class="fa fa-clock"></i> <strong>Data Jadwal </strong></div>
+                <div class="card-body">
+                    <div class="row">
+                        <?php if ($id->kategori == 3) {
+                            if ($id->jns_booking == 1) { ?>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Tanggal Jadwal </label>
+                                        <div class="input-group">
+                                            <input class="form-control date1" placeholder="Pilih Tanggal" type="text" id="tgl_jadwal" value="<?= date('d-m-Y', strtotime($id->dari_tanggal)) ?>">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon2">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Dari </label>
+                                        <div class="input-group">
+                                            <input class="form-control time waktu" value="<?= $id->dari_jam ?>" type="text" id="dari_pukul">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon2">
+                                                    <i class="fa fa-clock"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Sampai </label>
+                                        <div class="input-group">
+                                            <input class="form-control time waktu" value="<?= $id->sampai_jam ?>" type="text" id="sampai_pukul">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon2">
+                                                    <i class="fa fa-clock"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } else { ?>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Dari Tanggal </label>
+                                        <div class="input-group">
+                                            <input class="form-control date1" placeholder="Pilih Tanggal" type="text" id="tgl_jadwal" value="<?= date('d-m-Y', strtotime($id->dari_tanggal)) ?>">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon2">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Sampai Tanggal </label>
+                                        <div class="input-group">
+                                            <input class="form-control date1" placeholder="Pilih Tanggal" type="text" id="sampai_tanggal" value="<?= date('d-m-Y', strtotime($id->dari_tanggal)) ?>">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon2">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php }
+                        } else { ?>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="control-label">Tanggal Jadwal </label>
@@ -143,110 +224,42 @@
                                     </div>
                                 </div>
                             </div>
-                        <?php } else { ?>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="control-label">Dari Tanggal </label>
-                                    <div class="input-group">
-                                        <input class="form-control date1" placeholder="Pilih Tanggal" type="text" id="tgl_jadwal" value="<?= date('d-m-Y', strtotime($id->dari_tanggal)) ?>">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon2">
-                                                <i class="fa fa-calendar"></i>
-                                            </span>
-                                        </div>
-                                    </div>
+                                    <label class="control-label">Lokasi Penjemputan </label>
+                                    <input class="form-control" type="text" value="<?= $id->lokasi_jemput ?>" id="lokasi_penjemputan">
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="control-label">Sampai Tanggal </label>
-                                    <div class="input-group">
-                                        <input class="form-control date1" placeholder="Pilih Tanggal" type="text" id="sampai_tanggal" value="<?= date('d-m-Y', strtotime($id->dari_tanggal)) ?>">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon2">
-                                                <i class="fa fa-calendar"></i>
-                                            </span>
-                                        </div>
-                                    </div>
+                                    <label class="control-label">Lokasi Keberangkatan</label>
+                                    <select class="form-control" id="lokasi_awal">
+                                        <option value="">--- Pilih ---</option>
+                                        <?php $this->m_request->select_lokasi_berangkat($data = $id->lokasi_awal); ?>
+                                    </select>
                                 </div>
                             </div>
-                        <?php }
-                    } else { ?>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label class="control-label">Tanggal Jadwal </label>
-                                <div class="input-group">
-                                    <input class="form-control date1" placeholder="Pilih Tanggal" type="text" id="tgl_jadwal" value="<?= date('d-m-Y', strtotime($id->dari_tanggal)) ?>">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" id="basic-addon2">
-                                            <i class="fa fa-calendar"></i>
-                                        </span>
-                                    </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="control-label">Lokasi Tujuan</label>
+                                    <select class="form-control" id="lokasi_tujuan">
+                                        <option value="">--- Pilih ---</option>
+                                        <?php $this->m_request->select_lokasi($data = $id->lokasi_tujuan, $id->jenis_lokasi); ?>
+                                    </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-3">
+                        <?php } ?>
+                        <div class="col-lg-12">
                             <div class="form-group">
-                                <label class="control-label">Dari </label>
-                                <div class="input-group">
-                                    <input class="form-control time waktu" value="<?= $id->dari_jam ?>" type="text" id="dari_pukul">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" id="basic-addon2">
-                                            <i class="fa fa-clock"></i>
-                                        </span>
-                                    </div>
-                                </div>
+                                <label class="control-label">Keterangan</label>
+                                <textarea class="form-control" id="keterangan"><?= $id->keterangan ?></textarea>
                             </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <label class="control-label">Sampai </label>
-                                <div class="input-group">
-                                    <input class="form-control time waktu" value="<?= $id->sampai_jam ?>" type="text" id="sampai_pukul">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" id="basic-addon2">
-                                            <i class="fa fa-clock"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <label class="control-label">Lokasi Penjemputan </label>
-                                <input class="form-control" type="text" value="<?= $id->lokasi_jemput ?>" id="lokasi_penjemputan">
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <label class="control-label">Lokasi Keberangkatan</label>
-                                <select class="form-control" id="lokasi_awal">
-                                    <option value="">--- Pilih ---</option>
-                                    <?php $this->m_request->select_lokasi($data = $id->lokasi_awal, $id->jenis_lokasi); ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <label class="control-label">Lokasi Tujuan</label>
-                                <select class="form-control" id="lokasi_tujuan">
-                                    <option value="">--- Pilih ---</option>
-                                    <?php $this->m_request->select_lokasi($data = $id->lokasi_tujuan, $id->jenis_lokasi); ?>
-                                </select>
-                            </div>
-                        </div>
-                    <?php } ?>
-                    <div class="col-lg-12">
-                        <div class="form-group">
-                            <label class="control-label">Keterangan</label>
-                            <textarea class="form-control" id="keterangan"><?= $id->keterangan ?></textarea>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<input type="hidden" id="id_request" value="<?= $id->id_request; ?>" name="">
-<input type="hidden" id="kategori" value="<?= $id->kategori; ?>" name="">
-<input type="hidden" id="jns_booking" value="<?= $id->jns_booking; ?>" name="">
+    <input type="hidden" id="id_request" value="<?= $id->id_request; ?>" name="">
+    <input type="hidden" id="kategori" value="<?= $id->kategori; ?>" name="">
+    <input type="hidden" id="jns_booking" value="<?= $id->jns_booking; ?>" name="">

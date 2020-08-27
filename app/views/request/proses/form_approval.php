@@ -1,4 +1,5 @@
 <div class="container-fluid">
+    <?= $this->l_skin->breadcrumb_detail_1(); ?>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -34,8 +35,8 @@
                     </div>
                 </div>
                 <div class="card-footer" style="text-align: right;">
-                    <button type="submit" class="btn btn-success" id="approve_btn">Simpan</button>
                     <button type="submit" class="btn btn-danger" id="tutup_btn">Batal</button>
+                    <button type="submit" class="btn btn-success" id="approve_btn">Simpan</button>
                 </div>
             </div>
 

@@ -1,4 +1,5 @@
 <div class="container-fluid">
+    <?= $this->l_skin->breadcrumb(); ?>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
@@ -35,7 +36,6 @@
                                 <tr>
                                     <th>Nomor Tiket</th>
                                     <th>Tanggal Jadwal</th>
-                                    <th>Kategori</th>
                                     <th>Lokasi Keberangkatan</th>
                                     <th>Lokasi Tujuan</th>
                                     <th>Kendaraan</th>

@@ -1,4 +1,5 @@
 <div class="container-fluid">
+    <?= $this->l_skin->breadcrumb(); ?>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -7,7 +8,7 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="card">
-                                <div class="card-header"><i class="fa fa-book"></i> <strong>Data Pemesanan </strong></div>
+                                <div class="card-header"><i class="fa fa-book"></i> <strong>Data Pemesan </strong></div>
                                 <div class="card-body">
                                     <table class="table">
                                         <tr>

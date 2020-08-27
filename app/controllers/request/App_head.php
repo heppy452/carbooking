@@ -59,6 +59,7 @@ class App_head extends CI_Controller
                 $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
             }
 
+
             $data[] = array(
                 "DT_RowId" => $id->id_request,
                 "0" => $id->nomor_request,
@@ -108,10 +109,17 @@ class App_head extends CI_Controller
                 $jam = $id->dari_jam;
             }
 
+            if ($id->jns_pemesan == 1) {
+                $nama = $this->m_app_head->nama_karyawan($id->nik_karyawan);
+            } else {
+                $nama = $id->nama_lengkap;
+            }
+
+
             $data[] = array(
                 "DT_RowId" => $id->id_request . '' . $this->l_app_head->id_request($id->id_request),
                 "0" => '<a href="#" id="detail_btn" style="color : red; text-decoration:none" data-id="' . $id->id_request . '">' . $id->nomor_request . '</a>',
-                "1" => $this->m_app_head->nama_karyawan($id->nik_karyawan),
+                "1" => $nama,
                 "2" => $jam,
                 "3" => $this->m_app_head->lokasi($id->lokasi_awal),
                 "4" => $this->m_app_head->lokasi($id->lokasi_tujuan),

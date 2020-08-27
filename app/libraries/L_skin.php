@@ -105,11 +105,47 @@ class L_skin
 
 		$link = '';
 		echo '<ol class="breadcrumb">';
-		echo '<li><a href="' . site_url() . '">HRIS</a></li>';
+		echo '<li class="breadcrumb-item"><a href="' . site_url() . '">CARPOOL</a></li>';
 		for ($x = 0; $x < $batas; $x++) {
 			$title = ucfirst($url[$x]);
 			$link .= $url[$x] . '/';
-			echo ($x == $akhir) ? '<li class="active">' . $title . '</li>' : '<li><a href="' . site_url($link) . '">' . $title . '</a></li>';
+			echo ($x == $akhir - 1) ? '<li class="breadcrumb-item active">' . $title . '</li>' : '';
+		}
+		echo '</ol>';
+	}
+
+	function breadcrumb_detail()
+	{
+		$real 	= uri_string();
+		$url 	= explode("/", $real);
+		$batas 	= count($url);
+		$akhir	= $batas - 4;
+
+		$link = '';
+		echo '<ol class="breadcrumb">';
+		echo '<li class="breadcrumb-item"><a href="' . site_url() . '">CARPOOL</a></li>';
+		for ($x = 0; $x < $batas; $x++) {
+			$title = ucfirst($url[$x]);
+			$link .= $url[$x] . '/';
+			echo ($x == $akhir - 1) ? '<li class="breadcrumb-item active">' . $title . '</li>' : '';
+		}
+		echo '</ol>';
+	}
+
+	function breadcrumb_detail_1()
+	{
+		$real 	= uri_string();
+		$url 	= explode("/", $real);
+		$batas 	= count($url);
+		$akhir	= $batas - 5;
+
+		$link = '';
+		echo '<ol class="breadcrumb">';
+		echo '<li class="breadcrumb-item"><a href="' . site_url() . '">CARPOOL</a></li>';
+		for ($x = 0; $x < $batas; $x++) {
+			$title = ucfirst($url[$x]);
+			$link .= $url[$x] . '/';
+			echo ($x == $akhir - 1) ? '<li class="breadcrumb-item active">' . $title . '</li>' : '';
 		}
 		echo '</ol>';
 	}

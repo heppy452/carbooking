@@ -98,9 +98,9 @@ $db['default'] = array(
 // Konfigurasi database kedua
 $db['db_hris'] = array(
 	'dsn'       => '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => 'imipsuperadmin',
+	'hostname' => '192.168.234.106',
+	'username' => 'ptimip',
+	'password' => 'itimipsuperadmin',
 	'database' => 'db_hris',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',

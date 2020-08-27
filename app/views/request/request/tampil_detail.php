@@ -1,4 +1,5 @@
 <div class="container-fluid">
+    <?= $this->l_skin->breadcrumb_detail(); ?>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -7,10 +8,19 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="card">
-                                <div class="card-header"><i class="fa fa-book"></i> <strong>Data Pemesanan </strong></div>
+                                <div class="card-header"><i class="fa fa-book"></i> <strong>Data Pemesan </strong></div>
                                 <div class="card-body">
                                     <table class="table">
-
+                                        <tr>
+                                            <td class="tdstyle">Jenis Kebutuhan</td>
+                                            <td>:</td>
+                                            <td><?= $this->l_request->jenis_kebutuhan($id->jenis_kebutuhan) ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tdstyle">Jenis Lokasi</td>
+                                            <td>:</td>
+                                            <td><?= $this->l_request->jenis_lokasi($id->jenis_lokasi) ?></td>
+                                        </tr>
                                         <?php if ($id->jns_pemesan == 1) { ?>
                                             <tr>
                                                 <td class="tdstyle">Perusahaan</td>
@@ -52,6 +62,7 @@
                         <input type="hidden" id="tanggal" value="<?= $id->dari_tanggal ?>" name="">
                         <input type="hidden" id="nama" value="<?= $nama ?>" name="">
                         <input type="hidden" id="pemesan" value="<?= $pemesan ?>" name="">
+                        <input type="hidden" id="id_request" value="<?= $id_request ?>" name="">
                         <div class="col-lg-8">
                             <div class="card">
                                 <div class="card-header"><i class="fa fa-clock"></i> <strong>Data Jadwal </strong> <strong style="color : red"> <?= $tanggal ?> </strong></div>

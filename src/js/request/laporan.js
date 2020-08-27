@@ -17,6 +17,11 @@ $(document).ready(function () {
   function search() {
     var start_date = $("#start_date").val();
     var end_date = $("#end_date").val();
+    var kategori = $("#kategori option:selected").val();
+    if (kategori == "") {
+        swal("Perhatian", "Pilih kategori terlebih dahulu<br>", "warning");
+        return false;
+      }
 
     $.ajax({
       method: "POST",
@@ -25,6 +30,7 @@ $(document).ready(function () {
       data: {
         start_date: start_date,
         end_date: end_date,
+        kategori: kategori
       },
     })
       .done(function (view) {
@@ -40,7 +46,12 @@ $(document).ready(function () {
     i.preventDefault();
     var dari = $("#start_date").val();
     var sampai = $("#end_date").val();
+    var kategori = $("#kategori option:selected").val();
+    if (kategori == "") {
+        swal("Perhatian", "Pilih kategori terlebih dahulu<br>", "warning");
+        return false;
+      }
 
-    window.open(url_ctrl + "download/" + dari + "/" + sampai, "_blank");
+    window.open(url_ctrl + "download/" + dari + "/" + sampai + "/"+ kategori, "_blank");
   });
 });

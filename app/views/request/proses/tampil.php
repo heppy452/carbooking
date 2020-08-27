@@ -103,6 +103,11 @@
                             <td><?= $id->dari_jam ?></td>
                         </tr>
                         <tr>
+                            <td class="tdstyle">Jam Tiba</td>
+                            <td>:</td>
+                            <td><?= $id->sampai_jam ?></td>
+                        </tr>
+                        <tr>
                             <td class="tdstyle">Lokasi Keberangkatan</td>
                             <td>:</td>
                             <td><?= $this->m_proses->lokasi($id->lokasi_awal) ?></td>
@@ -137,29 +142,57 @@
         </div>
     </div>
     <div class="col-lg-5">
-        <div class="card">
-            <div class="card-header"><i class="fa fa-car"></i> <strong>Informasi Sopir </strong></div>
-            <div class="card-body">
-                <?php
-                $id_driver = $id->id_driver;
-                $id_kendaraan = $id->id_kendaraan;
-                if ($id_kendaraan != 0 or $id_driver != 0) {
-                ?>
-                    <table class="table">
-                        <tr>
-                            <td><b><?= $this->m_proses->plat($id->id_kendaraan) . ' (' . $this->m_proses->no_internal($id->id_kendaraan) . ')' ?></b></td>
-                        </tr>
-                        <tr>
-                            <td><?php $nik = $this->m_proses->nik_driver($id->id_driver);
-                                echo $this->m_proses->nama_driver($nik); ?></td>
-                        </tr>
-                        <tr>
-                            <td><?= $this->m_proses->no_hp($id->id_driver) ?></td>
-                        </tr>
-                    </table>
-                <?php } ?>
-            </div>
-        </div><br>
+        <?php
+        $kategori = $id->kategori;
+        $jns_booking = $id->jns_booking;
+        if ($kategori == 3 and $jns_booking == 2) { ?>
+            <div class="card">
+                <div class="card-header"><i class="fa fa-check"></i> <strong>Approval Direktur </strong></div>
+                <div class="card-body">
+                    <?php if ($id->apr_dir != 0) { ?>
+                        <table class="table">
+                            <tr>
+                                <td><?= $this->l_proses->approve($id->apr_dir) ?></td>
+                            </tr>
+                            <tr>
+                                <td><?php if ($id->apr_dir_tgl == 0000 - 00 - 00) {
+                                        echo '';
+                                    } else {
+                                        echo date('d-m-Y', strtotime($id->apr_dir_tgl));
+                                    } ?></td>
+                            </tr>
+                            <tr>
+                                <td><?= $id->apr_dir_ket ?></td>
+                            </tr>
+                        </table>
+                    <?php } ?>
+                </div>
+            </div><br>
+        <?php } else { ?>
+            <div class="card">
+                <div class="card-header"><i class="fa fa-car"></i> <strong>Informasi Sopir </strong></div>
+                <div class="card-body">
+                    <?php
+                    $id_driver = $id->id_driver;
+                    $id_kendaraan = $id->id_kendaraan;
+                    if ($id_kendaraan != 0 or $id_driver != 0) {
+                    ?>
+                        <table class="table">
+                            <tr>
+                                <td><b><?= $this->m_proses->plat($id->id_kendaraan) . ' (' . $this->m_proses->no_internal($id->id_kendaraan) . ')' ?></b></td>
+                            </tr>
+                            <tr>
+                                <td><?php $nik = $this->m_proses->nik_driver($id->id_driver);
+                                    echo $this->m_proses->nama_driver($nik); ?></td>
+                            </tr>
+                            <tr>
+                                <td><?= $this->m_proses->no_hp($id->id_driver) ?></td>
+                            </tr>
+                        </table>
+                    <?php } ?>
+                </div>
+            </div><br>
+        <?php } ?>
         <div class="card">
             <div class="card-header"><i class="fa fa-check"></i> <strong>Approval Head Departement </strong></div>
             <div class="card-body">

@@ -3,24 +3,30 @@
         <tr>
             <th>Nomor Tiket</th>
             <th>Tanggal Jadwal</th>
-            <th>Jenis Kebutuhan</th>
             <th>Lokasi Keberangkatan</th>
             <th>Lokasi Tujuan</th>
-            <th>Perusahaan</th>
+            <th>Kendaraan</th>
             <th>Status</th>
             <th>Action</th>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($id->result() as $key) {
+
+            $nik_driver = $this->m_proses->nik_driver($key->id_driver);
+            if ($key->id_driver == 0) {
+                $driver = '-';
+            } else {
+                $driver =  '<b>' . $this->m_proses->nama_driver($nik_driver) . '</b>' . ' ' . $this->m_proses->no_internal($key->id_kendaraan);
+            }
+
         ?>
             <tr>
                 <td><?= $key->nomor_request ?></td>
                 <td><?= $key->dari_tanggal . ' ' . $key->dari_jam ?></td>
-                <td><?= $this->l_proses->kategori($key->kategori) ?></td>
                 <td><?= $this->m_proses->lokasi($key->lokasi_awal) ?></td>
                 <td><?= $this->m_proses->lokasi($key->lokasi_tujuan) ?></td>
-                <td><?= $this->m_proses->lokasi($key->lokasi_awal) ?></td>
+                <td><?= $driver ?></td>
                 <td><?= $this->l_proses->status($key->status_request) ?></td>
                 <td><?= '<a href="" title="Detail"><i id="detail_btn" data-id="' . $key->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> 
                 &nbsp; <a href="" title="Pilih Sopir"><i id="sopir_btn" data-id="' . $key->id_request . '" class="fa fa-user" style="font-size:15px; color:#0b7d32;"></i></a>

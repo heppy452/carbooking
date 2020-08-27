@@ -391,11 +391,33 @@ $(document).ready(function () {
       })
       .get();
 
+    var kategori = $("input.kategori_tiket")
+      .map(function () {
+        return $(this).val();
+      })
+      .get();
+
     var setuju = [];
     $(".approved option:selected").each(function (i, selected) {
       setuju[i] = $(selected).val();
       if (setuju[i] == 0) {
         validate += "Pilih Approval<br>";
+      }
+    });
+
+    var driver = [];
+    $(".driver option:selected").each(function (i, selected) {
+      driver[i] = $(selected).val();
+      if (driver[i] == 0) {
+        validate += "Pilih Driver<br>";
+      }
+    });
+
+    var kendaraan = [];
+    $(".kendaraan option:selected").each(function (i, selected) {
+      kendaraan[i] = $(selected).val();
+      if (kendaraan[i] == 0) {
+        validate += "Pilih Kendaraan<br>";
       }
     });
 
@@ -413,6 +435,7 @@ $(document).ready(function () {
         approved: approved,
         driver: driver,
         kendaraan: kendaraan,
+        kategori: kategori,
       },
     })
       .done(function (result) {

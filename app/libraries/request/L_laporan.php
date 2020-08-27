@@ -17,6 +17,22 @@ class L_laporan {
         }
     }
 
+
+    function jenis_pemesan($param)
+    {
+        switch ($param) {
+            case '1':
+                return 'Karyawan';
+                break;
+            case '2':
+                return 'Non Karyawan';
+                break;
+            default:
+                return 'Uknown';
+                break;
+        }
+    }
+
     function jenis_lokasi($param)
     {
         switch ($param) {

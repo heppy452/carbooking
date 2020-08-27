@@ -83,15 +83,15 @@ class Excel_XML
          */
         public function sendWorkbook($filename)
         {
-                if (!preg_match('/\.(xml|xls)$/', $filename)):
+                if (!preg_match('/\.(xml|xls)$/', $filename)) :
                         throw new Exception('Filename mimetype must be .xml or .xls');
                 endif;
                 $filename = $this->getWorkbookTitle($filename);
                 $this->generateWorkbook();
-                if (preg_match('/\.xls$/', $filename)):
+                if (preg_match('/\.xls$/', $filename)) :
                         header("Content-Type: application/vnd.ms-excel; charset=" . $this->sEncoding);
                         header("Content-Disposition: inline; filename=\"" . $filename . "\"");
-                else:
+                else :
                         header("Content-Type: application/xml; charset=" . $this->sEncoding);
                         header("Content-Disposition: attachment; filename=\"" . $filename . "\"");
                 endif;
@@ -112,10 +112,10 @@ class Excel_XML
         {
                 $this->generateWorkbook();
                 $filename = $this->getWorkbookTitle($filename);
-                if (!$handle = @fopen($path . $filename, 'w+')):
+                if (!$handle = @fopen($path . $filename, 'w+')) :
                         throw new Exception(sprintf("Not allowed to write to file %s", $path . $filename));
                 endif;
-                if (@fwrite($handle, $this->sOutput) === false):
+                if (@fwrite($handle, $this->sOutput) === false) :
                         throw new Exception(sprintf("Error writing to file %s", $path . $filename));
                 endif;
                 @fclose($handle);
@@ -189,8 +189,8 @@ class Excel_XML
          */
         private function getWorksheetTitle($title)
         {
-                $title = preg_replace ("/[\\\|:|\/|\?|\*|\[|\]]/", "", $title);
-                return substr ($title, 0, 31);
+                $title = preg_replace("/[\\\|:|\/|\?|\*|\[|\]]/", "", $title);
+                return substr($title, 0, 31);
         }
 
         /**
@@ -203,7 +203,7 @@ class Excel_XML
         private function generateWorkbook()
         {
                 $this->sOutput .= stripslashes(sprintf(self::sHeader, $this->sEncoding)) . "\n";
-                foreach ($this->aWorksheetData as $item):
+                foreach ($this->aWorksheetData as $item) :
                         $this->generateWorksheet($item);
                 endforeach;
                 $this->sOutput .= self::sFooter;
@@ -224,7 +224,7 @@ class Excel_XML
                 $this->sOutput .= sprintf("<Worksheet ss:Name=\"%s\">\n    <Table>\n", $item['title']);
                 if (count($item['data']))
                         $item['data'] = array_slice($item['data'], 0, 65536);
-                foreach ($item['data'] as $k => $v):
+                foreach ($item['data'] as $k => $v) :
                         $this->generateRow($v);
                 endforeach;
                 $this->sOutput .= "    </Table>\n</Worksheet>\n";
@@ -237,7 +237,7 @@ class Excel_XML
         private function generateRow($item)
         {
                 $this->sOutput .= "        <Row>\n";
-                foreach ($item as $k => $v):
+                foreach ($item as $k => $v) :
                         $this->generateCell($v);
                 endforeach;
                 $this->sOutput .= "        </Row>\n";
@@ -250,9 +250,11 @@ class Excel_XML
         private function generateCell($item)
         {
                 $type = 'String';
-                if (is_numeric($item)):
+                if (is_numeric($item)) :
                         $type = 'String';
-                        if ($item{0} == '0' && strlen($item) > 1 && $item{1} != '.'):
+                        if ($item{
+                                0} == '0' && strlen($item) > 1 && $item{
+                                1} != '.') :
                                 $type = 'String';
                         endif;
                 endif;
@@ -269,7 +271,4 @@ class Excel_XML
                 unset($this->aWorksheetData);
                 unset($this->sOutput);
         }
-
 }
-
-?>

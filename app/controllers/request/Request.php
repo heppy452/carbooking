@@ -53,24 +53,24 @@ class Request extends CI_Controller
         $i = 1;
         foreach ($get_all->result() as $id) {
             if ($id->status_request == 0) {
-                $action = '<a href="" title="Detail"><i id="detail_btn" data-nik="' . $id->nik_karyawan . '" data-tanggal="' . $id->dari_tanggal . '" data-nama="' . $id->nama_lengkap . '" data-pemesan="' . $id->jns_pemesan . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
+                $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" data-nik="' . $id->nik_karyawan . '" data-tanggal="' . $id->dari_tanggal . '" data-nama="' . $id->nama_lengkap . '" data-pemesan="' . $id->jns_pemesan . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
                         <a href="" title="Edit"><i id="form_edit_btn" data-id="' . $id->id_request . '" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
                         <a href="" title="Delete"><i id="delete_btn" data-id="' . $id->id_request . '" data-nomor="' . $id->nomor_request . '" class="fa fa-trash" style="font-size:15px; color:red;"></i></a>';
             } else if ($id->apr_spv == 1 and $id->apr_ga == 0) {
-                $action = '<a href="" title="Detail"><i id="detail_btn" data-nik="' . $id->nik_karyawan . '" data-tanggal="' . $id->dari_tanggal . '" data-nama="' . $id->nama_lengkap . '" data-pemesan="' . $id->jns_pemesan . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
+                $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" data-nik="' . $id->nik_karyawan . '" data-tanggal="' . $id->dari_tanggal . '" data-nama="' . $id->nama_lengkap . '" data-pemesan="' . $id->jns_pemesan . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
                         <a href="" title="Cancel"><i id="cancel_btn" data-id="' . $id->id_request . '" data-nomor="' . $id->nomor_request . '" class="fa fa-times" style="font-size:15px; color:red;"></i></a>';
-            } else if ($id->apr_ga == 1 and $id->apr_spv == 1) {
-                $action = '<a href="" title="Detail"><i id="detail_btn" data-nik="' . $id->nik_karyawan . '" data-tanggal="' . $id->dari_tanggal . '" data-nama="' . $id->nama_lengkap . '" data-pemesan="' . $id->jns_pemesan . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; <a href="" title="Finish"><i id="finish_btn" data-id="' . $id->id_request . '" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
+            } else if ($id->apr_ga == 1 and $id->apr_spv == 1 and $id->status_request != 3) {
+                $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" data-nik="' . $id->nik_karyawan . '" data-tanggal="' . $id->dari_tanggal . '" data-nama="' . $id->nama_lengkap . '" data-pemesan="' . $id->jns_pemesan . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; <a href="" title="Finish"><i id="finish_btn" data-id="' . $id->id_request . '" data-kategori="' . $id->kategori . '" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp; 
                 <a href="" title="Cancel"><i id="cancel_btn" data-id="' . $id->id_request . '" data-nomor="' . $id->nomor_request . '" class="fa fa-times" style="font-size:15px; color:red;"></i></a>';
             } else {
-                $action = '<a href="" title="Detail"><i id="detail_btn" data-nik="' . $id->nik_karyawan . '" data-tanggal="' . $id->dari_tanggal . '" data-nama="' . $id->nama_lengkap . '" data-pemesan="' . $id->jns_pemesan . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
+                $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" data-nik="' . $id->nik_karyawan . '" data-tanggal="' . $id->dari_tanggal . '" data-nama="' . $id->nama_lengkap . '" data-pemesan="' . $id->jns_pemesan . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
             }
 
             $data[] = array(
                 "DT_RowId" => $id->id_request,
                 "0" => $id->nomor_request,
                 "1" => $this->l_request->kategori($id->kategori),
-                "2" => $id->dari_tanggal . ' ' . $id->dari_jam,
+                "2" => date('d-m-Y', strtotime($id->dari_tanggal)) . ' ' . $id->dari_jam,
                 "3" => $this->m_request->lokasi($id->lokasi_awal),
                 "4" => $this->m_request->lokasi($id->lokasi_tujuan),
                 "5" => $this->l_request->status($id->status_request),
@@ -87,6 +87,18 @@ class Request extends CI_Controller
         echo json_encode($output);
         exit();
     }
+
+    function cek_status()
+    {
+        $data = $this->m_request->cek_status();
+        if (isset($data)) {
+            $notif['status'] = 2;
+        } else {
+            $notif['status'] = 1;
+        }
+        echo json_encode($notif);
+    }
+
 
     //Form Add
     function add($param)
@@ -112,8 +124,13 @@ class Request extends CI_Controller
 
     function get_lokasi()
     {
+        echo  $this->m_request->select_lokasi_berangkat($data = NULL);
+    }
+
+    function get_lokasi_jns()
+    {
         $jns_lokasi = $this->input->get('jns_lokasi');
-        echo  $this->m_request->select_lokasi($data = NULL, $jns_lokasi);
+        echo $this->m_request->select_lokasi($data = NULL, $jns_lokasi);
     }
 
     function form_edit($param)
@@ -142,7 +159,7 @@ class Request extends CI_Controller
         $this->l_skin->main($this->dir_v . 'form_edit', $data);
     }
 
-    function tampil_view_detail($nik, $tanggal, $nama, $pemesan)
+    function tampil_view_detail($nik, $tanggal, $nama, $pemesan, $id_request)
     {
         $data['css'] = array(
             'lib/datepicker/datepicker.min.css',
@@ -161,16 +178,18 @@ class Request extends CI_Controller
         );
         $this->db->select('*');
         $this->db->from('data_request');
-        $this->db->where('nik_karyawan', $nik);
-        $this->db->where('dari_tanggal', $tanggal);
         if ($pemesan == 2) {
-            $this->db->where('nama_lengkap', $nama);
+            $this->db->where('id_request', $id_request);
+        } else {
+            $this->db->where('nik_karyawan', $nik);
         }
+        $this->db->where('dari_tanggal', $tanggal);
         $result_id = $this->db->get();
         $data['id'] = $result_id->row();
         $data['tanggal'] = $tanggal;
         $data['nama'] = $nama;
         $data['pemesan'] = $pemesan;
+        $data['id_request'] = $id_request;
         $this->l_skin->main($this->dir_v . 'tampil_detail', $data);
     }
 
@@ -218,12 +237,13 @@ class Request extends CI_Controller
         $tanggal = $this->input->get('tanggal');
         $nama = $this->input->get('nama');
         $pemesan = $this->input->get('pemesan');
+        $id_request = $this->input->get('id_request');
         $this->db->select('*');
         $this->db->from('data_request');
         $this->db->where('nik_karyawan', $nik);
         $this->db->where('dari_tanggal', $tanggal);
         if ($pemesan == 2) {
-            $this->db->where('nama_lengkap', $nama);
+            $this->db->where('id_request', $id_request);
         }
         $this->db->order_by('dari_tanggal', 'asc');
         $get_all    = $this->db->get();
@@ -707,7 +727,8 @@ class Request extends CI_Controller
         } else {
             $data_id = $this->input->post('id_request');
             $data1 = array(
-                'status_request'   => 3
+                'status_request'   => 3,
+                'date_finish'      => date('Y-m-d H:i:s')
             );
             $this->db->where('id_request', $data_id);
             $this->db->update('data_request', $data1);
@@ -723,6 +744,22 @@ class Request extends CI_Controller
             $notif['status'] = 2;
             echo json_encode($notif);
         }
+    }
+
+    function save_status()
+    {
+
+        $data_id = $this->input->post('id_request');
+        $data1 = array(
+            'status_request'   => 3,
+            'date_finish'      => date('Y-m-d H:i:s')
+        );
+        $this->db->where('id_request', $data_id);
+        $this->db->update('data_request', $data1);
+
+        $notif['notif'] = 'Proses Tiket Selesai';
+        $notif['status'] = 2;
+        echo json_encode($notif);
     }
 
     function cancel()

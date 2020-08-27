@@ -123,7 +123,11 @@ class M_app_head extends CI_Model
         $db_hris->where('nik', $param);
         $emp = $db_hris->get();
         $dt = $emp->row();
-        return $dt->nama_lengkap;
+        if (isset($dt->nama_lengkap)) {
+            return $dt->nama_lengkap;
+        } else {
+            return NULL;
+        }
     }
 
     function nik_driver($param)
@@ -154,7 +158,11 @@ class M_app_head extends CI_Model
         $db_hris->where('nik', $param);
         $emp = $db_hris->get();
         $dt = $emp->row();
-        return $dt->nama_lengkap;
+        if (isset($dt->nama_lengkap)) {
+            return $dt->nama_lengkap;
+        } else {
+            return NULL;
+        }
     }
 
     function plat($param)
