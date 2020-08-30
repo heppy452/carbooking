@@ -21,6 +21,7 @@ class Request extends CI_Controller
             'lib/datepicker/datepicker.min.css',
             'lib/datepicker/bootstrap-datepicker.css',
             'lib/clockpicker/clockpicker.min.css',
+            'lib/select/bootstrap-chosen.css',
             'lib/datatables/dataTables.bootstrap.min.css'
         );
         $data['js'] = array(
@@ -107,6 +108,7 @@ class Request extends CI_Controller
             'lib/datepicker/datepicker.min.css',
             'lib/datepicker/bootstrap-datepicker.css',
             'lib/clockpicker/clockpicker.min.css',
+            'lib/select/bootstrap-chosen.css',
             'lib/datatables/dataTables.bootstrap.min.css'
         );
         $data['js'] = array(
@@ -116,6 +118,7 @@ class Request extends CI_Controller
             'lib/clockpicker/clockpicker.min.js',
             'lib/datatables/dataTables.bootstrap.min.js',
             'lib/mask/jquery.mask.min.js',
+            'lib/select/chosen.jquery.min.js',
             'src/js/request/request.js'
         );
         $data['kategori'] = $param;
@@ -666,15 +669,6 @@ class Request extends CI_Controller
             }
         }
     }
-
-
-    function array()
-    {
-        $data = "1,2,3";
-        $coba = explode(",", $data);
-        var_dump($coba);
-    }
-
     // kirim email ke atasan untuk keperluan peminjaman mobil ke GA
     function email_permintaan($data)
     {

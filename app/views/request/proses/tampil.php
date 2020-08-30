@@ -145,7 +145,8 @@
         <?php
         $kategori = $id->kategori;
         $jns_booking = $id->jns_booking;
-        if ($kategori == 3 and $jns_booking == 2) { ?>
+        $jenis_kebutuhan = $id->jenis_kebutuhan;
+        if ($kategori == 3 and $jns_booking == 2 or $kategori != 3 and $jenis_kebutuhan == 2) { ?>
             <div class="card">
                 <div class="card-header"><i class="fa fa-check"></i> <strong>Approval Direktur </strong></div>
                 <div class="card-body">

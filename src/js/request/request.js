@@ -56,6 +56,7 @@ $(document).ready(function () {
     })
       .done(function (result) {
         $("#lokasi_tujuan").html(result);
+        $("#lokasi_tujuan").trigger("chosen:updated");
       })
       .fail(function (res) {
         alert("Error Response !");
@@ -1027,7 +1028,7 @@ $(document).ready(function () {
             "<div class='col-lg-3'>" +
             "<div class='form-group'>" +
             "<label class='control-label'>Lokasi Keberangkatan </label>" +
-            "<select class='form-control lokasi_awal_mlt ' id='lokasi_awal'>" +
+            "<select class='form-control lokasi_awal_mlt autocomplete' id='lokasi_awal'>" +
             "<option value=''>--- Pilih ---</option>" +
             "" +
             param_awal +
@@ -1038,7 +1039,7 @@ $(document).ready(function () {
             "<div class='col-lg-4'>" +
             "<div class='form-group'>" +
             "<label class='control-label'>Lokasi Tujuan </label>" +
-            "<select class='form-control lokasi_tujuan_mlt ' id='lokasi_tujuan'>" +
+            "<select class='form-control lokasi_tujuan_mlt autocomplete' id='lokasi_tujuan'>" +
             "<option value=''>--- Pilih ---</option>" +
             "" +
             param_tujuan +
@@ -1056,6 +1057,7 @@ $(document).ready(function () {
         );
         setDatePicker();
         clock();
+        choosen();
         $(".time").mask("00:00");
       } else {
         var row_id = Math.floor(Math.random() * 999999);
@@ -1091,7 +1093,7 @@ $(document).ready(function () {
             "<div class='col-lg-3'>" +
             "<div class='form-group'>" +
             "<label class='control-label'>Lokasi Keberangkatan </label>" +
-            "<select class='form-control lokasi_awal_mlt ' id='lokasi_awal'>" +
+            "<select class='form-control lokasi_awal_mlt autocomplete' id='lokasi_awal'>" +
             "<option value=''>--- Pilih ---</option>" +
             "" +
             param_awal +
@@ -1102,7 +1104,7 @@ $(document).ready(function () {
             "<div class='col-lg-4'>" +
             "<div class='form-group'>" +
             "<label class='control-label'>Lokasi Tujuan </label>" +
-            "<select class='form-control lokasi_tujuan_mlt ' id='lokasi_tujuan'>" +
+            "<select class='form-control lokasi_tujuan_mlt autocomplete' id='lokasi_tujuan'>" +
             "<option value=''>--- Pilih ---</option>" +
             "" +
             param_tujuan +
@@ -1138,6 +1140,7 @@ $(document).ready(function () {
       }
       setDatePicker();
       clock();
+      choosen();
       $(".time").mask("00:00");
     });
     $(document).on("click", ".delete_tujuan", function (e) {
@@ -1145,4 +1148,11 @@ $(document).ready(function () {
       $("#" + row_id).remove();
     });
   });
+
+  choosen();
+
+  function choosen() {
+    $(".autocomplete").chosen();
+  }
+  $(".autocomplete").chosen();
 });

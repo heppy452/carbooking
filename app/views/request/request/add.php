@@ -257,7 +257,7 @@ if ($kategori == 1) {
                                                         <div class="col-lg-3">
                                                             <div class="form-group">
                                                                 <label class="control-label">Lokasi Keberangkatan</label>
-                                                                <select class="form-control select-lokasi" id="lokasi_awal">
+                                                                <select class="form-control select-lokasi autocomplete" id="lokasi_awal">
                                                                     <option value="">--- Pilih ---</option>
                                                                     <?php $this->m_request->select_lokasi_berangkat($data = NULL); ?>
                                                                 </select>
@@ -266,7 +266,7 @@ if ($kategori == 1) {
                                                         <div class="col-lg-4">
                                                             <div class="form-group">
                                                                 <label class="control-label">Lokasi Tujuan</label>
-                                                                <select class="form-control select-lokasi" id="lokasi_tujuan">
+                                                                <select class="form-control select-lokasi autocomplete" id="lokasi_tujuan">
                                                                     <option value="">--- Pilih ---</option>
 
 
@@ -398,7 +398,7 @@ if ($kategori == 1) {
                                                 <div class="col-lg-4">
                                                     <div class="form-group">
                                                         <label class="control-label">Lokasi Keberangkatan</label>
-                                                        <select class="form-control select-lokasi" id="lokasi_awal">
+                                                        <select class="form-control select-lokasi autocomplete" id="lokasi_awal">
                                                             <option value="">--- Pilih ---</option>
                                                             <?php $this->m_request->select_lokasi_berangkat($data = NULL); ?>
                                                         </select>
@@ -407,7 +407,7 @@ if ($kategori == 1) {
                                                 <div class="col-lg-4">
                                                     <div class="form-group">
                                                         <label class="control-label">Lokasi Tujuan</label>
-                                                        <select class="form-control select-lokasi" id="lokasi_tujuan">
+                                                        <select class="form-control select-lokasi autocomplete" id="lokasi_tujuan">
                                                             <option value="">--- Pilih ---</option>
                                                         </select>
                                                     </div>

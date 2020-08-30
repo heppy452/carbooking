@@ -65,7 +65,9 @@ class Proses extends CI_Controller
         $i = 0;
         foreach ($get_all->result() as $id) {
 
-            if ($id->kategori == 3 and $id->jns_booking == 2 and $id->apr_dir == 0 or $id->kategori != 3 and $id->jenis_kebutuhan == 2 and $id->app_dir == 0) {
+            if ($id->kategori == 3 and $id->jns_booking == 2 and $id->apr_dir == 0) {
+                $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
+            } else if ($id->kategori != 3 and $id->jenis_kebutuhan == 2 and $id->apr_dir == 0) {
                 $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
             } else {
                 $action = '<a href="" title="Approval"><i id="form_approval" data-tanggal="' . $id->dari_tanggal . '" data-dir="' . $id->apr_dir . '" data-departement="' . $id->id_departement . '" data-kategori ="' . $id->kategori . '" data-booking="' . $id->jns_booking . '" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp;';
