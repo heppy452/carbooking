@@ -123,6 +123,14 @@ class Proses extends CI_Controller
                 $driver =  '<b>' . $this->m_proses->nama_driver($nik_driver) . '</b>' . ' ' . $this->m_proses->no_internal($id->id_kendaraan);
             }
 
+            if($id->kategori == 3)
+            {
+                $print = '';
+            }else
+            {
+                $print = ' <a href="' . site_url("request/print_jadwal/printa/$id->id_driver/$id->dari_tanggal") . '" target="_blank" title="Print"><i class="fa fa-print" style="font-size:15px; color:#0b7d32;"></i></a>';
+            }
+
             $data[] = array(
                 "DT_RowId" => $id->id_request,
                 "0" => $id->nomor_request,
@@ -134,7 +142,7 @@ class Proses extends CI_Controller
                 "6" => '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a> 
                 &nbsp; <a href="" title="Pilih Sopir"><i id="sopir_btn" data-id="' . $id->id_request . '" class="fa fa-user" style="font-size:15px; color:#0b7d32;"></i></a>
                 &nbsp; <a href="" title="Edit"><i id="edit_btn" data-id="' . $id->id_request . '" class="fa fa-edit" style="font-size:15px; color:#0b7d32;"></i></a>
-                &nbsp; <a href="' . site_url("request/print_jadwal/printa/$id->id_driver/$id->dari_tanggal") . '" title="Edit"><i class="fa fa-print" style="font-size:15px; color:#0b7d32;"></i></a>'
+                &nbsp; '.$print.''
             );
         }
 

@@ -258,7 +258,11 @@ class M_proses extends CI_Model
         $this->db->where('id_driver', $param);
         $get_all = $this->db->get();
         $data = $get_all->row();
-        return $data->drv_hp;
+        if (isset($data->drv_hp)) {
+            return $data->drv_hp;
+        } else {
+            return '';
+        }
     }
 
     function nik_driver($param)
