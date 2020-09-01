@@ -403,22 +403,23 @@ $(document).ready(function () {
       if (setuju[i] == 0) {
         validate += "Pilih Approval<br>";
       }
-    });
+      // else if (setuju[i] == 1) {
+      //   var driver = [];
+      //   $(".driver option:selected").each(function (y, selected) {
+      //     driver[y] = $(selected).val();
+      //     if (driver[y] == 0) {
+      //       validate += "Pilih Driver<br>";
+      //     }
+      //   });
 
-    var driver = [];
-    $(".driver option:selected").each(function (i, selected) {
-      driver[i] = $(selected).val();
-      if (driver[i] == 0) {
-        validate += "Pilih Driver<br>";
-      }
-    });
-
-    var kendaraan = [];
-    $(".kendaraan option:selected").each(function (i, selected) {
-      kendaraan[i] = $(selected).val();
-      if (kendaraan[i] == 0) {
-        validate += "Pilih Kendaraan<br>";
-      }
+      //   var kendaraan = [];
+      //   $(".kendaraan option:selected").each(function (x, selected) {
+      //     kendaraan[x] = $(selected).val();
+      //     if (kendaraan[x] == 0) {
+      //       validate += "Pilih Kendaraan<br>";
+      //     }
+      //   });
+      // }
     });
 
     if (validate != "") {

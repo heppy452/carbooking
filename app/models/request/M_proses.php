@@ -129,14 +129,14 @@ class M_proses extends CI_Model
         $query = $this->db->query('SELECT * FROM data_kendaraan ORDER BY nomor_plat ASC');
         if (empty($data)) {
             foreach ($query->result() as $id) {
-                echo '<option value="' . $id->id_kendaraan . '">' . $id->no_internal . ' </option>';
+                echo '<option value="' . $id->id_kendaraan . '">'.$id->nomor_plat.' - ' . $id->no_internal . ' </option>';
             }
         } else {
             foreach ($query->result() as $id) {
                 if (strstr($data, $id->id_kendaraan) != FALSE) {
-                    echo '<option value="' . $id->id_kendaraan . '" selected="selected">' . $id->no_internal . ' </option>';
+                    echo '<option value="' . $id->id_kendaraan . '" selected="selected">'.$id->nomor_plat.' - ' . $id->no_internal . '</option>';
                 } else {
-                    echo '<option value="' . $id->id_kendaraan . '">' . $id->no_internal . ' </option>';
+                    echo '<option value="' . $id->id_kendaraan . '">'.$id->nomor_plat.' - ' . $id->no_internal . ' </option>';
                 }
             }
         }
@@ -161,7 +161,7 @@ class M_proses extends CI_Model
         $query = $this->db->get();
         $data   = "";
         foreach ($query->result() as $id) {
-            $data .= '<option value="' . $id->id_kendaraan . '">' . $id->no_internal . '</option>';
+            $data .= '<option value="' . $id->id_kendaraan . '">'.$id->nomor_plat.' - ' . $id->no_internal . '</option>';
         }
         return $data;
     }
@@ -268,7 +268,11 @@ class M_proses extends CI_Model
         $this->db->where('id_driver', $param);
         $get_all = $this->db->get();
         $data = $get_all->row();
-        return $data->drv_nik;
+        if (isset($data->drv_nik)) {
+            return $data->drv_nik;
+        } else {
+            return 'Uknown';
+        }
     }
 
     function plat($param)

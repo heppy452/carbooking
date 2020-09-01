@@ -22,7 +22,7 @@
                                                 <th style="text-align: center;" width="10px">Lokasi Keberangkatan</th>
                                                 <th style="text-align: center;">Lokasi Tujuan</th>
                                                 <th style="text-align: center;">Approval</th>
-                                                <th style="text-align: center;">Keterangan Approval</th>
+                                                <th style="text-align: center;">Keterangan Approval/Denied</th>
                                                 <th style="text-align: center;">Kendaraan</th>
                                             </tr>
                                     </table>
