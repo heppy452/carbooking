@@ -4,7 +4,7 @@ $(document).ready(function () {
   var table = $("#tabel_custom").DataTable({
     ajax: url_ctrl + "table",
     deferRender: true,
-    order: [["0", "desc"]],
+    order: [["1", "asc"]],
   });
 
   var table = $("#tabel_proses").DataTable({

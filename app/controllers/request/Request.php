@@ -13,6 +13,8 @@ class Request extends CI_Controller
         $this->m_auth->check_login();
         $this->load->model($this->dir_m . 'm_request');
         $this->load->library($this->dir_l . 'l_request');
+
+        date_default_timezone_set('Asia/Makassar');
     }
 
     function index()
@@ -302,7 +304,7 @@ class Request extends CI_Controller
 
     function act_add()
     {
-        $today = date("Y-m-d H:i:s", time() + 60 * 60 * 7);
+        $today = date("Y-m-d H:i:s");
         $id_user  = $this->session->userdata('sess_id');
         $id_perusahaan  = $this->m_request->id_perusahaan($id_user);
         $id_departement = $this->m_request->id_departement($id_user);

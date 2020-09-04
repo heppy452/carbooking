@@ -33,9 +33,9 @@ class App_direktur extends CI_Controller
     {
         $this->db->select('*');
         $this->db->from('data_request');
-        $this->db->where('(kategori=3 AND jns_booking=2 AND apr_spv=1)');
-        $this->db->or_where('(kategori=2 AND jenis_kebutuhan=2 AND apr_spv=1)');
-        $this->db->or_where('(kategori=1 AND jenis_kebutuhan=2 AND apr_spv=1)');
+        $this->db->where('(kategori=3 AND jns_booking=2 AND apr_spv=1 AND jenis_lokasi=2)');
+        $this->db->or_where('(kategori=2 AND jenis_kebutuhan=2 AND apr_spv=1 AND jenis_lokasi=2)');
+        $this->db->or_where('(kategori=1 AND jenis_kebutuhan=2 AND apr_spv=1 AND jenis_lokasi=2)');
         $get_all = $this->db->get();
 
         // Datatables Variables

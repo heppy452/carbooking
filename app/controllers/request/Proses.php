@@ -55,6 +55,8 @@ class Proses extends CI_Controller
         $this->db->from('data_request');
         $this->db->where('apr_spv', 1);
         $this->db->where('apr_ga', 0);
+        $this->db->where('status_request !=', 4);
+        $this->db->order_by('dari_tanggal', 'desc');
         $get_all = $this->db->get();
         // Datatables Variables
         $draw = intval($this->input->get("draw"));
@@ -67,9 +69,13 @@ class Proses extends CI_Controller
 
             if ($id->kategori == 3 and $id->jns_booking == 2 and $id->apr_dir == 0) {
                 $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
-            } else if ($id->kategori != 3 and $id->jenis_kebutuhan == 2 and $id->apr_dir == 0) {
+            } else if ($id->kategori != 3 and $id->jenis_kebutuhan == 2 and $id->apr_dir == 0 and $id->jenis_lokasi == 2) {
                 $action = '<a href="" title="Detail"><i id="detail_btn" data-id="' . $id->id_request . '" class="fa fa-search" style="font-size:15px; color:#0b7d32;"></i></a>';
-            } else {
+            } 
+            else if ($id->kategori != 3 and $id->jenis_kebutuhan == 2 and $id->jenis_lokasi == 1) {
+                $action = '<a href="" title="Approval"><i id="form_approval" data-tanggal="' . $id->dari_tanggal . '" data-dir="' . $id->apr_dir . '" data-departement="' . $id->id_departement . '" data-kategori ="' . $id->kategori . '" data-booking="' . $id->jns_booking . '" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp;';
+            }
+            else {
                 $action = '<a href="" title="Approval"><i id="form_approval" data-tanggal="' . $id->dari_tanggal . '" data-dir="' . $id->apr_dir . '" data-departement="' . $id->id_departement . '" data-kategori ="' . $id->kategori . '" data-booking="' . $id->jns_booking . '" class="fa fa-check" style="font-size:15px; color:#0b7d32;"></i></a> &nbsp;';
             }
 
@@ -77,14 +83,13 @@ class Proses extends CI_Controller
                 "DT_RowId" => $id->id_request,
                 "0" => $id->nomor_request,
                 "1" => $id->dari_tanggal . ' ' . $id->dari_jam,
-                "2" => $this->l_proses->kategori($id->kategori),
-                "3" => $id->keterangan,
-                "4" => $this->m_proses->lokasi($id->lokasi_awal),
-                "5" => $this->m_proses->lokasi($id->lokasi_tujuan),
-                "6" => $this->m_proses->nama_perusahaan($id->id_perusahaan),
-                "7" => $this->m_proses->nama_departemen($id->id_departement),
-                "8" => $this->l_proses->status($id->status_request),
-                "9" => $action
+                "2" => $id->keterangan,
+                "3" => $this->m_proses->lokasi($id->lokasi_awal),
+                "4" => $this->m_proses->lokasi($id->lokasi_tujuan),
+                "5" => $this->m_proses->nama_perusahaan($id->id_perusahaan),
+                "6" => $this->m_proses->nama_departemen($id->id_departement),
+                "7" => $id->tgl_jam_input,
+                "8" => $action
             );
         }
 
@@ -119,14 +124,17 @@ class Proses extends CI_Controller
             $nik_driver = $this->m_proses->nik_driver($id->id_driver);
             if ($id->id_driver == 0) {
                 $driver = '-';
-            } else {
+            } 
+            else 
+            {
                 $driver =  '<b>' . $this->m_proses->nama_driver($nik_driver) . '</b>' . ' ' . $this->m_proses->no_internal($id->id_kendaraan);
             }
 
             if($id->kategori == 3)
             {
                 $print = '';
-            }else
+            }
+            else
             {
                 $print = ' <a href="' . site_url("request/print_jadwal/printa/$id->id_driver/$id->dari_tanggal") . '" target="_blank" title="Print"><i class="fa fa-print" style="font-size:15px; color:#0b7d32;"></i></a>';
             }

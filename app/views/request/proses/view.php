@@ -14,13 +14,12 @@
                             <tr>
                                 <th>Nomor Tiket</th>
                                 <th>Tanggal Jadwal</th>
-                                <th>Kategori</th>
                                 <th>Keterangan</th>
                                 <th>Lokasi Keberangkatan</th>
                                 <th>Lokasi Tujuan</th>
                                 <th>Perusahaan</th>
                                 <th>Divisi</th>
-                                <th>Status</th>
+                                <th>Tanggal Input</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
